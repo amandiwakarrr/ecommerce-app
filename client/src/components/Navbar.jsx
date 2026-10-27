@@ -60,7 +60,7 @@ function Navbar() {
                 }`
               }
             >
-              Saved
+              Wishlist
             </NavLink>
             <NavLink
               to={"/account"}
@@ -84,21 +84,21 @@ function Navbar() {
           </div>
           <Link
             to={"/saved"}
-            className="text-gray-400 hover:bg-gray-800 active:text-white px-2 py-1 rounded max-[510px]:hidden"
+            className=" flex items-center text-btn  hover:bg-gray-800 active:text-white px-2 py-2 rounded max-[510px]:hidden"
           >
-            Saved
+            <i className="pi pi-heart-fill text-red-900" ></i>
           </Link>
           <Link
             to={"/account"}
-            className="text-gray-400 hover:bg-gray-800 active:text-white px-2 py-1 rounded max-[425px]:hidden"
+            className=" flex items-center text-btn  hover:bg-gray-800 active:text-white px-2 py-2 rounded "
           >
-            Account
+            <i className="pi pi-user"></i>
           </Link>
           <Link
             to={"/"}
-            className="text-gray-400 hover:bg-gray-800 active:text-white px-2 py-1 rounded "
+            className=" flex items-center text-btn  hover:bg-gray-800 active:text-white px-2 py-2 rounded max-[425px]:hidden"
           >
-            Cart
+            <i className="pi pi-shopping-cart"></i>
           </Link>
         </div>
       </div>

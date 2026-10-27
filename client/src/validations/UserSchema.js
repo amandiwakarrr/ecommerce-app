@@ -11,21 +11,21 @@ const UserSchema = yup.object({
         .string()
         .trim()
         .lowercase()
-        .email("Plaese enter valid email!")
+        .email("Please enter valid email!")
         .required("Email is required"),
 
     password: yup
         .string()
         .min(8, "Password must be at least 8 characters!")
-        .matches(/[A-Z]/, "Include at least one uppercase latter!")
-        .matches(/[a-z]/, "Include at least one lowercase latter!")
+        .matches(/[A-Z]/, "Include at least one uppercase letter!")
+        .matches(/[a-z]/, "Include at least one lowercase letter!")
         .matches(/\d/, "Include at least one number!")
-        .required("Phone number is required!"),
+        .required("Password is required!"),
 
     confirmPassword: yup
         .string()
-        .oneOf([yup.ref("password")], "Password must match!")
-        .required("Please comfirm your password"),
+        .oneOf([yup.ref("password")], "Passwords must match!")
+        .required("Please confirm your password!"),
 
     phone: yup
         .string()
@@ -50,4 +50,4 @@ const UserSchema = yup.object({
         .required("Address is required!"),
 })
 
-export default UserSchema;
+export default UserSchema
