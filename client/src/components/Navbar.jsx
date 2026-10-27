@@ -53,7 +53,7 @@ function Navbar() {
               Shop
             </NavLink>
             <NavLink
-              to={"/saved"}
+              to={"/wishlist"}
               className={({ isActive }) =>
                 `transition-colors duration-300 ${
                   isActive ? "text-white" : "text-gray-400"
@@ -83,7 +83,7 @@ function Navbar() {
             />
           </div>
           <Link
-            to={"/saved"}
+            to={"/wishlist"}
             className=" flex items-center text-btn  hover:bg-gray-800 active:text-white px-2 py-2 rounded max-[510px]:hidden"
           >
             <i className="pi pi-heart-fill text-red-900" ></i>

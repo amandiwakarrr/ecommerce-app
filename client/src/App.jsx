@@ -13,7 +13,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/shop" element={<Shop />} />
-          <Route path="/account" element={<Account/>} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/wishlist" element={<Wishlist />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,4 +1,7 @@
 import { Link } from "react-router-dom";
+import recentOrder from "../assets/NewArriable1.png";
+import profile from "../assets/socialprof.png";
+
 function UserProfile() {
   return (
     <div className="w-full h-auto grid grid-cols-1 gap-4 sm:grid-cols-[220px_1fr] md:grid-cols-[260px_1fr] items-start md:px-6 lg:px-5 xl:px-16">
@@ -6,7 +9,7 @@ function UserProfile() {
       <div className="w-full flex flex-col py-5 gap-2 px-5">
         <div className="flex w-full items-center gap-3 border-b border-gray-800 py-2">
           <div className="w-12 h-12 shrink-0 rounded-full bg-amber-400 overflow-hidden">
-            <img src="/" alt="" className="w-full h-full object-cover" />
+            <img src={profile} alt="" className="w-full h-full object-cover" />
           </div>
           <div className="flex flex-col min-w-0">
             <h2 className="truncate">Aman diwakar</h2>
@@ -128,8 +131,8 @@ function UserProfile() {
             <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-2 place-items-center p-2">
               <div className="w-full col-span-1">
                 <img
-                  className="w-30 h-30 border "
-                  src="/"
+                  className="w-30 h-30 border rounded"
+                  src={recentOrder}
                   alt="Order Img"
                 />
               </div>
@@ -164,122 +167,144 @@ function UserProfile() {
         </div>
 
         {/* Recent Orders */}
-        {/* <div className="grid px-5 py-2">
+        <div className="grid px-3 sm:px-5 py-2">
           <div className="w-full px-2 flex flex-col items-center justify-around bg-[#1b1b1b] rounded">
-            <div className="w-full flex items-center justify-between py-3">
+            <div className="w-full flex flex-wrap items-center justify-between gap-2 py-3">
               <span className="text-[clamp(1.1rem,3vw,2rem)]">
                 Recent orders
               </span>
-              <Link className="text-[16px]  text-btn">See all orders</Link>
+              <Link className="text-sm sm:text-[16px] text-btn">
+                See all orders
+              </Link>
             </div>
+            {/* Cards */}
+            <div className="w-full h-auto grid place-items-center gap-2 py-2">
+              <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 place-items-center">
+                {/* card */}
+                <div className="w-full min-w-0 cursor-pointer border border-gray-800 bg-dark px-2 rounded p-1">
+                  <div className="w-full flex justify-between gap-2 py-2">
+                    <img
+                      className="w-12.5 h-12.5 shrink-0 border rounded"
+                      src={recentOrder}
+                      alt=""
+                    />
+                    <div className="min-w-0 flex flex-col">
+                      <h2 className="text-[14px] truncate">
+                        Heavyweight Bomber Jacket
+                      </h2>
+                      <span className="text-[10px]">Size M · Charcoal</span>
+                    </div>
+                  </div>
 
-            <div className="w-full h-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 place-items-center gap-2 py-2">
-             
-              <div className="grid grid-cols-4 sm:grid-cols-1 place-items-center border p-1">
-                <div className="col-span-1">
-                  <img
-                    className="w-[60px] h-[90px] sm:w-[150px] sm:h-[150px] border rounded"
-                    src="/"
-                    alt=""
-                  />    
+                  <div className="w-full flex items-center justify-between px-2 py-2">
+                    <span className="text-[10px]">24 Oct 2026</span>
+                    <span className="text-[10px]">Total 2,034</span>
+                  </div>
                 </div>
-                <div className="col-span-3 w-full flex flex-col pl-2">
-                  <h2 className="text-[12px]">Heavyweight Bomber Jacket</h2>
-                  <span className="text-[10px]">Size M · Charcoal</span>
-                  <span className="text-[10px]">#UW-20481</span>
-                  <span className="text-[10px]">24 Oct 2026</span>
-                  <span className="text-[10px]">Shipped</span>
-                  <span className="text-[10px]">Total 2,034</span>
+                <div className="w-full min-w-0 cursor-pointer border border-gray-800 bg-dark px-2 rounded p-1">
+                  <div className="w-full flex justify-between gap-2 py-2">
+                    <img
+                      className="w-12.5 h-12.5 shrink-0 border rounded"
+                      src={recentOrder}
+                      alt=""
+                    />
+                    <div className="min-w-0 flex flex-col">
+                      <h2 className="text-[14px] truncate">
+                        Heavyweight Bomber Jacket
+                      </h2>
+                      <span className="text-[10px]">Size M · Charcoal</span>
+                    </div>
+                  </div>
+
+                  <div className="w-full flex items-center justify-between px-2 py-2">
+                    <span className="text-[10px]">24 Oct 2026</span>
+                    <span className="text-[10px]">Total 2,034</span>
+                  </div>
                 </div>
-              </div>
-              <div className="grid grid-cols-4 place-items-center border p-1">
-                <div className="col-span-1">
-                  <img
-                    className="w-[60px] h-[90px] border rounded"
-                    src="/"
-                    alt=""
-                  />
+                <div className="w-full min-w-0 cursor-pointer border border-gray-800 bg-dark px-2 rounded p-1">
+                  <div className="w-full flex justify-between gap-2 py-2">
+                    <img
+                      className="w-12.5 h-12.5 shrink-0 border rounded"
+                      src={recentOrder}
+                      alt=""
+                    />
+                    <div className="min-w-0 flex flex-col">
+                      <h2 className="text-[14px] truncate">
+                        Heavyweight Bomber Jacket
+                      </h2>
+                      <span className="text-[10px]">Size M · Charcoal</span>
+                    </div>
+                  </div>
+
+                  <div className="w-full flex items-center justify-between px-2 py-2">
+                    <span className="text-[10px]">24 Oct 2026</span>
+                    <span className="text-[10px]">Total 2,034</span>
+                  </div>
                 </div>
-                <div className="col-span-3 w-full flex flex-col pl-2">
-                  <h2 className="text-[12px]">Heavyweight Bomber Jacket</h2>
-                  <span className="text-[10px]">Size M · Charcoal</span>
-                  <span className="text-[10px]">#UW-20481</span>
-                  <span className="text-[10px]">24 Oct 2026</span>
-                  <span className="text-[10px]">Shipped</span>
-                  <span className="text-[10px]">Total 2,034</span>
+                <div className="w-full min-w-0 cursor-pointer border border-gray-800 bg-dark px-2 rounded p-1">
+                  <div className="w-full flex justify-between gap-2 py-2">
+                    <img
+                      className="w-12.5 h-12.5 shrink-0 border rounded"
+                      src={recentOrder}
+                      alt=""
+                    />
+                    <div className="min-w-0 flex flex-col">
+                      <h2 className="text-[14px] truncate">
+                        Heavyweight Bomber Jacket
+                      </h2>
+                      <span className="text-[10px]">Size M · Charcoal</span>
+                    </div>
+                  </div>
+
+                  <div className="w-full flex items-center justify-between px-2 py-2">
+                    <span className="text-[10px]">24 Oct 2026</span>
+                    <span className="text-[10px]">Total 2,034</span>
+                  </div>
                 </div>
-              </div>
-              <div className="grid grid-cols-4 place-items-center border p-1">
-                <div className="col-span-1">
-                  <img
-                    className="w-[60px] h-[90px] border rounded"
-                    src="/"
-                    alt=""
-                  />
+                <div className="w-full min-w-0 cursor-pointer border border-gray-800 bg-dark px-2 rounded p-1">
+                  <div className="w-full flex justify-between gap-2 py-2">
+                    <img
+                      className="w-12.5 h-12.5 shrink-0 border rounded"
+                      src={recentOrder}
+                      alt=""
+                    />
+                    <div className="min-w-0 flex flex-col">
+                      <h2 className="text-[14px] truncate">
+                        Heavyweight Bomber Jacket
+                      </h2>
+                      <span className="text-[10px]">Size M · Charcoal</span>
+                    </div>
+                  </div>
+
+                  <div className="w-full flex items-center justify-between px-2 py-2">
+                    <span className="text-[10px]">24 Oct 2026</span>
+                    <span className="text-[10px]">Total 2,034</span>
+                  </div>
                 </div>
-                <div className="col-span-3 w-full flex flex-col pl-2">
-                  <h2 className="text-[12px]">Heavyweight Bomber Jacket</h2>
-                  <span className="text-[10px]">Size M · Charcoal</span>
-                  <span className="text-[10px]">#UW-20481</span>
-                  <span className="text-[10px]">24 Oct 2026</span>
-                  <span className="text-[10px]">Shipped</span>
-                  <span className="text-[10px]">Total 2,034</span>
-                </div>
-              </div>
-              <div className="grid grid-cols-4 place-items-center border p-1">
-                <div className="col-span-1">
-                  <img
-                    className="w-[60px] h-[90px] border rounded"
-                    src="/"
-                    alt=""
-                  />
-                </div>
-                <div className="col-span-3 w-full flex flex-col pl-2">
-                  <h2 className="text-[12px]">Heavyweight Bomber Jacket</h2>
-                  <span className="text-[10px]">Size M · Charcoal</span>
-                  <span className="text-[10px]">#UW-20481</span>
-                  <span className="text-[10px]">24 Oct 2026</span>
-                  <span className="text-[10px]">Shipped</span>
-                  <span className="text-[10px]">Total 2,034</span>
-                </div>
-              </div>
-              <div className="grid grid-cols-4 place-items-center border p-1">
-                <div className="col-span-1">
-                  <img
-                    className="w-[60px] h-[90px] border rounded"
-                    src="/"
-                    alt=""
-                  />
-                </div>
-                <div className="col-span-3 w-full flex flex-col pl-2">
-                  <h2 className="text-[12px]">Heavyweight Bomber Jacket</h2>
-                  <span className="text-[10px]">Size M · Charcoal</span>
-                  <span className="text-[10px]">#UW-20481</span>
-                  <span className="text-[10px]">24 Oct 2026</span>
-                  <span className="text-[10px]">Shipped</span>
-                  <span className="text-[10px]">Total 2,034</span>
-                </div>
-              </div>
-              <div className="grid grid-cols-4 place-items-center border p-1">
-                <div className="col-span-1">
-                  <img
-                    className="w-[60px] h-[90px] border rounded"
-                    src="/"
-                    alt=""
-                  />
-                </div>
-                <div className="col-span-3 w-full flex flex-col pl-2">
-                  <h2 className="text-[12px]">Heavyweight Bomber Jacket</h2>
-                  <span className="text-[10px]">Size M · Charcoal</span>
-                  <span className="text-[10px]">#UW-20481</span>
-                  <span className="text-[10px]">24 Oct 2026</span>
-                  <span className="text-[10px]">Shipped</span>
-                  <span className="text-[10px]">Total 2,034</span>
+                <div className="w-full min-w-0 cursor-pointer border border-gray-800 bg-dark px-2 rounded p-1">
+                  <div className="w-full flex justify-between gap-2 py-2">
+                    <img
+                      className="w-12.5 h-12.5 shrink-0 border rounded"
+                      src={recentOrder}
+                      alt=""
+                    />
+                    <div className="min-w-0 flex flex-col">
+                      <h2 className="text-[14px] truncate">
+                        Heavyweight Bomber Jacket
+                      </h2>
+                      <span className="text-[10px]">Size M · Charcoal</span>
+                    </div>
+                  </div>
+
+                  <div className="w-full flex items-center justify-between px-2 py-2">
+                    <span className="text-[10px]">24 Oct 2026</span>
+                    <span className="text-[10px]">Total 2,034</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
     </div>
   );

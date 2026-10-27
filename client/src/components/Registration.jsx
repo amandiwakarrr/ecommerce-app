@@ -94,7 +94,7 @@ function Registration() {
               <input type="checkbox" />
               <label htmlFor="checkbox" className=" text-[12px] text-white">
                 agree with the <span className="text-btn">Terms</span> and{" "}
-                <span className="text-btn">conditions</span>
+                <span className="text-">conditions</span>
               </label>
             </div>
 
