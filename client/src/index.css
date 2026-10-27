@@ -1,0 +1,28 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+/* Global theme */
+@theme {
+  /* Brand colors */
+  --color-primary: #ffffff;
+  --color-secondary: #F5B544;
+  --color-dark: #0f1114;
+  --color-card: #0f1114;
+  --color-border: oklch(27.8% 0.033 256.848);
+  --color-h-border: #F5B544;
+  --color-btn: #f2b24c;
+
+  /* Font family */
+  --font-syne: "Syne", sans-serif;
+
+  /* Custom shadows */
+  --shadow-card: 0 4px 20px rgb(0 0 0 / 20%);
+}
+
+/* Global styles */
+body {
+  background-color: var(--color-dark);
+  color: var(--color-primary);
+  font-family: var(--font-syne);
+}
