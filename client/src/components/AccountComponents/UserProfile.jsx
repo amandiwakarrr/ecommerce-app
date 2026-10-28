@@ -1,8 +1,48 @@
 import { Link } from "react-router-dom";
 import profile from "../../assets/socialprof.png";
 import { Outlet } from "react-router-dom";
-
+// import { useState } from "react";
 function UserProfile() {
+  const profileLinks = [
+    {
+      title: "Overview",
+      icon: "pi pi-objects-column",
+      path: "/account",
+    },
+    {
+      title: "Orders",
+      icon: "pi pi-shopping-bag",
+      path: "/account/orders",
+      count: 23,
+    },
+    {
+      title: "Wishlist",
+      icon: "pi pi-heart-fill",
+      path: "/account/wishlist",
+      count: 5,
+    },
+    {
+      title: "Address",
+      icon: "pi pi-map-marker",
+      path: "/account/address",
+    },
+    {
+      title: "Payment methods",
+      icon: "pi pi-credit-card",
+      path: "/account/payment-methods",
+    },
+    {
+      title: "Profile details",
+      icon: "pi pi-user",
+      path: "/account/profile",
+    },
+    {
+      title: "Preferences",
+      icon: "pi pi-cog",
+      path: "/account/preferences",
+    },
+  ];
+
   return (
     <div className="w-full h-auto grid grid-cols-1 gap-4 sm:grid-cols-[220px_1fr] md:grid-cols-[260px_1fr] items-start md:px-6 lg:px-5 xl:px-16">
       {/* Sidebar */}
@@ -20,17 +60,27 @@ function UserProfile() {
         </div>
 
         <div className="w-full flex flex-col gap-0.5">
-          <div className="bg-[#252424] w-full px-3 py-2 rounded flex items-center justify-between">
+          {profileLinks.map((pl, index) => (
+            <div key={index} className="hover:bg-[#252424] w-full px-3 py-2 rounded flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <i className={`${pl.icon}`}></i>
+                <Link to={`${pl.path}`}>{pl.title}</Link>
+              </div>
+              <span>{pl.count}</span>
+            </div>
+          ))}
+
+          {/* <div className="bg-[#252424] w-full px-3 py-2 rounded flex items-center justify-between">
             <div className="flex items-center gap-2">
               <i className="pi pi-objects-column"></i>
-              <Link to="/account">OverView</Link>
+              <Link to="/account">Overview</Link>
             </div>
           </div>
 
           <div className="hover:bg-[#252424] w-full px-3 py-2 rounded flex items-center justify-between">
             <div className="flex items-center gap-2">
               <i className="pi pi-shopping-bag"></i>
-              <Link to="/account">Orders</Link>
+              <Link to="/account/orders">Orders</Link>
             </div>
             <span>23</span>
           </div>
@@ -69,7 +119,7 @@ function UserProfile() {
               <i className="pi pi-cog"></i>
               <Link to="/account">Preferences</Link>
             </div>
-          </div>
+          </div> */}
 
           <button className="text-black w-full px-3 py-2 mt-1 rounded bg-btn">
             Sign out

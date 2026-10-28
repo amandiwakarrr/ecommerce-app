@@ -7,6 +7,7 @@ import Account from "./pages/Account";
 import AccountOverview from "./components/AccountComponents/AccountOverview";
 import Contact from "./pages/Contact";
 import Cart from "./pages/Cart";
+import RecentOrders from "./components/AccountComponents/RecentOrders";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/account" element={<Account />}>
             <Route index element={<AccountOverview />} />
             <Route path="wishlist" element={<Wishlist />} />
+            <Route path="orders" element={<RecentOrders/>} />
           </Route>
         </Route>
       </Routes>

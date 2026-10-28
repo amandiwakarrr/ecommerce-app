@@ -10,7 +10,7 @@ function ProductCard({ product }) {
       >
         <div className="grid place-items-center w-full h-auto pb-5 bg-[#1b1b1b] pt-2">
           <div className="w-full flex px-1 justify-between">
-            <span className="text-[12px] p-2 rounded font-bold text-secondary font-syne">
+            <span className="text-[12px] p-2 rounded font-bold text-btn font-syne">
               {product.tag}
             </span>
             <span className="text-[12px p-2 rounded-full flex items-center">
@@ -35,7 +35,7 @@ function ProductCard({ product }) {
           </div>
         </div>
         <div className="w-full flex flex-col items-start gap-0.1 text-gray-200">
-          <h1 className="text-[clamp(12px,1vw,2rem)] font-bold font-syne">
+          <h1 className="text-[clamp(12px,1vw,2rem)] font-bold font-syne ">
             {product.title}
           </h1>
           <span className="text-[clamp(12px,1vw,2rem)] font-bold">

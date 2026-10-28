@@ -27,7 +27,7 @@ function Category() {
     <div>
       {/* Category */}
       <section className="w-full gap-3 h-auto py-8 pb-0 px-5 sm:px-18 flex flex-col">
-        <h3 className="text-[clamp(1.5rem,3vw,2.25rem)] text-white font-extrabold font-sans">
+        <h3 className="text-[clamp(1.5rem,3vw,2.25rem)] text-white font-extrabold font-syne">
           Shop by category
         </h3>
         <div className="w-full h-auto py-8 grid grid-cols-2 md:grid-cols-4 md:gap-5 gap-3 place-items-center ">

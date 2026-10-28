@@ -3,7 +3,7 @@ import Hero2 from "../assets/Hero2.png.jpg";
 import Hero3 from "../assets/Hero3.png.jpg";
 import BestSellers from "../components/HomeComponents/BestSellers";
 import Category from "../components/HomeComponents/Category";
-import NewReleases from "../components/HomeComponents/NewReleases";
+import NewReleases from "../components/HomeComponents/NewArrivals";
 import Offer from "../components/HomeComponents/Offer";
 import TrustBar from "../components/HomeComponents/TrustBar";
 import { useNavigate } from "react-router-dom";
@@ -26,7 +26,7 @@ function Home() {
 
           <div className="flex flex-wrap gap-3">
             <button
-            onClick={() => navigate("/shop")}
+              onClick={() => navigate("/shop")}
               type="button"
               className="rounded cursor-pointer bg-btn px-3 py-2.5 text-xs font-medium text-black transition hover:bg-[#e79e29] sm:px-4 sm:text-sm"
             >
@@ -34,7 +34,7 @@ function Home() {
             </button>
 
             <button
-            onClick={() => navigate("/shop?category=Jackets")}
+              onClick={() => navigate("/shop?category=Jackets")}
               type="button"
               className="rounded border cursor-pointer border-gray-800 bg-[#0f1114] px-3 py-2.5 text-xs font-medium text-white transition hover:border-white sm:px-4 sm:text-sm"
             >
@@ -44,23 +44,26 @@ function Home() {
         </div>
 
         {/* Hero Images */}
-        <div className="grid w-full grid-cols-2 gap-3 lg:max-w-[58%]">
+        <div className="grid w-full grid-cols-2 gap-1 lg:max-w-[58%]">
           {/* Large Image */}
           <div
             style={{ backgroundImage: `url(${Hero1})` }}
-            className="h-240px rounded-[10px] bg-cover bg-center bg-no-repeat sm:h-130"
+            onClick={() => navigate("/shop?category=Jackets")}
+            className="h-240px rounded-[10px] cursor-pointer bg-cover bg-center bg-no-repeat sm:h-130"
           />
 
           {/* Two Small Images */}
-          <div className="flex min-w-0 flex-col gap-3">
+          <div className="flex min-w-0 flex-col gap-1">
             <div
               style={{ backgroundImage: `url(${Hero2})` }}
-              className="min-h-28.5 flex-1 rounded-[10px] bg-cover bg-center bg-no-repeat sm:min-h-38.5"
+                onClick={() => navigate("/shop?category=Hoodies")}
+              className="min-h-28.5 cursor-pointer flex-1 rounded-[10px] bg-cover bg-center bg-no-repeat sm:min-h-38.5"
             />
 
             <div
               style={{ backgroundImage: `url(${Hero3})` }}
-              className="min-h-28.5 flex-1 rounded-[10px] bg-cover bg-center bg-no-repeat sm:min-h-38.5"
+                onClick={() => navigate("/shop?category=Pants")}
+              className="min-h-28.5 cursor-pointer flex-1 rounded-[10px] bg-cover bg-center bg-no-repeat sm:min-h-38.5"
             />
           </div>
         </div>

@@ -9,7 +9,7 @@ function Offer() {
             Winter drop is live. Take 20% off outerwear.
           </h1>
         </div>
-        <div className="flex-1 w-full flex justify-center sm:justify-end items-center font-sans">
+        <div className="flex-1 w-full flex justify-center sm:justify-end items-center font-syne">
           <button
             onClick={() => navigate("/shop?category=Jackets")}
             className="w-35 py-2 px-3  rounded text-black bg-btn hover:bg-btn cursor-pointer"

@@ -40,14 +40,14 @@ const products = [
   },
 ];
 
-function NewReleases() {
+function NewArrivals() {
   return (
     <div className="w-full h-auto grid py-5">
-      <div className="w-full pb-5 flex justify-between items-center px-5 sm:px-19 gap-1 text-[#8B9BFF] max-[425px]:py-2">
-        <h1 className="text-[clamp(1.5rem,3vw,2.25rem)] text-white font-extrabold font-sans">
+      <div className="w-full pb-5 flex justify-between items-center px-5 sm:px-19 gap-1 max-[425px]:py-2">
+        <h1 className="text-[clamp(1.5rem,3vw,2.25rem)] text-white font-extrabold font-syne">
           New arrivals
         </h1>
-        <Link className="cursor-pointer hover:underline hover:text-[#27D3AD]">
+        <Link to={"/shop"} className="cursor-pointer hover:underline text-btn">
           Shop All
         </Link>
       </div>
@@ -60,4 +60,4 @@ function NewReleases() {
   );
 }
 
-export default NewReleases;
+export default NewArrivals;
