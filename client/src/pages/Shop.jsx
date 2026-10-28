@@ -197,17 +197,11 @@ function Shop() {
             <select
               value={sortedOrder}
               onChange={(e) => setSortedOrder(e.target.value)}
-              className="border border-gray-800 rounded bg-dark text-white px-2 py-2 outline-gray-800 focus:outline-none focus:border-btn"
+              className="border border-gray-800 rounded bg-[#0f1114] text-white px-2 py-2 outline-none focus:border-btn"
             >
-              <option value="newest" className="bg-btn  text-black">
-                Newest
-              </option>
-              <option value="low" className="bg-btn  text-black">
-                Price: low to high
-              </option>
-              <option value="high" className="bg-btn  text-black">
-                Price: high to low
-              </option>
+              <option value="newest">Newest</option>
+              <option value="low">Price: low to high</option>
+              <option value="high">Price: high to low</option>
             </select>
           </div>
 

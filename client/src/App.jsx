@@ -6,6 +6,7 @@ import Shop from "./pages/Shop";
 import Account from "./pages/Account";
 import AccountOverview from "./components/AccountComponents/AccountOverview";
 import Contact from "./pages/Contact";
+import Cart from "./pages/Cart";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/cart" element={<Cart/>} />
           <Route path="/account" element={<Account />}>
             <Route index element={<AccountOverview />} />
             <Route path="wishlist" element={<Wishlist />} />

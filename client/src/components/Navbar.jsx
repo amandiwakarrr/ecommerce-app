@@ -95,7 +95,7 @@ function Navbar() {
             <i className="pi pi-user"></i>
           </Link>
           <Link
-            to={"/"}
+            to={"/cart"}
             className=" flex items-center text-btn  hover:bg-gray-800 active:text-white px-2 py-2 rounded max-[425px]:hidden"
           >
             <i className="pi pi-shopping-cart"></i>

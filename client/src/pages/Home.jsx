@@ -6,8 +6,10 @@ import Category from "../components/HomeComponents/Category";
 import NewReleases from "../components/HomeComponents/NewReleases";
 import Offer from "../components/HomeComponents/Offer";
 import TrustBar from "../components/HomeComponents/TrustBar";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
   return (
     <div className="bg-[#0f1114]">
       {/* Hero section */}
@@ -24,15 +26,17 @@ function Home() {
 
           <div className="flex flex-wrap gap-3">
             <button
+            onClick={() => navigate("/shop")}
               type="button"
-              className="rounded bg-btn px-3 py-2.5 text-xs font-medium text-black transition hover:bg-[#e79e29] sm:px-4 sm:text-sm"
+              className="rounded cursor-pointer bg-btn px-3 py-2.5 text-xs font-medium text-black transition hover:bg-[#e79e29] sm:px-4 sm:text-sm"
             >
               Shop the collection
             </button>
 
             <button
+            onClick={() => navigate("/shop?category=Jackets")}
               type="button"
-              className="rounded border border-gray-800 bg-[#0f1114] px-3 py-2.5 text-xs font-medium text-white transition hover:border-white sm:px-4 sm:text-sm"
+              className="rounded border cursor-pointer border-gray-800 bg-[#0f1114] px-3 py-2.5 text-xs font-medium text-white transition hover:border-white sm:px-4 sm:text-sm"
             >
               See new jackets
             </button>

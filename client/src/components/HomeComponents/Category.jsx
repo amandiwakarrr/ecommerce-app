@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 const categories = [
   {
     id: 1,
@@ -16,11 +17,12 @@ const categories = [
   },
   {
     id: 4,
-    title: "T-Shirts",
+    title: "Shirts",
     styles: "8 Styles",
   },
 ];
 function Category() {
+  const navigate = useNavigate();
   return (
     <div>
       {/* Category */}
@@ -30,8 +32,13 @@ function Category() {
         </h3>
         <div className="w-full h-auto py-8 grid grid-cols-2 md:grid-cols-4 md:gap-5 gap-3 place-items-center ">
           {categories.map((cat, index) => (
-            <div key={index}
-              className="grid grid-cols-2 w-full place-items-center py-3.75 rounded-2xl border border-gray-800 hover:border-h-border">
+            <div
+              key={index}
+              onClick={() =>
+                navigate(`/shop?category=${encodeURIComponent(cat.title)}`)
+              }
+              className="grid cursor-pointer grid-cols-2 w-full place-items-center py-3.75 rounded-2xl border border-gray-800 hover:border-h-border"
+            >
               <h3 className="text-white text-[clamp(0.8rem,2vw,1rem)] font-bold">
                 {cat.title}
               </h3>
