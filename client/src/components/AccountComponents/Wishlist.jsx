@@ -50,7 +50,7 @@ function Wishlist() {
       </div>
       <div className="cards w-full h-auto grid grid-cols-2 md:grid-cols-4 place-items-center gap-5">
         {products.map((product) => (
-          <ProductCard product={product} />
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
     </div>

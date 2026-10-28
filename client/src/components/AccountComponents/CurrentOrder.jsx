@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function CurrentOrder() {
   return (
     <div className="grid px-5 py-2">
-          <div className="w-full px-2 flex flex-col items-center justify-around bg-[#1b1b1b] rounded">
+          <div className="w-full px-2 flex flex-col items-center justify-around bg-[#1b1b1b] rounded border border-gray-800">
             <div className="w-full flex items-center justify-between py-3">
               <span className="text-[clamp(1.1rem,3vw,2rem)]">
                 Order in progress

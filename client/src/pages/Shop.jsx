@@ -166,7 +166,7 @@ function Shop() {
 
   return (
     <div>
-      <div className="w-full h-auto grid sm:grid-cols-5 sm:px-5 lg:px-15 py-5">
+      <div className="w-full h-auto grid sm:grid-cols-5 sm:px-5 lg:px-13 py-5">
         <div className="w-full col-span-4 sm:col-span-1 px-5 gap-1 text-[#8B9BFF]">
           <div className="w-full grid grid-cols-1 pb-5 gap-2">
             <h2 className="text-[clamp(1.8rem,3vw,2rem)] text-white">

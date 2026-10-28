@@ -13,7 +13,7 @@ function Home() {
   return (
     <div className="bg-[#0f1114]">
       {/* Hero section */}
-      <div className="flex w-full min-h-150 flex-col gap-8 border border-gray-800 px-4 py-6 sm:px-6 sm:py-15 md:px-8 lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:px-12 xl:px-20">
+      <div className="flex w-full min-h-150 flex-col gap-8 border border-gray-800 px-4 py-6 sm:px-6 sm:py-15 md:px-8 lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:px-12 xl:px-15">
         {/* Hero Content */}
         <div className="flex w-full flex-col items-start gap-5 lg:max-w-[42%]">
           <h1 className="w-full text-5xl font-syne leading-[1.05] font-extrabold tracking-tight text-white sm:text-6xl md:text-7xl lg:text-6xl xl:text-7xl 2xl:text-7xl">
