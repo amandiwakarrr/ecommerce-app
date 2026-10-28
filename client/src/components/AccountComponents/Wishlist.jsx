@@ -1,9 +1,10 @@
-import VoidOversizedHoodie from "../assets/NewArriable1.png";
-import NightfallBomberacket from "../assets/NewArriable2.png";
-import SlateCargoPants from "../assets/NewArriable3.png";
-import MonoBoxyTee from "../assets/NewArriable4.jpg";
-import ProductCard from "../components/HomeComponents/ProductCard";
+import VoidOversizedHoodie from "../../assets/NewArriable1.png";
+import NightfallBomberacket from "../../assets/NewArriable2.png";
+import SlateCargoPants from "../../assets/NewArriable3.png";
+import MonoBoxyTee from "../../assets/NewArriable4.jpg";
+
 import { Link } from "react-router-dom";
+import ProductCard from "../ProductCard";
 
 const products = [
   {
@@ -42,7 +43,7 @@ const products = [
 
 function Wishlist() {
   return (
-    <div className="px-5 sm:px-18">
+    <div className="px-5">
       <div className="w-full flex flex-wrap items-center justify-between gap-2 py-3">
         <span className="text-[clamp(1.1rem,3vw,2rem)]">Wishlist</span>
         <Link className="text-sm sm:text-[16px] text-btn">View all</Link>

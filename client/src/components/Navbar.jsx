@@ -5,7 +5,7 @@ import { useState } from "react";
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
-    <div className="sticky top-0 z-40 w-full min-h-16 bg-dark/90 backdrop-blur-[2px] flex items-center justify-center border-b border-b-border px-3 sm:px-5 md:px-10  xl:px-20">
+    <div className="sticky font-syne top-0 z-40 w-full min-h-16 bg-dark/90 backdrop-blur-[2px] flex items-center justify-center border-b border-b-border px-3 sm:px-5 md:px-10  xl:px-20">
       <div className="w-full flex flex-row items-center justify-between">
         <div
           className={`h-16 flex flex-row items-center justify-center max-[720px]:gap-4 gap-5 ${isMenuOpen}? flex-col`}
@@ -21,7 +21,7 @@ function Navbar() {
             </button>
             <Link
               to={"/"}
-              className="inline-block origin-center text-center font-sans text-[clamp(1.5rem,3vw,2.25rem)] font-extrabold tracking-tight text-white"
+              className="inline-block origin-center text-center text-[clamp(1rem,3vw,2rem)] font-extrabold tracking-tight text-white"
             >
               Urban<span className="text-[#F5B544]">Wear</span>
             </Link>
@@ -53,7 +53,7 @@ function Navbar() {
               Shop
             </NavLink>
             <NavLink
-              to={"/wishlist"}
+              to={"/account/wishlist"}
               className={({ isActive }) =>
                 `transition-colors duration-300 ${
                   isActive ? "text-white" : "text-gray-400"
@@ -63,14 +63,14 @@ function Navbar() {
               Wishlist
             </NavLink>
             <NavLink
-              to={"/account"}
+              to={"/contact"}
               className={({ isActive }) =>
                 `transition-colors duration-300 ${
                   isActive ? "text-white" : "text-gray-400"
                 }`
               }
             >
-              Account
+              Contact us
             </NavLink>
           </div>
         </div>
@@ -83,7 +83,7 @@ function Navbar() {
             />
           </div>
           <Link
-            to={"/wishlist"}
+            to={"/account/wishlist"}
             className=" flex items-center text-btn  hover:bg-gray-800 active:text-white px-2 py-2 rounded max-[510px]:hidden"
           >
             <i className="pi pi-heart-fill text-red-900" ></i>

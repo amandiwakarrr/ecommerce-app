@@ -19,10 +19,30 @@ function Footer() {
           </div>
           <div className="flex flex-col gap-2">
             <span className="font-bold">Shop</span>
-            <Link className="text-gray-400 hover:text-white">Hoodies</Link>
-            <Link className="text-gray-400 hover:text-white">Jackets</Link>
-            <Link className="text-gray-400 hover:text-white">Pants</Link>
-            <Link className="text-gray-400 hover:text-white">T-Shirts</Link>
+            <Link
+              to={"/shop?category=Hoodies"}
+              className="text-gray-400 hover:text-white"
+            >
+              Hoodies
+            </Link>
+            <Link
+              to={"/shop?category=Jackets"}
+              className="text-gray-400 hover:text-white"
+            >
+              Jackets
+            </Link>
+            <Link
+              to={"/shop?category=Pants"}
+              className="text-gray-400 hover:text-white"
+            >
+              Pants
+            </Link>
+            <Link
+              to={"/shop?category=Accessories"}
+              className="text-gray-400 hover:text-white"
+            >
+              Accessories
+            </Link>
           </div>
         </div>
       </div>

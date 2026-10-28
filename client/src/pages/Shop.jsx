@@ -10,8 +10,9 @@ import BrownLeatherBelt from "../assets/brown-leather-belt.jpg";
 import CharcoalCasualBlazer from "../assets/charcoal-blazer.jpg";
 import KhakiCasualShorts from "../assets/khaki-shorts.jpg";
 import NavyBlueCardigan from "../assets/navy-cardigan.jpg";
-import ProductCard from "../components/HomeComponents/ProductCard";
+import ProductCard from "../components/ProductCard";
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 const products = [
   {
     id: 1,
@@ -134,6 +135,7 @@ const products = [
     imageName: "Navy Blue Button Up Knit Cardigan Men Minimalist Fashion",
   },
 ];
+
 const categories = [
   "All",
   "Hoodies",
@@ -143,12 +145,25 @@ const categories = [
   "Accessories",
 ];
 function Shop() {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  // const [selectedCategory, setSelectedCategory] = useState("All");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [sortedOrder, setSortedOrder] = useState("newest");
 
+  const selectedCategory = searchParams.get("category") || "All";
   const filteredProducts =
     selectedCategory === "All"
       ? products
       : products.filter((product) => product.category === selectedCategory);
+
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    const priceA = Number(a.price.replace(/[₹,]/g, ""));
+    const priceB = Number(b.price.replace(/[₹,]/g, ""));
+
+    if (sortedOrder === "low") return priceA - priceB;
+    if (sortedOrder === "high") return priceB - priceA;
+    return b.id - a.id;
+  });
+
   return (
     <div>
       <div className="w-full h-auto grid sm:grid-cols-5 sm:px-5 lg:px-15 py-5">
@@ -157,12 +172,18 @@ function Shop() {
             <h2 className="text-[clamp(1.8rem,3vw,2rem)] text-white">
               Category
             </h2>
-            <div className="w-full md:w-[80%] flex overflow-x-auto sm:overflow-x-hidden sm:flex-col gap-1 items-center sm:items-start text-gray-400 py-2">
+            <div className="w-full  md:w-[80%] flex overflow-x-auto sm:overflow-x-hidden sm:flex-col gap-1 items-center sm:items-start text-gray-400 py-2">
               {categories.map((cat, index) => (
                 <button
                   key={index}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`w-full px-2 py-1 sm:py-2 rounded flex ${selectedCategory === cat ? "bg-btn text-black hover:bg-[#d69329]" : "bg-dark hover:bg-btn"}`}
+                  onClick={() => {
+                    if (cat === "All") {
+                      setSearchParams({});
+                    } else {
+                      setSearchParams({ category: cat });
+                    }
+                  }}
+                  className={`w-full font-sans px-2 py-1 sm:py-2 rounded flex ${selectedCategory === cat ? "bg-btn text-black hover:bg-[#d69329]" : "bg-dark hover:bg-[#1b1b1b]"}`}
                 >
                   {cat}
                 </button>
@@ -174,8 +195,8 @@ function Shop() {
           <div className="w-full flex items-center justify-between px-5 pb-5">
             <span>{filteredProducts.length} products</span>
             <select
-              name="Select"
-              id="Select"
+              value={sortedOrder}
+              onChange={(e) => setSortedOrder(e.target.value)}
               className="border border-gray-800 rounded bg-dark text-white px-2 py-2 outline-gray-800 focus:outline-none focus:border-btn"
             >
               <option value="newest" className="bg-btn  text-black">
@@ -191,8 +212,8 @@ function Shop() {
           </div>
 
           <div className=" cards px-5  w-full h-auto grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  place-items-center gap-3">
-            {filteredProducts.map((product) => (
-              <ProductCard product={product} />
+            {sortedProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         </div>

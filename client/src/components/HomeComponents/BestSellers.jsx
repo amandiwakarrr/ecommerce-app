@@ -2,7 +2,7 @@ import AshDenimJacket from "../../assets/BestSell1.png";
 import CipherGraphicTee from "../../assets/BestSell2.png";
 import ObsidianJoggers from "../../assets/BestSell3.png";
 import EmberZipHoodie from "../../assets/BestSell4.png";
-import ProductCard from "./ProductCard";
+import ProductCard from "../ProductCard";
 const products = [
   {
     id: 1,
@@ -48,7 +48,7 @@ function BestSellers() {
       </div>
       <div className="cards w-full h-auto px-5 sm:px-16 grid grid-cols-2 sm:grid-cols-4 place-items-center gap-5">
         {products.map((product) => (
-          <ProductCard product={product} />
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
     </div>

@@ -4,7 +4,7 @@ import VoidOversizedHoodie from "../../assets/NewArriable1.png";
 import NightfallBomberacket from "../../assets/NewArriable2.png";
 import SlateCargoPants from "../../assets/NewArriable3.png";
 import MonoBoxyTee from "../../assets/NewArriable4.jpg";
-import ProductCard from "./ProductCard";
+import ProductCard from "../ProductCard";
 const products = [
   {
     id: 1,
@@ -53,7 +53,7 @@ function NewReleases() {
       </div>
       <div className="cards w-full h-auto px-5 sm:px-16 grid grid-cols-2 sm:grid-cols-4 place-items-center gap-5">
         {products.map((product) => (
-          <ProductCard product={product}/>
+          <ProductCard key={product.id} product={product}/>
         ))}
       </div>
     </div>

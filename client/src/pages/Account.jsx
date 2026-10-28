@@ -1,6 +1,6 @@
 import Registration from "../components/Registration";
 import { useState } from "react";
-import UserProfile from "../components/UserProfile";
+import UserProfile from "../components/AccountComponents/UserProfile";
 function Account() {
   const [isLogin, setIsLogin] = useState(true);
   return (
