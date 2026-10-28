@@ -1,8 +1,8 @@
-import product from "../assets/BestSell2.png";
-import AshDenimJacket from "../assets/BestSell1.png";
-import CipherGraphicTee from "../assets/BestSell2.png";
-import ObsidianJoggers from "../assets/BestSell3.png";
-import EmberZipHoodie from "../assets/BestSell4.png";
+import product from "../assets/BestSell2.jpg";
+import AshDenimJacket from "../assets/BestSell1.jpg";
+import CipherGraphicTee from "../assets/BestSell2.jpg";
+import ObsidianJoggers from "../assets/BestSell3.jpg";
+import EmberZipHoodie from "../assets/BestSell4.jpg";
 import ProductCard from "../components/ProductCard";
 import QuantityButton from "../components/QuantityButton";
 const products = [
@@ -111,16 +111,15 @@ function Product() {
                 </div>
               </div>
             </div>
-
             <div className="w-full order grid grid-col-2 md:grid-cols-5 gap-3">
               <div className="col-span-1 order-1 bg-dark text-white py-2 rounded border border-gray-800">
-                <QuantityButton/>
+                <QuantityButton />
               </div>
               <button className="col-span-3 order-3 sm:order-2 bg-btn text-black py-2 rounded border border-gray-800">
                 Add to cart
               </button>
               <button className="col-span-1 cursor-pointer order-2 sm:order-3 flex items-center justify-center gap-1 bg-dark text-white py-2 rounded border border-gray-800">
-               <i className="pi pi-heart-fill"></i> Wishlist
+                <i className="pi pi-heart-fill"></i> Wishlist
               </button>
             </div>
             <div className="w-full flex flex-col items-center justify-around p-2 gap-2 bg-[#1b1b1b] border border-gray-800 rounded text-gray-400">
@@ -148,7 +147,7 @@ function Product() {
           </h1>
           <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-3 place-items-center">
             {products.map((product) => (
-                <ProductCard key={product.id} product={product}/>
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         </div>

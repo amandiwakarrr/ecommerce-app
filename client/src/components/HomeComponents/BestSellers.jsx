@@ -1,7 +1,7 @@
-import AshDenimJacket from "../../assets/BestSell1.png";
-import CipherGraphicTee from "../../assets/BestSell2.png";
-import ObsidianJoggers from "../../assets/BestSell3.png";
-import EmberZipHoodie from "../../assets/BestSell4.png";
+import AshDenimJacket from "../../assets/BestSell1.jpg";
+import CipherGraphicTee from "../../assets/BestSell2.jpg";
+import ObsidianJoggers from "../../assets/BestSell3.jpg";
+import EmberZipHoodie from "../../assets/BestSell4.jpg";
 import ProductCard from "../ProductCard";
 const products = [
   {

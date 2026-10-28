@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-import profile from "../../assets/socialprof.png";
+import profile from "../assets/socialprof.jpg";
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
-function UserProfile() {
+function UserDashboard() {
+
   const profileLinks = [
     {
       title: "Overview",
@@ -124,4 +125,4 @@ function UserProfile() {
   );
 }
 
-export default UserProfile;
+export default UserDashboard;

@@ -1,14 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import StoreLayout from "./layout/StoreLayout";
-import Wishlist from "./components/AccountComponents/Wishlist";
+import Wishlist from "./components/UserDashboardComponents/Wishlist";
 import Shop from "./pages/Shop";
 import Account from "./pages/Account";
-import AccountOverview from "./components/AccountComponents/AccountOverview";
+import AccountOverview from "./components/UserDashboardComponents/AccountOverview";
 import Contact from "./pages/Contact";
 import Cart from "./pages/Cart";
-import RecentOrders from "./components/AccountComponents/RecentOrders";
-import UserDetails from "./components/AccountComponents/UserDetails";
+import RecentOrders from "./components/UserDashboardComponents/RecentOrders";
+import UserDetails from "./components/UserDashboardComponents/UserDetails";
 import Product from "./pages/Product";
 
 function App() {

@@ -1,12 +1,12 @@
 import Registration from "../components/Registration";
 import { useState } from "react";
-import UserProfile from "../components/AccountComponents/UserProfile";
+import UserDashboard from "./UserDashboard";
+
 function Account() {
   const [isLogin, setIsLogin] = useState(true);
   return (
     <div className="w-full h-auto">
-      {isLogin ? <UserProfile /> : <Registration />}
-
+      {isLogin ? <UserDashboard /> : <Registration />}
       <button onClick={()=> setIsLogin(!isLogin)}>Set Login</button>
     </div>
   );

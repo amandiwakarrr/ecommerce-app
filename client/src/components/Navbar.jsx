@@ -10,7 +10,7 @@ function Navbar() {
         <div
           className={`h-16 flex flex-row items-center justify-center max-[720px]:gap-4 gap-5 ${isMenuOpen}? flex-col`}
         >
-          <div className="flex gap-2  items-center  justify-center">
+          <div className="flex gap-2 items-center justify-center">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               type="button"
@@ -21,7 +21,7 @@ function Navbar() {
             </button>
             <Link
               to={"/"}
-              className="inline-block origin-center text-center text-[clamp(1rem,3vw,2rem)] font-extrabold tracking-tight text-white"
+              className="inline-block origin-center text-center text-[clamp(1rem,1.5vw,2rem)] font-extrabold  text-white"
             >
               Urban<span className="text-[#F5B544]">Wear</span>
             </Link>
@@ -35,7 +35,7 @@ function Navbar() {
             <NavLink
               to={"/"}
               className={({ isActive }) =>
-                `transition-colors duration-300 ${
+                `hover:text-white transition-colors duration-300 ${
                   isActive ? "text-white" : "text-gray-400"
                 }`
               }
@@ -45,7 +45,7 @@ function Navbar() {
             <NavLink
               to={"/shop"}
               className={({ isActive }) =>
-                `transition-colors duration-300 ${
+                `hover:text-white transition-colors duration-300 ${
                   isActive ? "text-white" : "text-gray-400"
                 }`
               }
@@ -55,7 +55,7 @@ function Navbar() {
             <NavLink
               to={"/product"}
               className={({ isActive }) =>
-                `transition-colors duration-300 ${
+                `hover:text-white transition-colors duration-300 ${
                   isActive ? "text-white" : "text-gray-400"
                 }`
               }
@@ -65,7 +65,7 @@ function Navbar() {
             <NavLink
               to={"/contact"}
               className={({ isActive }) =>
-                `transition-colors duration-300 ${
+                `hover:text-white transition-colors duration-300 ${
                   isActive ? "text-white" : "text-gray-400"
                 }`
               }
