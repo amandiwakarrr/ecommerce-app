@@ -169,10 +169,10 @@ function Shop() {
       <div className="w-full h-auto grid sm:grid-cols-5 sm:px-5 lg:px-13 py-5">
         <div className="w-full col-span-4 sm:col-span-1 px-5 gap-1 text-[#8B9BFF]">
           <div className="w-full grid grid-cols-1 pb-5 gap-2">
-            <h2 className="text-[clamp(1.8rem,3vw,2rem)] text-white">
+            <h2 className="text-[clamp(1.8rem,3vw,2rem)] text-primary-text">
               Category
             </h2>
-            <div className="w-full  md:w-[80%] flex overflow-x-auto sm:overflow-x-hidden sm:flex-col gap-1 items-center sm:items-start text-gray-400 py-2">
+            <div className="w-full  md:w-[80%] flex overflow-x-auto sm:overflow-x-hidden sm:flex-col gap-1 items-center sm:items-start text-secondary-text py-2">
               {categories.map((cat, index) => (
                 <button
                   key={index}
@@ -183,7 +183,7 @@ function Shop() {
                       setSearchParams({ category: cat });
                     }
                   }}
-                  className={`w-full font-sans px-2 py-1 sm:py-2 rounded flex ${selectedCategory === cat ? "bg-btn text-black hover:bg-[#d69329]" : "bg-dark hover:bg-[#1b1b1b]"}`}
+                  className={`w-full font-sans px-2 py-1 sm:py-2 rounded flex ${selectedCategory === cat ? "bg-btn text-dark hover:bg-[#d69329]" : "bg-dark hover:bg-[#1b1b1b]"}`}
                 >
                   {cat}
                 </button>
@@ -193,11 +193,11 @@ function Shop() {
         </div>
         <div className="col-span-4 grid">
           <div className="w-full flex items-center justify-between px-5 pb-5">
-            <span>{filteredProducts.length} products</span>
+            <span className="text-primary-text">{filteredProducts.length} products</span>
             <select
               value={sortedOrder}
               onChange={(e) => setSortedOrder(e.target.value)}
-              className="border border-gray-800 rounded bg-[#0f1114] text-white px-2 py-2 outline-none focus:border-btn"
+              className="border border-primary-border rounded bg-[#0f1114] text-primary-text px-2 py-2 outline-none focus:border-btn"
             >
               <option value="newest">Newest</option>
               <option value="low">Price: low to high</option>

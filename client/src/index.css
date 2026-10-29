@@ -5,13 +5,19 @@
 /* Global theme */
 @theme {
   /* Brand colors */
-  --color-primary: #ffffff;
-  --color-secondary: #F5B544;
   --color-dark: #0f1114;
+  --color-secondary-bg: #171a1f;
+  --color-primary-text: #ffffff;
+  --color-secondary-text: #99A1AF;
+  --color-tertiary-text: #f2b24c;
+  --color-primary-border: #1F2937;
+
+
+  --color-btn: #f2b24c;
+  --color-secondary: #F5B544;
   --color-card: #0f1114;
   --color-border: oklch(27.8% 0.033 256.848);
   --color-h-border: #F5B544;
-  --color-btn: #f2b24c;
 
   /* Font family */
   --font-syne: "Syne", sans-serif;

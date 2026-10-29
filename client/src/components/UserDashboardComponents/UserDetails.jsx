@@ -1,7 +1,7 @@
 function UserDetails() {
   return (
     <div className="w-full h-auto px-5 grid place-items-center border">
-        <div className="w-full border border-gray-800">
+        <div className="w-full border border-primary-border">
             
         </div>
     </div>

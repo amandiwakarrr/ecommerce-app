@@ -42,7 +42,7 @@ function BestSellers() {
   return (
     <div className="w-full h-auto grid py-5">
       <div className="w-full pb-5 px-5 sm:px-19 gap-1 text-[#8B9BFF] max-[425px]:py-2">
-        <h1 className="text-[clamp(1.5rem,3vw,2.25rem)] text-white font-extrabold font-syne">
+        <h1 className="text-[clamp(1.5rem,3vw,2.25rem)] text-primary-text font-extrabold font-syne">
           Best sellers
         </h1>
       </div>

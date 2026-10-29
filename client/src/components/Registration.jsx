@@ -20,7 +20,7 @@ function Registration() {
   const [isActive, setIsActive] = useState(false);
   return (
     <div className="w-full flex flex-col items-center justify-between py-10 gap-4">
-      <div className="w-[90%] sm:w-[50%] min-h-120 h-auto p-2 bg-[#171a1f] flex flex-col items-center  border border-gray-800 rounded gap-5">
+      <div className="w-[90%] sm:w-[50%] min-h-120 h-auto p-2 bg-[#171a1f] flex flex-col items-center  border border-primary-border rounded gap-5">
         <div className="w-full sm:w-75 grid grid-cols-2 gap-5 bg-dark rounded p-2">
           <button
             onClick={() => setIsActive(!isActive)}
@@ -41,31 +41,31 @@ function Registration() {
             className="w-full h-full grid gap-3 place-items-center p-5"
           >
             <div className="w-full flex flex-col items-start justify-start gap-1">
-              <label htmlFor="fullname" className="text-gray-400 text-[14px]">
+              <label htmlFor="fullname" className="text-secondary-text text-[14px]">
                 Full name
               </label>
               <input
                 type="text"
                 {...register("fullname")}
-                className="border w-full px-2 py-3 border-gray-800 rounded focus:outline-amber-600"
+                className="border w-full px-2 py-3 border-primary-border rounded focus:outline-amber-600"
               />
               <p className="error">{errors.fullname?.message}</p>
             </div>
             <div className="w-full flex flex-col items-start justify-start gap-1">
-              <label htmlFor="email" className="text-gray-400 text-[14px]">
+              <label htmlFor="email" className="text-secondary-text text-[14px]">
                 Email
               </label>
               <input
                 type="email"
                 {...register("email")}
-                className="border w-full px-2 py-3 border-gray-800 rounded focus:outline-amber-600"
+                className="border w-full px-2 py-3 border-primary-border rounded focus:outline-amber-600"
               />
               <p className="error">{errors.email?.message}</p>
             </div>
             <div
               className={`w-full flex flex-col items-start justify-start gap-1 ${isActive ? "flex" : "hidden"}`}
             >
-              <label htmlFor="phone" className="text-gray-400 text-[14px]">
+              <label htmlFor="phone" className="text-secondary-text text-[14px]">
                 Phone
               </label>
               <input
@@ -74,26 +74,26 @@ function Registration() {
                 autoComplete="tel"
                 maxLength={10}
                 {...register("phone")}
-                className="border w-full px-2 py-3 border-gray-800 rounded focus:outline-amber-600"
+                className="border w-full px-2 py-3 border-primary-border rounded focus:outline-amber-600"
               />
               <p className="error">{errors.phone?.message}</p>
             </div>
             <div className="w-full flex flex-col items-start justify-start gap-1">
-              <label htmlFor="password" className="text-gray-400 text-[14px]">
+              <label htmlFor="password" className="text-secondary-text text-[14px]">
                 Password
               </label>
               <input
                 {...register("password")}
                 autoComplete={isActive ? "new-password" : "current-password"}
                 type="password"
-                className="border w-full px-2 py-3 border-gray-800 rounded focus:outline-amber-600"
+                className="border w-full px-2 py-3 border-primary-border rounded focus:outline-amber-600"
               />
               <p className="error">{errors.password?.message}</p>
             </div>
             <div className="w-full flex gap-1 py-2">
               <input type="checkbox" />
-              <label htmlFor="checkbox" className=" text-[12px] text-white">
-                agree with the <span className="text-btn">Terms</span> and{" "}
+              <label htmlFor="checkbox" className=" text-[12px] text-primary-text">
+                agree with the <span className="text-tertiary-text">Terms</span> and{" "}
                 <span className="text-">conditions</span>
               </label>
             </div>

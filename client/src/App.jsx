@@ -10,6 +10,7 @@ import Cart from "./pages/Cart";
 import RecentOrders from "./components/UserDashboardComponents/RecentOrders";
 import UserDetails from "./components/UserDashboardComponents/UserDetails";
 import Product from "./pages/Product";
+import Checkout from "./pages/Checkout";
 
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/product" element={<Product/>} />
-
+          <Route path="/checkout" element={<Checkout/>} />
+        
           <Route path="/account" element={<Account />}>
             <Route index element={<AccountOverview />} />
             <Route path="wishlist" element={<Wishlist />} />

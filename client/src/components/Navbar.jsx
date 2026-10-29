@@ -14,16 +14,16 @@ function Navbar() {
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               type="button"
-              className="hidden max-[720px]:flex text-white text-center items-center"
+              className="hidden max-[720px]:flex text-primary-text text-center items-center"
             >
               {/* Menu */}
               <i className="pi pi-bars" style={{ fontSize: "25px" }}></i>
             </button>
             <Link
               to={"/"}
-              className="inline-block origin-center text-center text-[clamp(1rem,1.5vw,2rem)] font-extrabold  text-white"
+              className="inline-block origin-center text-center text-[clamp(1rem,1.5vw,2rem)] font-extrabold  text-primary-text"
             >
-              Urban<span className="text-[#F5B544]">Wear</span>
+              Urban<span className="text-tertiary-text">Wear</span>
             </Link>
           </div>
           <div
@@ -35,8 +35,8 @@ function Navbar() {
             <NavLink
               to={"/"}
               className={({ isActive }) =>
-                `hover:text-white transition-colors duration-300 ${
-                  isActive ? "text-white" : "text-gray-400"
+                `hover:text-primary-text transition-colors duration-300 ${
+                  isActive ? "text-primary-text" : "text-secondary-text"
                 }`
               }
             >
@@ -45,8 +45,8 @@ function Navbar() {
             <NavLink
               to={"/shop"}
               className={({ isActive }) =>
-                `hover:text-white transition-colors duration-300 ${
-                  isActive ? "text-white" : "text-gray-400"
+                `hover:text-primary-text transition-colors duration-300 ${
+                  isActive ? "text-primary-text" : "text-secondary-text"
                 }`
               }
             >
@@ -55,8 +55,8 @@ function Navbar() {
             <NavLink
               to={"/product"}
               className={({ isActive }) =>
-                `hover:text-white transition-colors duration-300 ${
-                  isActive ? "text-white" : "text-gray-400"
+                `hover:text-primary-text transition-colors duration-300 ${
+                  isActive ? "text-primary-text" : "text-secondary-text"
                 }`
               }
             >
@@ -65,8 +65,8 @@ function Navbar() {
             <NavLink
               to={"/contact"}
               className={({ isActive }) =>
-                `hover:text-white transition-colors duration-300 ${
-                  isActive ? "text-white" : "text-gray-400"
+                `hover:text-primary-text transition-colors duration-300 ${
+                  isActive ? "text-primary-text" : "text-secondary-text"
                 }`
               }
             >
@@ -77,26 +77,26 @@ function Navbar() {
         <div className="flex flex-row items-center gap-1">
           <div className="px-5 max-[1080px]:hidden">
             <input
-              className="border border-gray-800 bg-[#8988880f] px-5 py-2 rounded-4xl text-white"
+              className="border border-primary-border bg-product-bg px-5 py-2 rounded-4xl text-primary-text"
               type="search"
               placeholder="Search Products"
             />
           </div>
           <Link
             to={"/account/wishlist"}
-            className=" flex items-center text-btn  hover:bg-gray-800 active:text-white px-2 py-2 rounded max-[510px]:hidden"
+            className=" flex items-center text-secondary-text hover:text-primary-text  hover:bg-gray-800 active:text-primary-text px-2 py-2 rounded max-[510px]:hidden"
           >
             Wishlist
           </Link>
           <Link
             to={"/account"}
-            className=" flex items-center text-btn  hover:bg-gray-800 active:text-white px-2 py-2 rounded "
+            className=" flex items-center text-secondary-text hover:text-primary-text  hover:bg-gray-800 active:text-primary-text px-2 py-2 rounded "
           >
             Account
           </Link>
           <Link
             to={"/cart"}
-            className=" flex items-center text-btn  hover:bg-gray-800 active:text-white px-2 py-2 rounded max-[425px]:hidden"
+            className=" flex items-center text-secondary-text hover:text-primary-text  hover:bg-gray-800 active:text-primary-text px-2 py-2 rounded max-[425px]:hidden"
           >
             Cart
           </Link>

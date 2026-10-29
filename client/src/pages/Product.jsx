@@ -5,6 +5,7 @@ import ObsidianJoggers from "../assets/BestSell3.jpg";
 import EmberZipHoodie from "../assets/BestSell4.jpg";
 import ProductCard from "../components/ProductCard";
 import QuantityButton from "../components/QuantityButton";
+import { useState } from "react";
 const products = [
   {
     id: 1,
@@ -40,17 +41,33 @@ const products = [
   },
 ];
 function Product() {
+  const [selectedColor, setSelectedColor] = useState("Blue");
+  const [selectedSize, setSelectedSize] = useState("S");
+  const colors = [
+    { name: "Cream", hex: "#FEF3C7" },
+    { name: "Blue", hex: "#60A5FA" },
+    { name: "Green", hex: "#065F46" },
+    { name: "Mauve", hex: "#C084FC" },
+  ];
+  const sizes = ["S", "M", "L", "XL", "XXL"];
   return (
     <div className="w-full h-auto py-2 grid place-items-center px-5 sm:px-8 md:px-15 lg:px-18">
       <div className="w-full grid ">
-        <div className="w-full py-5 text-[14px] truncate font-syne text-gray-400">
-          Home / Hoodies / Void Oversized Hoodie
+        <div className="w-full py-5 text-[14px] truncate font-syne text-primary-text flex gap-1">
+          <span className="text-tertiary-text">Home</span> {"/"}
+          <span className="text-tertiary-text">Hoodies</span> {"/"}
+          <span>Void Oversized Hoodie</span>
+         
         </div>
         <div className="w-full grid sm:grid-cols-2 gap-5">
           {/* left */}
           <div className="w-full flex flex-col gap-3">
-            <div className="w-full bg-white rounded">
-              <img className="rounded" src={product} alt="" />
+            <div className="w-full bg-white rounded place-items-center">
+              <img
+                className="w-[60%] sm:w-[70%] rounded"
+                src={product}
+                alt=""
+              />
             </div>
             <div className="w-full grid grid-cols-4 gap-2">
               <div>
@@ -74,55 +91,62 @@ function Product() {
             </h1>
             <div className="w-full flex items-start gap-2">
               <span>₹2,499</span>
-              <span className="line-through text-gray-400">₹3,499</span>
+              <span className="line-through text-secondary-text">₹3,499</span>
             </div>
-            <p className="text-gray-400">
+            <p className="text-secondary-text">
               Heavyweight 400gsm cotton blend with a relaxed fit, reinforced
               seams and a soft garment-washed finish. Cut for layering and built
               to last.
             </p>
 
             <div className="w-full flex flex-col gap-2">
-              <span>Color</span>
-              <div className="w-full flex items-start justify-start gap-2 ">
-                <span className="w-7.5 h-7.5 rounded-full outline-2 outline-gray-700 bg-amber-100 cursor-pointer"></span>
-                <span className="w-7.5 h-7.5 rounded-full outline-2 outline-gray-700 bg-blue-400 cursor-pointer"></span>
-                <span className="w-7.5 h-7.5 rounded-full outline-2 outline-gray-700 bg-emerald-800 cursor-pointer"></span>
-                <span className="w-7.5 h-7.5 rounded-full outline-2 outline-gray-700 bg-mauve-400 cursor-pointer"></span>
+              <span>Color: {selectedColor}</span>
+              <div className="flex items-center gap-3">
+                {colors.map((color) => (
+                  <button
+                    key={color.name}
+                    type="button"
+                    title={color.name}
+                    aria-label={`Select ${color.name}`}
+                    aria-pressed={selectedColor === color.name}
+                    onClick={() => setSelectedColor(color.name)}
+                    style={{ backgroundColor: color.hex }}
+                    className={`w-8 h-8 rounded-full cursor-pointer
+              border-2 ${
+                selectedColor === color.name
+                  ? "border-white outline  outline-gray-400"
+                  : "border-transparent"
+              }`}
+                  />
+                ))}
               </div>
             </div>
             <div className="w-full flex flex-col gap-2">
-              <span>Size</span>
-              <div className="w-50 grid grid-cols-4 gap-2 ">
-                <div className=" py-1 rounded cursor-pointer border-gray-800 border flex items-center justify-center">
-                  {" "}
-                  <span>S</span>
-                </div>
-                <div className=" py-1 rounded cursor-pointer border-gray-800 border flex items-center justify-center">
-                  {" "}
-                  <span>M</span>
-                </div>
-                <div className=" py-1 rounded cursor-pointer border-gray-800 border flex items-center justify-center">
-                  {" "}
-                  <span>L</span>
-                </div>
-                <div className=" py-1 rounded cursor-pointer border-gray-800 border flex items-center justify-center">
-                  <span>XL</span>
-                </div>
+              <span>Size : {selectedSize}</span>
+              <div className="w-70 grid grid-cols-5 gap-2 ">
+                {sizes.map((size, index) => (
+                  <div
+                    key={index}
+                    onClick={() => setSelectedSize(size)}
+                    className=" py-1 rounded cursor-pointer border-primary-border border flex items-center justify-center"
+                  >
+                    <span>{size}</span>
+                  </div>
+                ))}
               </div>
             </div>
             <div className="w-full order grid grid-col-2 md:grid-cols-5 gap-3">
-              <div className="col-span-1 order-1 bg-dark text-white py-2 rounded border border-gray-800">
+              <div className="col-span-1 order-1 bg-dark text-primary-text py-2 rounded border border-primary-border">
                 <QuantityButton />
               </div>
-              <button className="col-span-3 order-3 sm:order-2 bg-btn text-black py-2 rounded border border-gray-800">
+              <button className="col-span-3 cursor-pointer order-3 sm:order-2 bg-btn text-black py-2 rounded border border-primary-border">
                 Add to cart
               </button>
-              <button className="col-span-1 cursor-pointer order-2 sm:order-3 flex items-center justify-center gap-1 bg-dark text-white py-2 rounded border border-gray-800">
+              <button className="col-span-1 cursor-pointer order-2 sm:order-3 flex items-center justify-center gap-1 bg-dark text-primary-text py-2 rounded border border-primary-border">
                 <i className="pi pi-heart-fill"></i> Wishlist
               </button>
             </div>
-            <div className="w-full flex flex-col items-center justify-around p-2 gap-2 bg-[#1b1b1b] border border-gray-800 rounded text-gray-400">
+            <div className="w-full flex flex-col items-center justify-around p-2 gap-2 bg-secondary-bg border border-primary-border rounded text-secondary-text">
               <div className="w-full flex items-center justify-between">
                 <span>Delivery</span>
                 <span>3–5 business days</span>
@@ -141,8 +165,8 @@ function Product() {
       </div>
 
       <div className="w-full mt-10">
-        <div className="w-full grid gap-5 text-[#8B9BFF] max-[425px]:py-2 ">
-          <h1 className="text-[clamp(1.5rem,3vw,2.25rem)] text-white font-extrabold font-syne">
+        <div className="w-full grid gap-5 max-[425px]:py-2 ">
+          <h1 className="text-[clamp(1.5rem,3vw,2.25rem)] text-primary-text font-extrabold font-syne">
             You may also like
           </h1>
           <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-3 place-items-center">

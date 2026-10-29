@@ -13,13 +13,13 @@ function Home() {
   return (
     <div className="bg-[#0f1114]">
       {/* Hero section */}
-      <div className="flex w-full min-h-150 flex-col gap-8 border border-gray-800 px-4 py-6 sm:px-6 sm:py-15 md:px-8 lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:px-12 xl:px-15">
+      <div className="flex w-full min-h-150 flex-col gap-8 border border-primary-border px-4 py-6 sm:px-6 sm:py-15 md:px-8 lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:px-12 xl:px-15">
         {/* Hero Content */}
         <div className="flex w-full flex-col items-start gap-5 lg:max-w-[42%]">
-          <h1 className="w-full text-5xl font-syne leading-[1.05] font-extrabold tracking-tight text-white sm:text-6xl md:text-7xl lg:text-6xl xl:text-7xl 2xl:text-7xl">
+          <h1 className="w-full text-5xl font-syne leading-[1.05] font-extrabold tracking-tight text-primary-text sm:text-6xl md:text-7xl lg:text-6xl xl:text-7xl 2xl:text-7xl">
             Built for the night shift.
           </h1>
-          <p className="w-full max-w-112.5 text-sm leading-6 text-[#909293] sm:text-base">
+          <p className="w-full max-w-112.5 text-sm leading-6 text-secondary-text sm:text-base">
             Heavyweight hoodies, sharp outerwear and everyday pieces in a
             palette that goes with everything after dark.
           </p>
@@ -36,7 +36,7 @@ function Home() {
             <button
               onClick={() => navigate("/shop?category=Jackets")}
               type="button"
-              className="rounded border cursor-pointer border-gray-800 bg-[#0f1114] px-3 py-2.5 text-xs font-medium text-white transition hover:border-white sm:px-4 sm:text-sm"
+              className="rounded border cursor-pointer border-primary-border bg-[#0f1114] px-3 py-2.5 text-xs font-medium text-primary-text transition hover:border-white sm:px-4 sm:text-sm"
             >
               See new jackets
             </button>
