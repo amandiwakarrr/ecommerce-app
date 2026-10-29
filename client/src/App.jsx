@@ -4,13 +4,14 @@ import StoreLayout from "./layout/StoreLayout";
 import Wishlist from "./components/UserDashboardComponents/Wishlist";
 import Shop from "./pages/Shop";
 import Account from "./pages/Account";
-import AccountOverview from "./components/UserDashboardComponents/AccountOverview";
 import Contact from "./pages/Contact";
 import Cart from "./pages/Cart";
 import RecentOrders from "./components/UserDashboardComponents/RecentOrders";
 import UserDetails from "./components/UserDashboardComponents/UserDetails";
 import Product from "./pages/Product";
 import Checkout from "./pages/Checkout";
+import UserAddress from "./components/UserDashboardComponents/UserAddress";
+import PaymentMethods from "./components/UserDashboardComponents/PaymentMethods";
 
 function App() {
   return (
@@ -26,10 +27,11 @@ function App() {
           <Route path="/checkout" element={<Checkout/>} />
         
           <Route path="/account" element={<Account />}>
-            <Route index element={<AccountOverview />} />
             <Route path="wishlist" element={<Wishlist />} />
             <Route path="orders" element={<RecentOrders />} />
             <Route path="profile" element={<UserDetails />} />
+            <Route path="address" element={<UserAddress />} />
+            <Route path="payment-methods" element={<PaymentMethods />} />
           </Route>
         </Route>
       </Routes>

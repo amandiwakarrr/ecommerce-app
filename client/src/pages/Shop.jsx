@@ -183,7 +183,7 @@ function Shop() {
                       setSearchParams({ category: cat });
                     }
                   }}
-                  className={`w-full font-sans px-2 py-1 sm:py-2 rounded flex ${selectedCategory === cat ? "bg-btn text-dark hover:bg-[#d69329]" : "bg-dark hover:bg-[#1b1b1b]"}`}
+                  className={`w-full font-sans px-2 py-1 sm:py-2 rounded flex ${selectedCategory === cat ? "bg-btn text-dark hover:bg-[#d69329]" : "bg-dark hover:bg-secondary-bg"}`}
                 >
                   {cat}
                 </button>
@@ -193,7 +193,7 @@ function Shop() {
         </div>
         <div className="col-span-4 grid">
           <div className="w-full flex items-center justify-between px-5 pb-5">
-            <span className="text-primary-text">{filteredProducts.length} products</span>
+            <span className="text-tertiary-text font-syne font-bold ">{filteredProducts.length} products</span>
             <select
               value={sortedOrder}
               onChange={(e) => setSortedOrder(e.target.value)}

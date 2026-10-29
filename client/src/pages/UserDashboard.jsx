@@ -37,19 +37,19 @@ function UserDashboard() {
     {
       title: "Payment methods",
       icon: "pi pi-credit-card",
-      path: "/account/payment-method",
+      path: "/account/payment-methods",
     },
     {
       title: "Preferences",
       icon: "pi pi-cog",
-      path: "/account/preferences",
+      path: "/account",
     },
   ];
 
   const [selectedLink, setSelectedLink] = useState("Overview");
 
   return (
-    <div className="w-full order h-auto py-10 grid grid-cols-1 gap-4 sm:grid-cols-[220px_1fr] md:grid-cols-[260px_1fr] items-start md:px-6 lg:px-5 xl:px-16">
+    <div className="w-full order h-auto py-5 grid grid-cols-1 gap-4 sm:grid-cols-[220px_1fr] md:grid-cols-[260px_1fr] items-start md:px-6 lg:px-5 xl:px-16">
       {/* Sidebar */}
       <div className="w-full order-2 sm:order-1 flex flex-col py-5 gap-2 px-5">
         <div className="flex w-full items-center gap-3 border-b border-primary-border py-2">
@@ -57,7 +57,7 @@ function UserDashboard() {
             <img src={profile} alt="" className="w-full h-full object-cover" />
           </div>
           <div className="flex flex-col min-w-0">
-            <h2 className="truncate">Aman diwakar</h2>
+            <h2 className="truncate text-primary-text">Aman diwakar</h2>
             <span className="text-[12px] text-secondary-text truncate">
               amandiwakar@gmail.com
             </span>
@@ -69,17 +69,19 @@ function UserDashboard() {
             <Link key={index} to={`${pl.path}`}>
               <div
                 onClick={() => setSelectedLink(pl.title)}
-                className={`hover:bg-[#252424] w-full px-3 py-2 rounded flex items-center justify-between  ${selectedLink === pl.title ? "bg-[#767676] hover:bg-[#ababab]" : "bg-dark hover:bg-[#1b1b1b]"} `}
+                className={`w-full px-3 py-2 rounded flex items-center justify-between  ${selectedLink === pl.title ? "bg-btn text-dark" : "bg-dark  hover:bg-secondary-bg text-secondary-text"} `}
               >
                 <div className="flex items-center gap-2">
                   <i className={`${pl.icon}`}></i>
                   <span>{pl.title}</span>
                 </div>
-                <span>{pl.count}</span>
+                <span className="">{pl.count}</span>
               </div>
             </Link>
           ))}
-          <button className="text-black w-full px-3 py-2 mt-1 rounded bg-btn">
+          <button 
+          onClick={() => navigate("/")}
+            className="text-black cursor-pointer w-full px-3 py-2 mt-1 rounded bg-btn">
             Sign out
           </button>
         </div>
@@ -87,13 +89,13 @@ function UserDashboard() {
 
       {/* Main content */}
       <div className="w-full order-1 sm:order-2 min-w-0 grid grid-cols-1 gap-2">
-        <div className="w-full px-5">
-          <div className="w-full px-5 flex items-center justify-between gap-3 border border-primary-border rounded bg-secondary-bg py-5">
+        <div className="w-full px-5 mt-2 sm:mt-10">
+          <div className="w-full px-2 sm:px-5 flex items-center justify-between gap-3 border border-primary-border rounded bg-secondary-bg py-5">
             <div>
-              <h2 className="text-[clamp(0.9rem,2vw,2rem)]">
+              <h2 className="text-[clamp(0.9rem,2vw,2rem)] text-primary-text font-bold font-syne">
                 Welcome back, <span>Aman</span>
               </h2>
-              <p className="text-[10px] sm:text-[16px]">
+              <p className="text-[10px] sm:text-[16px] text-secondary-text">
                 Member since March 2024
               </p>
             </div>
@@ -110,24 +112,36 @@ function UserDashboard() {
         <div className="grid px-5 ">
           <div className="w-full  grid grid-cols-2 lg:grid-cols-4 gap-2 py-2 place-content-between">
             <div className="w-full p-2 flex flex-col items-center justify-center border border-primary-border rounded bg-secondary-bg">
-              <span className="text-[16px] text-secondary-text">Total orders</span>
-              <h2 className="text-[clamp(1rem,3vw,2.25rem)]">23</h2>
-              {/* <span className="text-[12px] text-secondary-text">2 in progress</span> */}
+              <span className="text-[16px] text-primary-text font-bold">
+                Total orders
+              </span>
+              <h2 className="text-[clamp(1rem,3vw,2.25rem)] text-secondary-text">
+                23
+              </h2>
             </div>
             <div className="w-full p-2 flex flex-col items-center justify-center border border-primary-border rounded bg-secondary-bg">
-              <span className="text-[16px] text-secondary-text">Total spent</span>
-              <h2 className="text-[clamp(1rem,3vw,2.25rem)]">$23,234</h2>
-              {/* <span className="text-[12px] text-secondary-text">Since joining</span> */}
+              <span className="text-[16px] text-primary-text font-bold">
+                Total spent
+              </span>
+              <h2 className="text-[clamp(1rem,3vw,2.25rem)] text-secondary-text">
+                $23,234
+              </h2>
             </div>
             <div className="w-full p-2 flex flex-col items-center justify-center border border-primary-border rounded bg-secondary-bg">
-              <span className="text-[16px] text-secondary-text">Reward points</span>
-              <h2 className="text-[clamp(1rem,3vw,2.25rem)]">2,343</h2>
-              {/* <span className="text-[12px] text-secondary-text">Worth $23</span> */}
+              <span className="text-[16px] text-primary-text font-bold">
+                Reward points
+              </span>
+              <h2 className="text-[clamp(1rem,3vw,2.25rem)] text-secondary-text">
+                2,343
+              </h2>
             </div>
             <div className="w-full p-2 flex flex-col items-center justify-center border border-primary-border rounded bg-secondary-bg">
-              <span className="text-[16px] text-secondary-text">Wishlist</span>
-              <h2 className="text-[clamp(1rem,3vw,2.25rem)]">5</h2>
-              {/* <span className="text-[12px] text-secondary-text">2 on sale now</span> */}
+              <span className="text-[16px] text-primary-text font-bold">
+                Wishlist
+              </span>
+              <h2 className="text-[clamp(1rem,3vw,2.25rem)] text-secondary-text">
+                5
+              </h2>
             </div>
           </div>
         </div>

@@ -53,11 +53,10 @@ function Product() {
   return (
     <div className="w-full h-auto py-2 grid place-items-center px-5 sm:px-8 md:px-15 lg:px-18">
       <div className="w-full grid ">
-        <div className="w-full py-5 text-[14px] truncate font-syne text-primary-text flex gap-1">
+        <div className="w-full py-5 text-[14px] truncate font-syne text-secondary-text flex gap-1">
           <span className="text-tertiary-text">Home</span> {"/"}
           <span className="text-tertiary-text">Hoodies</span> {"/"}
           <span>Void Oversized Hoodie</span>
-         
         </div>
         <div className="w-full grid sm:grid-cols-2 gap-5">
           {/* left */}
@@ -86,11 +85,11 @@ function Product() {
           </div>
           {/*right  */}
           <div className="w-full flex flex-col gap-2">
-            <h1 className="font-extrabold font-syne text-[clamp(2rem,3vw,4rem)]">
+            <h1 className="font-extrabold font-syne text-[clamp(2rem,3vw,4rem)] text-primary-text">
               Void Oversized Hoodie
             </h1>
             <div className="w-full flex items-start gap-2">
-              <span>₹2,499</span>
+              <span className="text-primary-text">₹2,499</span>
               <span className="line-through text-secondary-text">₹3,499</span>
             </div>
             <p className="text-secondary-text">
@@ -100,7 +99,10 @@ function Product() {
             </p>
 
             <div className="w-full flex flex-col gap-2">
-              <span>Color: {selectedColor}</span>
+              <div className="w-full flex gap-2">
+                <span className="text-primary-text">Color :</span>
+                <span className="text-tertiary-text">{selectedColor}</span>
+              </div>
               <div className="flex items-center gap-3">
                 {colors.map((color) => (
                   <button
@@ -122,13 +124,16 @@ function Product() {
               </div>
             </div>
             <div className="w-full flex flex-col gap-2">
-              <span>Size : {selectedSize}</span>
+              <div className="w-full flex gap-2">
+                <span className="text-primary-text">Size :</span>
+                <span className="text-tertiary-text">{selectedSize}</span>
+              </div>
               <div className="w-70 grid grid-cols-5 gap-2 ">
                 {sizes.map((size, index) => (
                   <div
                     key={index}
                     onClick={() => setSelectedSize(size)}
-                    className=" py-1 rounded cursor-pointer border-primary-border border flex items-center justify-center"
+                    className=" py-1 rounded cursor-pointer text-primary-text border-primary-border border flex items-center justify-center"
                   >
                     <span>{size}</span>
                   </div>

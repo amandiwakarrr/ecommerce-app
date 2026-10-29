@@ -11,28 +11,19 @@
   --color-secondary-text: #99A1AF;
   --color-tertiary-text: #f2b24c;
   --color-primary-border: #1F2937;
-
-
   --color-btn: #f2b24c;
-  --color-secondary: #F5B544;
-  --color-card: #0f1114;
-  --color-border: oklch(27.8% 0.033 256.848);
-  --color-h-border: #F5B544;
 
   /* Font family */
   --font-syne: "Syne", sans-serif;
-
-  /* Custom shadows */
-  --shadow-card: 0 4px 20px rgb(0 0 0 / 20%);
 }
 
 .error{
  color: red;
  font-size: 12px;
 }
+
 /* Global styles */
 body {
   background-color: var(--color-dark);
   color: var(--color-primary);
-  /* font-family: var(--font-syne); */
 }

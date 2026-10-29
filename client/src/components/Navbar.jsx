@@ -5,7 +5,7 @@ import { useState } from "react";
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
-    <div className="sticky font-syne top-0 z-40 w-full min-h-16 bg-dark/90 backdrop-blur-[2px] flex items-center justify-center border-b border-b-border px-3 sm:px-5 md:px-10  xl:px-15">
+    <div className="sticky font-syne top-0 z-40 w-full min-h-16 bg-dark/90 backdrop-blur-[2px] flex items-center justify-center border-b border-primary-border px-3 sm:px-5 md:px-10  xl:px-15">
       <div className="w-full flex flex-row items-center justify-between pl-2">
         <div
           className={`h-16 flex flex-row items-center justify-center max-[720px]:gap-4 gap-5 ${isMenuOpen}? flex-col`}
@@ -29,7 +29,7 @@ function Navbar() {
           <div
             className={`${
               isMenuOpen ? "flex" : "hidden"
-            }  absolute top-full left-0 z-50 w-full flex-col items-start gap-5 bg-[#0f1114] border border-border p-5
+            }  absolute top-full left-0 z-50 w-full flex-col items-start gap-5 bg-dark border border-border p-5
               min-[721px]:static min-[721px]:flex min-[721px]:w-auto min-[721px]:flex-row min-[721px]:items-center min-[721px]:gap-3 min-[721px]:border-0 min-[721px]:bg-transparent min-[721px]:p-0`}
           >
             <NavLink
@@ -77,26 +77,26 @@ function Navbar() {
         <div className="flex flex-row items-center gap-1">
           <div className="px-5 max-[1080px]:hidden">
             <input
-              className="border border-primary-border bg-product-bg px-5 py-2 rounded-4xl text-primary-text"
+              className="border border-primary-border bg-secondary-bg bg-product-bg px-5 py-2 rounded-4xl text-primary-text"
               type="search"
               placeholder="Search Products"
             />
           </div>
           <Link
             to={"/account/wishlist"}
-            className=" flex items-center text-secondary-text hover:text-primary-text  hover:bg-gray-800 active:text-primary-text px-2 py-2 rounded max-[510px]:hidden"
+            className=" flex items-center text-secondary-text hover:text-primary-text  hover:bg-secondary-bg active:text-primary-text px-2 py-2 rounded max-[510px]:hidden"
           >
             Wishlist
           </Link>
           <Link
             to={"/account"}
-            className=" flex items-center text-secondary-text hover:text-primary-text  hover:bg-gray-800 active:text-primary-text px-2 py-2 rounded "
+            className=" flex items-center text-secondary-text hover:text-primary-text  hover:bg-secondary-bg active:text-primary-text px-2 py-2 rounded "
           >
             Account
           </Link>
           <Link
             to={"/cart"}
-            className=" flex items-center text-secondary-text hover:text-primary-text  hover:bg-gray-800 active:text-primary-text px-2 py-2 rounded max-[425px]:hidden"
+            className=" flex items-center text-secondary-text hover:text-primary-text  hover:bg-secondary-bg active:text-primary-text px-2 py-2 rounded max-[425px]:hidden"
           >
             Cart
           </Link>
