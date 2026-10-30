@@ -53,7 +53,7 @@ function Navbar() {
               Shop
             </NavLink>
             <NavLink
-              to={"/product"}
+              to={"/about"}
               className={({ isActive }) =>
                 `hover:text-primary-text transition-colors duration-300 ${
                   isActive ? "text-primary-text" : "text-secondary-text"

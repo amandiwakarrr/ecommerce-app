@@ -53,7 +53,7 @@ function Footer() {
           <Link className="text-secondary-text hover:text-primary-text">Shipping</Link>
           <Link className="text-secondary-text hover:text-primary-text">Returns</Link>
           <Link className="text-secondary-text hover:text-primary-text">Size guide</Link>
-          <Link className="text-secondary-text hover:text-primary-text">Contact us</Link>
+          <Link to={"/contact"} className="text-secondary-text hover:text-primary-text">Contact us</Link>
         </div>
         <div className="flex  flex-col gap-3">
           <h5 className="font-bold text-primary-text">Get 10% off your first order</h5>

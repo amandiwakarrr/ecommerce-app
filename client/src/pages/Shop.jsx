@@ -183,7 +183,7 @@ function Shop() {
                       setSearchParams({ category: cat });
                     }
                   }}
-                  className={`w-full font-sans px-2 py-1 sm:py-2 rounded flex ${selectedCategory === cat ? "bg-btn text-dark hover:bg-[#d69329]" : "bg-dark hover:bg-secondary-bg"}`}
+                  className={`w-full font-sans cursor-pointer px-2 py-1 sm:py-2 rounded flex ${selectedCategory === cat ? "bg-btn text-dark hover:bg-[#d69329]" : "bg-dark hover:bg-secondary-bg"}`}
                 >
                   {cat}
                 </button>
@@ -197,7 +197,7 @@ function Shop() {
             <select
               value={sortedOrder}
               onChange={(e) => setSortedOrder(e.target.value)}
-              className="border border-primary-border rounded bg-[#0f1114] text-primary-text px-2 py-2 outline-none focus:border-btn"
+              className="border border-primary-border rounded bg-dark text-primary-text px-2 py-2 outline-none focus:border-btn"
             >
               <option value="newest">Newest</option>
               <option value="low">Price: low to high</option>

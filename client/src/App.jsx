@@ -12,6 +12,8 @@ import Product from "./pages/Product";
 import Checkout from "./pages/Checkout";
 import UserAddress from "./components/UserDashboardComponents/UserAddress";
 import PaymentMethods from "./components/UserDashboardComponents/PaymentMethods";
+import About from "./pages/About";
+import Preferences from "./components/UserDashboardComponents/Preferences";
 
 function App() {
   return (
@@ -19,9 +21,10 @@ function App() {
       <Routes>
         <Route element={<StoreLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/shop" element={<Shop />} />
+          <Route path="/about" element={<About/>}/>
           <Route path="/contact" element={<Contact />} />
+          <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/product" element={<Product/>} />
           <Route path="/checkout" element={<Checkout/>} />
@@ -32,6 +35,8 @@ function App() {
             <Route path="profile" element={<UserDetails />} />
             <Route path="address" element={<UserAddress />} />
             <Route path="payment-methods" element={<PaymentMethods />} />
+            <Route path="preferences" element={<Preferences />} />
+
           </Route>
         </Route>
       </Routes>

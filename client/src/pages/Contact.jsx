@@ -131,7 +131,7 @@ function Contact() {
                     Message
                   </label>
                   <textarea
-                    className=" border border-primary-border w-full h-30 p-1"
+                    className=" border text-primary-text border-primary-border w-full h-30 p-1"
                     name=""
                     id=""
                     placeholder="How can we help you?"

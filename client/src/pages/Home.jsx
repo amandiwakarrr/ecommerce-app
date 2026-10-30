@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 function Home() {
   const navigate = useNavigate();
   return (
-    <div className="bg-[#0f1114]">
+    <div className="bg-dark">
       {/* Hero section */}
       <div className="flex w-full min-h-150 flex-col gap-8 border border-primary-border px-4 py-6 sm:px-6 sm:py-15 md:px-8 lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:px-12 xl:px-15">
         {/* Hero Content */}
@@ -36,7 +36,7 @@ function Home() {
             <button
               onClick={() => navigate("/shop?category=Jackets")}
               type="button"
-              className="rounded border cursor-pointer border-primary-border bg-[#0f1114] px-3 py-2.5 text-xs font-medium text-primary-text transition hover:border-white sm:px-4 sm:text-sm"
+              className="rounded border cursor-pointer border-primary-border bg-dark px-3 py-2.5 text-xs font-medium text-primary-text transition hover:border-white sm:px-4 sm:text-sm"
             >
               See new jackets
             </button>

@@ -42,7 +42,7 @@ function UserDashboard() {
     {
       title: "Preferences",
       icon: "pi pi-cog",
-      path: "/account",
+      path: "/account/preferences",
     },
   ];
 
@@ -81,7 +81,7 @@ function UserDashboard() {
           ))}
           <button 
           onClick={() => navigate("/")}
-            className="text-black cursor-pointer w-full px-3 py-2 mt-1 rounded bg-btn">
+            className="cursor-pointer w-full px-3 py-2 mt-1 rounded bg-dark border border-primary-border text-primary-text">
             Sign out
           </button>
         </div>
