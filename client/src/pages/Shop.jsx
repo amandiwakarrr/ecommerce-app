@@ -166,13 +166,34 @@ function Shop() {
 
   return (
     <div>
-      <div className="w-full h-auto grid sm:grid-cols-5 sm:px-5 lg:px-13 py-5">
-        <div className="w-full col-span-4 sm:col-span-1 px-5 gap-1 text-[#8B9BFF]">
+      <div className="w-full min-w-0 h-auto py-5 px-0 sm:px-5 lg:px-13">
+        {/* <div className="w-full col-span-4 sm:col-span-1 px-5 gap-1 text-[#8B9BFF]">
           <div className="w-full grid grid-cols-1 pb-5 gap-2">
-            <h2 className="text-[clamp(1.8rem,3vw,2rem)] text-primary-text">
+            <h2 className="text-[clamp(1.8rem,3vw,2rem)] text-primary-text font-syne font-bold">
               Category
             </h2>
-            <div className="w-full  md:w-[80%] flex overflow-x-auto sm:overflow-x-hidden sm:flex-col gap-1 items-center sm:items-start text-secondary-text py-2">
+           
+          </div>
+        </div> */}
+
+        <div className="w-full px-5 flex flex-col ">
+          <div className="w-full flex flex-col bg-dark/90 backdrop-blur-[2px] sticky top-16 pt-2 z-10">
+            <div className="w-full flex flex-wrap items-center justify-between pb-2 gap-3">
+              <span className="text-tertiary-text font-syne font-bold text-sm">
+                {filteredProducts.length} products
+              </span>
+
+              <select
+                value={sortedOrder}
+                onChange={(e) => setSortedOrder(e.target.value)}
+                className="border h-10 max-w-full border-primary-border rounded bg-dark text-primary-text px-2 text-sm outline-none focus:border-btn"
+              >
+                <option value="newest">Newest</option>
+                <option value="low">Price: low to high</option>
+                <option value="high">Price: high to low</option>
+              </select>
+            </div>
+            <div className="w-full flex overflow-x-auto sm:overflow-x-hidden sm:w-150 gap-1 items-center text-secondary-text pb-3">
               {categories.map((cat, index) => (
                 <button
                   key={index}
@@ -183,29 +204,15 @@ function Shop() {
                       setSearchParams({ category: cat });
                     }
                   }}
-                  className={`w-full font-sans cursor-pointer px-2 py-1 sm:py-2 rounded flex ${selectedCategory === cat ? "bg-btn text-dark hover:bg-[#d69329]" : "bg-dark hover:bg-secondary-bg"}`}
+                  className={`w-full justify-center items-center font-sans cursor-pointer px-2 py-1 sm:py-2 rounded flex ${selectedCategory === cat ? "bg-btn text-dark hover:bg-[#d69329]" : " hover:bg-secondary-bg"}`}
                 >
-                  {cat}
+                  <span>{cat}</span>
                 </button>
               ))}
             </div>
           </div>
-        </div>
-        <div className="col-span-4 grid">
-          <div className="w-full flex items-center justify-between px-5 pb-5">
-            <span className="text-tertiary-text font-syne font-bold ">{filteredProducts.length} products</span>
-            <select
-              value={sortedOrder}
-              onChange={(e) => setSortedOrder(e.target.value)}
-              className="border border-primary-border rounded bg-dark text-primary-text px-2 py-2 outline-none focus:border-btn"
-            >
-              <option value="newest">Newest</option>
-              <option value="low">Price: low to high</option>
-              <option value="high">Price: high to low</option>
-            </select>
-          </div>
 
-          <div className=" cards px-5  w-full h-auto grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  place-items-center gap-3">
+          <div className="cards mt-5 w-full h-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5  place-items-center gap-3">
             {sortedProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

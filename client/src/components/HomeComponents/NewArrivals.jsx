@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import VoidOversizedHoodie from "../../assets/NewArriable1.png";
 import NightfallBomberacket from "../../assets/NewArriable2.png";
@@ -47,13 +46,16 @@ function NewArrivals() {
         <h1 className="text-[clamp(1.5rem,3vw,2.25rem)] text-primary-text font-extrabold font-syne">
           New arrivals
         </h1>
-        <Link to={"/shop"} className="cursor-pointer hover:underline text-tertiary-text">
+        <Link
+          to={"/shop"}
+          className="cursor-pointer hover:underline text-tertiary-text"
+        >
           Shop All
         </Link>
       </div>
       <div className="cards w-full h-auto px-5 sm:px-16 grid grid-cols-2 sm:grid-cols-4 place-items-center gap-5">
         {products.map((product) => (
-          <ProductCard key={product.id} product={product}/>
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
     </div>

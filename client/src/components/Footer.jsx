@@ -50,13 +50,35 @@ function Footer() {
       <div className="grid gap-5 grid-cols-1 sm:grid-cols-2">
         <div className="flex flex-col gap-2">
           <span className="font-bold text-primary-text">Help</span>
-          <Link className="text-secondary-text hover:text-primary-text">Shipping</Link>
-          <Link className="text-secondary-text hover:text-primary-text">Returns</Link>
-          <Link className="text-secondary-text hover:text-primary-text">Size guide</Link>
-          <Link to={"/contact"} className="text-secondary-text hover:text-primary-text">Contact us</Link>
+          <Link
+            to={"/contact"}
+            className="text-secondary-text hover:text-primary-text"
+          >
+            Contact us
+          </Link>
+          <Link
+            to={"/about"}
+            className="text-secondary-text hover:text-primary-text"
+          >
+            About
+          </Link>
+          <Link
+            to={"/account/payment-methods"}
+            className="text-secondary-text hover:text-primary-text"
+          >
+            Payments methods
+          </Link>
+          <Link
+            to={"/contact"}
+            className="text-secondary-text hover:text-primary-text"
+          >
+            Contact us
+          </Link>
         </div>
         <div className="flex  flex-col gap-3">
-          <h5 className="font-bold text-primary-text">Get 10% off your first order</h5>
+          <h5 className="font-bold text-primary-text">
+            Get 10% off your first order
+          </h5>
           <div className="flex gap-1">
             <input
               className="w-[70%] border border-primary-border bg-secondary-bg px-5 py-2 rounded text-primary-text"

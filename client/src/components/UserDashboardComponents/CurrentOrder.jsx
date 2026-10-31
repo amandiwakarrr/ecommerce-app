@@ -2,12 +2,12 @@ import recentOrder from "../../assets/BestSell1.jpg";
 import { Link } from "react-router-dom";
 function CurrentOrder() {
   return (
-    <div className="grid  py-2">
+    <div className="grid py-2 mt-5">
       <div className="w-full px-2 flex flex-col items-center justify-around bg-secondary-bg rounded border border-primary-border">
         <div className="w-full flex items-center justify-between py-3">
-          <span className="text-[clamp(1rem,3vw,2rem)] text-primary-text font-syne font-extrabold">
-            Order in progress
-          </span>
+          <h1 className="text-[clamp(1.5rem,3vw,2.25rem)] text-primary-text font-extrabold font-syne">
+          Order in progress 
+        </h1>
           <Link className=" text-tertiary-text ">View order</Link>
         </div>
         <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-2 place-items-center p-2">

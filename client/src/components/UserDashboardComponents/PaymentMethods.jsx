@@ -1,102 +1,56 @@
-import paytmlogo from "../../assets/paytmlogo.jpg";
-import Gpaylogo from "../../assets/Gpaylogo.jpg";
-import amazonpaylogo from "../../assets/Amazonpaylogo.jpg";
+// import paytmlogo from "../../assets/paytmlogo.jpg";
+// import Gpaylogo from "../../assets/Gpaylogo.jpg";
+// import amazonpaylogo from "../../assets/Amazonpaylogo.jpg";
+import CreditCardSim from "../../assets/creditcardsim.jpg";
+import NFClogo from "../../assets/svg/NFC.svg";
 function PaymentMethods() {
   return (
-    <div className="w-full h-auto px-5 ">
-      <div className="w-full grid sm:grid-cols-2 md:grid-cols-3 gap-2 bg-secondary-bg p-2 rounded place-items-center border border-primary-border">
-        {/* Creadit Card */}
-        <div className="w-full h-20 max-w-75 border flex flex-col border-primary-border p-2 rounded gap-2">
-          <div className="w-full flex items-center justify-between">
-            <h1 className="text-primary-text">Card</h1>
-            <button className="text-[12px] text-tertiary-text cursor-pointer">
-              ADD
-            </button>
-          </div>
-          <div className="w-full flex items-center justify-between">
-            <div className="w-full flex items-center justify-start gap-2">
-              <div className="w-10 rounded h-5 bg-white flex items-center justify-center">
-                <i className="pi pi-credit-card "></i>
-              </div>
-              <span className="text-[12px] text-primary-text">
-                Add credit or debit card
-              </span>
+    <div className="w-full h-auto px-5 mt-8">
+      {/* Creadit Card */}
+      <div className="w-full grid lg:grid-cols-3 gap-5">
+        <div className="w-full flex flex-col gap-2 items-center justify-center">
+          <div className="w-full max-w-80 h-40 border flex flex-col border-primary-border p-2 rounded-2xl gap-1 bg-linear-to-r from-[#2a2114] to-secondary-bg">
+            <h1 className="text-primary-text text-end">SBI BANK</h1>
+            <div className="w-full px-2 flex items-center justify-between">
+              <img className="w-12" src={CreditCardSim} alt="" />
+              <img src={NFClogo} alt="" />
             </div>
+            <div className="w-full flex items-center justify-between text-secondary-text px-2 text-xl">
+              <span>1234</span>
+              <span>5678</span>
+              <span>9176</span>
+              <span>0297</span>
+            </div>
+            <div className="w-full flex text-secondary-text text-[12px] px-2">
+              <span>VALID THUR - 06/39</span>
+            </div>
+            <h2 className="text-secondary-text px-2">AMAN DIWAKAR</h2>
           </div>
+          <button className="w-full cursor-pointer max-w-75 bg-btn py-1 rounded">
+            Remove
+          </button>
         </div>
-
-        {/* UPI */}
-        <div className="w-full h-20 max-w-75 border flex flex-col border-primary-border p-2 rounded gap-2">
-          <h1 className="text-primary-text">UPI</h1>
-          <div className="w-full flex items-center justify-start gap-2">
-            <div className="w-10 rounded h-5 bg-white flex items-center justify-center">
-              <img src={paytmlogo} alt="" />
+        <div className="w-full flex flex-col gap-2 items-center justify-center">
+          <div className="w-full max-w-80 h-40 border flex flex-col border-primary-border p-2 rounded-2xl gap-1 bg-linear-to-r from-[#2a2114] to-secondary-bg">
+            <h1 className="text-primary-text text-end">RBI BANK</h1>
+            <div className="w-full px-2 flex items-center justify-between">
+              <img className="w-12" src={CreditCardSim} alt="" />
+              <img src={NFClogo} alt="" />
             </div>
-            <span className="text-[12px] text-primary-text">Paytm UPI</span>
-          </div>
-        </div>
-
-        {/* Netbanking */}
-        <div className="w-full h-20 max-w-75 border flex flex-col border-primary-border p-2 rounded gap-2">
-          <h1 className="text-primary-text">Netbanking</h1>
-          <div className="w-full flex items-center justify-start gap-2 py-1">
-            <div className="w-10 rounded h-5 bg-white flex items-center justify-center">
-              <i className="pi pi-building-columns"></i>
+            <div className="w-full flex items-center justify-between text-secondary-text px-2 text-xl">
+              <span>1234</span>
+              <span>5986</span>
+              <span>9176</span>
+              <span>9457</span>
             </div>
-            <div className="w-full flex flex-col">
-              <span className="text-[12px] text-primary-text">Netbanking</span>
+            <div className="w-full flex text-secondary-text text-[12px] px-2">
+              <span>VALID THUR - 06/89</span>
             </div>
-            <button className="text-[12px] text-tertiary-text cursor-pointer">
-              ADD
-            </button>
+            <h2 className="text-secondary-text px-2">GAURAV BHIKHARI</h2>
           </div>
-        </div>
-
-        {/* Wallets */}
-        <div className="w-full max-w-75 border flex flex-col border-primary-border p-2 rounded gap-4">
-          <div className="w-full flex items-center justify-between">
-            <h1 className="text-primary-text">Wallets</h1>
-          </div>
-          <div className="w-full">
-            <div className="w-full flex items-center justify-between">
-              <div className="w-full flex items-center justify-start gap-2 py-1 border-b border-primary-border">
-                <div className="w-10 rounded h-5 bg-white flex items-center justify-center">
-                  <img src={amazonpaylogo} alt="" />
-                </div>
-                <div className="w-full flex flex-col">
-                  <span className="text-[12px] text-primary-text">
-                    Amazon Pay
-                  </span>
-                  <p className="text-[8px] text-secondary-text">
-                    Link your Amazon Pay Balance wallet
-                  </p>
-                </div>
-                <button className="text-[12px] text-tertiary-text cursor-pointer">
-                  ADD
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="w-full">
-            <div className="w-full flex items-center justify-between">
-              <div className="w-full flex items-center justify-start gap-2 py-1">
-                <div className="w-10 rounded h-5 bg-white flex items-center justify-center">
-                  <img src={Gpaylogo} alt="" />
-                </div>
-                <div className="w-full flex flex-col">
-                  <span className="text-[12px] text-primary-text">
-                    Google Pay
-                  </span>
-                  <p className="text-[8px] text-secondary-text">
-                    Link your Google Pay Balance wallet
-                  </p>
-                </div>
-                <button className="text-[12px] text-tertiary-text cursor-pointer">
-                  ADD
-                </button>
-              </div>
-            </div>
-          </div>
+        <button className="w-full cursor-pointer max-w-75 bg-btn py-1 rounded">
+          Remove
+        </button>
         </div>
       </div>
     </div>

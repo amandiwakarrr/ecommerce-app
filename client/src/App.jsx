@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
 import Home from "./pages/Home";
 import StoreLayout from "./layout/StoreLayout";
 import Wishlist from "./components/UserDashboardComponents/Wishlist";
@@ -14,7 +14,7 @@ import UserAddress from "./components/UserDashboardComponents/UserAddress";
 import PaymentMethods from "./components/UserDashboardComponents/PaymentMethods";
 import About from "./pages/About";
 import Preferences from "./components/UserDashboardComponents/Preferences";
-
+import Overview from "./components/UserDashboardComponents/Overview";
 function App() {
   return (
     <BrowserRouter>
@@ -22,21 +22,22 @@ function App() {
         <Route element={<StoreLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
-          <Route path="/about" element={<About/>}/>
+          <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/product" element={<Product/>} />
-          <Route path="/checkout" element={<Checkout/>} />
-        
+          <Route path="/product" element={<Product />} />
+          <Route path="/checkout" element={<Checkout />} />
+
           <Route path="/account" element={<Account />}>
+            <Route index element={<Navigate to="overview" replace />} />
+            <Route path="overview" element={<Overview/>}/>
             <Route path="wishlist" element={<Wishlist />} />
             <Route path="orders" element={<RecentOrders />} />
             <Route path="profile" element={<UserDetails />} />
             <Route path="address" element={<UserAddress />} />
             <Route path="payment-methods" element={<PaymentMethods />} />
             <Route path="preferences" element={<Preferences />} />
-
           </Route>
         </Route>
       </Routes>

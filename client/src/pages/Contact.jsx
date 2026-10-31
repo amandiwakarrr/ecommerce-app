@@ -37,7 +37,7 @@ function Contact() {
       title: "Monday to Saturday",
       subtitle: "10:00 AM – 6:00 PM IST",
       titleIcon: "pi pi-comments",
-      arrowIcon: "pi pi-arrow-up-right",
+      arrowIcon: "",
       path: "/contact",
     },
   ];
@@ -49,9 +49,9 @@ function Contact() {
       <div className="w-full grid grid-cols-1 md:grid-cols-3">
         <div className="w-full sm:col-span-2">
           <div className="w-full flex flex-col gap-2 p-2 rounded ">
-            <h2 className="text-[clamp(1.5rem,2vw,2rem)] text-primary-text">
+            <h1 className="text-[clamp(1.5rem,3vw,2.25rem)] text-primary-text font-extrabold font-syne">
               Send us a message
-            </h2>
+            </h1>
             <div className="w-full">
               <form className="w-full flex flex-col gap-4">
                 <div className="w-full flex flex-col gap-1">

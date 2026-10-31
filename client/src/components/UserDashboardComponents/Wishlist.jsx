@@ -43,9 +43,11 @@ const products = [
 
 function Wishlist() {
   return (
-    <div className="px-5">
+    <div className="px-5 mt-2">
       <div className="w-full flex flex-wrap items-center justify-between gap-2 py-3">
-        <span className="text-[clamp(1.1rem,3vw,2rem)] text-primary-text font-syne font-bold">Wishlist</span>
+        <h1 className="text-[clamp(1.5rem,3vw,2.25rem)] text-primary-text font-extrabold font-syne">
+          Wishlist
+        </h1>
         <Link className="text-sm sm:text-[16px] text-tertiary-text">View all</Link>
       </div>
       <div className="cards w-full h-auto grid grid-cols-2 md:grid-cols-4 place-items-center gap-5">

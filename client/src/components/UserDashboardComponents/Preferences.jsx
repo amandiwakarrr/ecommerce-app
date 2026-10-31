@@ -7,9 +7,9 @@ function Preferences() {
 
   return (
     <div className="w-full h-auto py-5 px-5">
-      <div className="w-full grid grid-cols-1 sm:grid-cols-2  pb-5">
-        <div className="w-full pb-5 gap-1 max-[425px]:py-2 flex flex-col items-center justify-center">
-          <h1 className="text-2xl sm:text-4xl text-primary-text font-extrabold font-syne">
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 pb-5">
+        <div className="w-full pb-5 gap-1 max-[425px]:py-2 flex flex-col">
+          <h1 className="text-[clamp(1.5rem,3vw,2.25rem)] text-primary-text font-extrabold font-syne">
             Your preferences
           </h1>
           <span className="text-secondary-text text-[12px]">
@@ -108,15 +108,21 @@ function Preferences() {
                   When an item you saved returns in your size.
                 </p>
               </div>
-              <button className=" cursor-pointer px-2 py-1 bg-btn rounded">On</button>
+              <button className=" cursor-pointer px-2 py-1 bg-btn rounded">
+                On
+              </button>
             </div>
           </div>
         </div>
       </div>
 
       <div className="w-full flex  gap-5">
-        <button className="py-2 px-3 cursor-pointer rounded bg-btn text-dark">Save preferences</button>
-        <button className="py-2 px-3 cursor-pointer rounded bg-secondary-bg text-primary-text border border-primary-border">Reset to default</button>
+        <button className="py-2 px-3 cursor-pointer rounded bg-btn text-dark">
+          Save preferences
+        </button>
+        <button className="py-2 px-3 cursor-pointer rounded bg-secondary-bg text-primary-text border border-primary-border">
+          Reset to default
+        </button>
       </div>
     </div>
   );
