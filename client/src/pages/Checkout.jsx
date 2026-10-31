@@ -30,7 +30,7 @@ function Checkout() {
                   </label>
                   <input
                     type="text"
-                    className="border  border-primary-border rounded px-2 py-2 focus:outline-btn"
+                    className="border text-primary-text     border-primary-border rounded px-2 py-2 focus:outline-btn"
                   />
                 </div>
                 <div className="w-full flex flex-col gap-1">
@@ -42,7 +42,7 @@ function Checkout() {
                   </label>
                   <input
                     type="text"
-                    className="border  border-primary-border rounded px-2 py-2 focus:outline-btn"
+                    className="border text-primary-text   border-primary-border rounded px-2 py-2 focus:outline-btn"
                   />
                 </div>
               </div>
@@ -52,7 +52,7 @@ function Checkout() {
                 </label>
                 <input
                   type="text"
-                  className=" border border-primary-border rounded px-2 py-2 focus:outline-btn"
+                  className=" border text-primary-text  border-primary-border rounded px-2 py-2 focus:outline-btn"
                 />
               </div>
               <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -62,7 +62,7 @@ function Checkout() {
                   </label>
                   <input
                     type="text"
-                    className="border  border-primary-border rounded px-2 py-2 focus:outline-btn"
+                    className="border text-primary-text   border-primary-border rounded px-2 py-2 focus:outline-btn"
                   />
                 </div>
                 <div className="w-full flex flex-col gap-1">
@@ -74,7 +74,7 @@ function Checkout() {
                   </label>
                   <input
                     type="text"
-                    className="border  border-primary-border rounded px-2 py-2 focus:outline-btn"
+                    className="border text-primary-text   border-primary-border rounded px-2 py-2 focus:outline-btn"
                   />
                 </div>
               </div>
@@ -86,7 +86,7 @@ function Checkout() {
                 <input
                   type="text"
                   placeholder="1234 1234 1234 1234"
-                  className=" border border-primary-border rounded px-2 py-2 focus:outline-btn"
+                  className=" border text-primary-text  border-primary-border rounded px-2 py-2 focus:outline-btn"
                 />
               </div>
               <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -97,12 +97,12 @@ function Checkout() {
                   <input
                     type="text"
                     placeholder="MM/YY"
-                    className="border  border-primary-border rounded px-2 py-2 focus:outline-btn"
+                    className="border text-primary-text   border-primary-border rounded px-2 py-2 focus:outline-btn"
                   />
                 </div>
                 <div className="w-full flex flex-col gap-1">
                   <label
-                    htmlFor="Pincode"
+                    htmlFor="Pincode" 
                     className="text-secondary-text text-[14px]"
                   >
                     CVC
@@ -110,7 +110,7 @@ function Checkout() {
                   <input
                     type="text"
                     placeholder="123"
-                    className="border  border-primary-border rounded px-2 py-2 focus:outline-btn"
+                    className="border text-primary-text  border-primary-border rounded px-2 py-2 focus:outline-btn"
                   />
                 </div>
               </div>
@@ -120,7 +120,7 @@ function Checkout() {
         {/* checkout order summary */}
         <div className=" w-full flex flex-col min-w-0 gap-2 sm:mt-15">
           <div className="w-full border border-primary-border p-5 rounded bg-secondary-bg ">
-            <h2 className="font-syne font-extrabold">Order summary</h2>
+            <h2 className="font-syne font-extrabold text-primary-text">Order summary</h2>
             <div className="w-full flex flex-col border-b border-primary-border gap-2 py-1">
               <div className="w-full flex items-center justify-between text-secondary-text">
                 <span>Subtotal</span>
@@ -131,7 +131,7 @@ function Checkout() {
                 <span>Free</span>
               </div>
             </div>
-            <div className="w-full flex items-center justify-between mt-2">
+            <div className="w-full flex items-center justify-between mt-2 text-tertiary-text">
               <span>Total</span>
               <span>307.00</span>
             </div>

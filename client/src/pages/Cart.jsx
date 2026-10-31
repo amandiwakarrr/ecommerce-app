@@ -20,7 +20,6 @@ function Cart() {
           Start Shoping
         </button>
       </div> */}
-
       <div className="w-full h-auto grid grid-cols-1 sm:grid-cols-2 gap-5 place-items-start">
         <div className="w-full gap-4 min-w-0">
           <div className="w-full pb-5">
