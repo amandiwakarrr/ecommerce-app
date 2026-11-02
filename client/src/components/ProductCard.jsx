@@ -39,7 +39,7 @@ function ProductCard({ product }) {
             {product.title}
           </h1>
           <span className="text-[clamp(12px,1vw,2rem)] font-bold">
-            {product.price}
+            ₹{product.price}
           </span>
         </div>
       </div>
