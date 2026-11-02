@@ -138,7 +138,7 @@ function Checkout() {
           </div>
           <div className="w-full">
             <button
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/order-success")}
               className="cursor-pointer w-full text-dark bg-btn py-2 px-3 rounded"
             >
               Place order

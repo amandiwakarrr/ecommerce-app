@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import UserSchema from "../validations/UserSchema";
-function Registration() {
+function Register() {
   const {
     register,
     handleSubmit,
@@ -141,4 +141,4 @@ function Registration() {
   );
 }
 
-export default Registration;
+export default Register;

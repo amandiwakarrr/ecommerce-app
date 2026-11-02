@@ -15,6 +15,7 @@ import PaymentMethods from "./components/UserDashboardComponents/PaymentMethods"
 import About from "./pages/About";
 import Preferences from "./components/UserDashboardComponents/Preferences";
 import Overview from "./components/UserDashboardComponents/Overview";
+import OrderSuccess from "./pages/OrderSuccess";
 function App() {
   return (
     <BrowserRouter>
@@ -28,6 +29,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/product" element={<Product />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/order-success" element={<OrderSuccess/>} />
 
           <Route path="/account" element={<Account />}>
             <Route index element={<Navigate to="overview" replace />} />

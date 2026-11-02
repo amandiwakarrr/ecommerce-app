@@ -1,4 +1,4 @@
-import Registration from "../components/Registration";
+import Register from "../components/Register";
 import { useState } from "react";
 import UserDashboard from "./UserDashboard";
 
@@ -10,7 +10,7 @@ function Account() {
       {isLogin ? (
         <UserDashboard />
       ) : (
-        <Registration />
+        <Register />
       )}
 
       <button onClick={() => setIsLogin(!isLogin)}>
