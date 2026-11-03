@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import profile from "../assets/socialprof.jpg";
+import profile from "../assets/socialprof.webp";
 import { Outlet } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 

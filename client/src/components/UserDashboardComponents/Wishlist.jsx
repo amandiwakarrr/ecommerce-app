@@ -1,6 +1,6 @@
-import VoidOversizedHoodie from "../../assets/NewArriable1.png";
-import NightfallBomberacket from "../../assets/NewArriable2.png";
-import SlateCargoPants from "../../assets/NewArriable3.png";
+import VoidOversizedHoodie from "../../assets/NewArriable1.webp";
+import NightfallBomberacket from "../../assets/NewArriable2.webp";
+import SlateCargoPants from "../../assets/NewArriable3.webp";
 import MonoBoxyTee from "../../assets/NewArriable4.jpg";
 
 import { Link } from "react-router-dom";

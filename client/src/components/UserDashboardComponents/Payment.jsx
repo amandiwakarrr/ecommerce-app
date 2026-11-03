@@ -1,8 +1,8 @@
 // import paytmlogo from "../../assets/paytmlogo.jpg";
 // import Gpaylogo from "../../assets/Gpaylogo.jpg";
 // import amazonpaylogo from "../../assets/Amazonpaylogo.jpg";
-import CreditCardSim from "../../assets/creditcardsim.jpg";
-import NFClogo from "../../assets/svg/NFC.svg";
+import CreditCardSim from "../../assets/creditcardsim.webp";
+import NFClogo from "../../assets/NFC.svg"
 function PaymentMethods() {
   return (
     <div className="w-full h-auto px-5 mt-8">

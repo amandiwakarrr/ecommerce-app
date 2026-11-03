@@ -1,5 +1,5 @@
 import QuantityButton from "../../components/QuantityButton";
-import img from "../../assets/BestSell1.jpg";
+import img from "../../assets/BestSell1.webp";
 function CheckoutProduct() {
   return (
     <div className="w-full flex items-center justify-between gap-3 border-b border-primary-border py-2">

@@ -11,7 +11,7 @@ import UserDetails from "./components/UserDashboardComponents/UserDetails";
 import Product from "./pages/Product";
 import Checkout from "./pages/Checkout";
 import UserAddress from "./components/UserDashboardComponents/UserAddress";
-import PaymentMethods from "./components/UserDashboardComponents/PaymentMethods";
+import PaymentMethods from "./components/UserDashboardComponents/Payment";
 import About from "./pages/About";
 import Preferences from "./components/UserDashboardComponents/Preferences";
 import Overview from "./components/UserDashboardComponents/Overview";

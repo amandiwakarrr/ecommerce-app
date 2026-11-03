@@ -1,4 +1,4 @@
-import recentOrder from "../../assets/BestSell1.jpg";
+import recentOrder from "../../assets/BestSell1.webp";
 import { Link } from "react-router-dom";
 function CurrentOrder() {
   return (

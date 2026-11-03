@@ -19,6 +19,7 @@ const paymentOptions = [
     icon: "pi pi-wallet",
   },
 ];
+
 function PaymentMethods() {
   const [selected, setSelected] = useState("upi");
   return (
@@ -89,7 +90,7 @@ function PaymentMethods() {
                 type="password"
                 placeholder="CVV"
                 maxLength={4}
-                className="border text-primary-text border-primary-border rounded px-2 py-2 focus:outline-btn   "
+                className="border text-primary-text border-primary-border rounded px-2 py-2 focus:outline-btn"
               />
             </div>
           </div>

@@ -1,8 +1,7 @@
-import product from "../assets/BestSell2.jpg";
-import AshDenimJacket from "../assets/BestSell1.jpg";
-import CipherGraphicTee from "../assets/BestSell2.jpg";
-import ObsidianJoggers from "../assets/BestSell3.jpg";
-import EmberZipHoodie from "../assets/BestSell4.jpg";
+import AshDenimJacket from "../assets/BestSell1.webp";
+import CipherGraphicTee from "../assets/BestSell2.webp";
+import ObsidianJoggers from "../assets/BestSell3.webp";
+import EmberZipHoodie from "../assets/BestSell4.webp";
 import ProductCard from "../components/ProductCard";
 import QuantityButton from "../components/QuantityButton";
 import { useState } from "react";
@@ -40,6 +39,7 @@ const products = [
     tag: "Best Sell",
   },
 ];
+
 function Product() {
   const [selectedColor, setSelectedColor] = useState("Blue");
   const [selectedSize, setSelectedSize] = useState("S");
@@ -64,22 +64,22 @@ function Product() {
             <div className="w-full bg-white rounded place-items-center">
               <img
                 className="w-[60%] sm:w-[70%] rounded"
-                src={product}
+                src={AshDenimJacket}
                 alt=""
               />
             </div>
             <div className="w-full grid grid-cols-4 gap-2">
               <div>
-                <img className="rounded" src={product} alt="" />
+                <img className="rounded" src={AshDenimJacket} alt="" />
               </div>
               <div>
-                <img className="rounded" src={product} alt="" />
+                <img className="rounded" src={AshDenimJacket} alt="" />
               </div>
               <div>
-                <img className="rounded" src={product} alt="" />
+                <img className="rounded" src={AshDenimJacket} alt="" />
               </div>
               <div>
-                <img className="rounded" src={product} alt="" />
+                <img className="rounded" src={AshDenimJacket} alt="" />
               </div>
             </div>
           </div>
