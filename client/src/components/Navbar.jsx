@@ -14,6 +14,7 @@ function Navbar() {
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               type="button"
+              aria-label="open menu"
               className="hidden max-[720px]:flex text-primary-text text-center items-center"
             >
               {/* Menu */}

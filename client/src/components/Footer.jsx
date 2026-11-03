@@ -75,10 +75,10 @@ function Footer() {
             Contact us
           </Link>
         </div>
-        <div className="flex  flex-col gap-3">
-          <h5 className="font-bold text-primary-text">
+        <div className="flex flex-col gap-3">
+          <span className="font-bold text-primary-text text-[12px]">
             Get 10% off your first order
-          </h5>
+          </span>
           <div className="flex gap-1">
             <input
               className="w-[70%] border border-primary-border bg-secondary-bg px-5 py-2 rounded text-primary-text"

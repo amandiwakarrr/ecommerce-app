@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import img from "../assets/beige-chinos.jpg";
+import img from "../assets/beige-chinos.webp";
 import QuantityButton from "../components/QuantityButton";
 function Cart() {
   const navigate = useNavigate();

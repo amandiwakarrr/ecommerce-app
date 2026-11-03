@@ -3,7 +3,7 @@ import { useState } from "react";
 function ProductCard({ product }) {
   const [clicked, SetClicked] = useState(false);
   return (
-    <div>
+    <div className="w-full">
       <div
         key={product.id}
         className="card group grid place-items-center cursor-pointer group w-full h-full rounded gap-2"
@@ -21,7 +21,7 @@ function ProductCard({ product }) {
             </span>
           </div>
           <img
-            className="w-[70%] aspect-3/4 object-cover h-[90%] rounded"
+            className="w-[80%] aspect-3/4 object-cover h-[90%] rounded"
             src={product.img}
             alt=""
           />

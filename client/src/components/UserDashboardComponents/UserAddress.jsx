@@ -1,4 +1,4 @@
-import l from "../../assets/beige-chinos.jpg";
+import l from "../../assets/beige-chinos.webp";
 function UserAddress() {
   return (
     <div className="w-full h-auto px-5 mt-8">

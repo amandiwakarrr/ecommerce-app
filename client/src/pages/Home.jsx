@@ -36,6 +36,7 @@ function Home() {
             <button
               onClick={() => navigate("/shop?category=Jackets")}
               type="button"
+              aria-label="Shop jackets"
               className="rounded border cursor-pointer border-primary-border bg-dark px-3 py-2.5 text-xs font-medium text-primary-text transition hover:border-white sm:px-4 sm:text-sm"
             >
               See new jackets
@@ -46,25 +47,53 @@ function Home() {
         {/* Hero Images */}
         <div className="grid w-full grid-cols-2 gap-1 lg:max-w-[58%]">
           {/* Large Image */}
-          <div
-            style={{ backgroundImage: `url(${Hero1})` }}
+          <button
+            type="button"
             onClick={() => navigate("/shop?category=Jackets")}
-            className="h-240px rounded-[10px] cursor-pointer bg-cover bg-center bg-no-repeat sm:h-130"
-          />
+            aria-label="Shop jackets"
+            className="h-240px overflow-hidden rounded-[10px] cursor-pointer sm:h-130"
+          >
+            <img
+              src={Hero1}
+              alt="UrbanWear black leather jacket collection"
+              fetchPriority="high"
+              loading="eager"
+              decoding="async"
+              className="h-full w-full object-cover object-center"
+            />
+          </button>
 
           {/* Two Small Images */}
           <div className="flex min-w-0 flex-col gap-1">
-            <div
-              style={{ backgroundImage: `url(${Hero2})` }}
-                onClick={() => navigate("/shop?category=Hoodies")}
-              className="min-h-28.5 cursor-pointer flex-1 rounded-[10px] bg-cover bg-center bg-no-repeat sm:min-h-38.5"
-            />
+            <button
+              type="button"
+              onClick={() => navigate("/shop?category=Hoodies")}
+              aria-label="Shop hoodies"
+              className="min-h-28.5 flex-1 overflow-hidden rounded-[10px] cursor-pointer sm:min-h-38.5"
+            >
+              <img
+                src={Hero2}
+                alt="UrbanWear hoodie collection"
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover object-center"
+              />
+            </button>
 
-            <div
-              style={{ backgroundImage: `url(${Hero3})` }}
-                onClick={() => navigate("/shop?category=Pants")}
-              className="min-h-28.5 cursor-pointer flex-1 rounded-[10px] bg-cover bg-center bg-no-repeat sm:min-h-38.5"
-            />
+            <button
+              type="button"
+              onClick={() => navigate("/shop?category=Pants")}
+              aria-label="Shop pants"
+              className="min-h-28.5 flex-1 overflow-hidden rounded-[10px] cursor-pointer sm:min-h-38.5"
+            >
+              <img
+                src={Hero3}
+                alt="UrbanWear trousers collection"
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover object-center"
+              />
+            </button>
           </div>
         </div>
       </div>

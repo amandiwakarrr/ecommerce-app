@@ -1,4 +1,4 @@
-import image from "../assets/Aboutimg.jpg";
+import image from "../assets/Aboutimg.webp";
 import { useNavigate } from "react-router-dom";
 function About() {
   const navigate = useNavigate();

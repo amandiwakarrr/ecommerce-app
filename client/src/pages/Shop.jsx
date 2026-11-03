@@ -1,15 +1,16 @@
-import WhiteLinenShirt from "../assets/white-linen-shirt.jpg";
-import ClassicBlackPolo from "../assets/black-polo-shirt.jpg";
-import SlimfitChinos from "../assets/beige-chinos.jpg";
-import OliveUtilityOvershirt from "../assets/olive-overshirt.jpg";
-import CreamKnitSweater from "../assets/cream-sweater.jpg";
-import BlackFormalTrousers from "../assets/black-formal-trousers.jpg";
-import BlueOxfordShirt from "../assets/blue-oxford-shirt.jpg";
-import MinimalWhiteSneakers from "../assets/white-sneakers.jpg";
-import BrownLeatherBelt from "../assets/brown-leather-belt.jpg";
-import CharcoalCasualBlazer from "../assets/charcoal-blazer.jpg";
-import KhakiCasualShorts from "../assets/khaki-shorts.jpg";
-import NavyBlueCardigan from "../assets/navy-cardigan.jpg";
+import WhiteLinenShirt from "../assets/white-linen-shirt.webp";
+import ClassicBlackPolo from "../assets/black-polo-shirt.webp";
+import SlimfitChinos from "../assets/beige-chinos.webp";
+import OliveUtilityOvershirt from "../assets/olive-overshirt.webp";
+import CreamKnitSweater from "../assets/cream-sweater.webp";
+import BlackFormalTrousers from "../assets/black-formal-trousers.webp";
+import BlueOxfordShirt from "../assets/blue-oxford-shirt.webp";
+import MinimalWhiteSneakers from "../assets/white-sneakers.webp";
+import BrownLeatherBelt from "../assets/brown-leather-belt.webp";
+import CharcoalCasualBlazer from "../assets/charcoal-blazer.webp";
+import KhakiCasualShorts from "../assets/khaki-shorts.webp";
+import NavyBlueCardigan from "../assets/navy-cardigan.webp";
+
 import ProductCard from "../components/ProductCard";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";

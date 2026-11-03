@@ -2,6 +2,7 @@ import AshDenimJacket from "../assets/BestSell1.webp";
 import CipherGraphicTee from "../assets/BestSell2.webp";
 import ObsidianJoggers from "../assets/BestSell3.webp";
 import EmberZipHoodie from "../assets/BestSell4.webp";
+
 import ProductCard from "../components/ProductCard";
 import QuantityButton from "../components/QuantityButton";
 import { useState } from "react";
