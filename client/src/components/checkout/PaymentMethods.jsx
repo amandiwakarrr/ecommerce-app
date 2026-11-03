@@ -13,12 +13,6 @@ const paymentOptions = [
     icon: "pi pi-credit-card",
   },
   {
-    id: "netbanking",
-    title: "Net Banking",
-    description: "All major banks supported",
-    icon: "pi pi-building-columns",
-  },
-  {
     id: "cod",
     title: "Cash on Delivery",
     description: "Pay when your order arrives",
@@ -35,7 +29,7 @@ function PaymentMethods() {
       {paymentOptions.map((option) => (
         <label
           key={option.id}
-          className={`flex items-center  border rounded cursor-pointer px-2 gap-2
+          className={`flex items-center border rounded cursor-pointer px-2 gap-2
                      ${
                        selected === option.id
                          ? "border-black bg-btn text-dark"
@@ -58,6 +52,49 @@ function PaymentMethods() {
           </div>
         </label>
       ))}
+
+      {selected === "card" && (
+        <div className="w-full flex flex-col gap-3 p-4 border border-primary-border rounded-lg">
+          <div className="flex flex-col gap-1">
+            <label className="text-secondary-text">Cardholder Name</label>
+            <input
+              type="text"
+              placeholder="Name on card"
+              className="border text-primary-text  border-primary-border rounded px-2 py-2 focus:outline-btn   "
+            />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label className="text-secondary-text">Card Number</label>
+            <input
+              type="text"
+              placeholder="1234 5678 9012 3456"
+              className="border text-primary-text border-primary-border rounded px-2 py-2 focus:outline-btn   "
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div className="flex flex-col gap-1">
+              <label className="text-secondary-text">Expiry Date</label>
+              <input
+                type="text"
+                placeholder="MM/YY"
+                className="border text-primary-text border-primary-border rounded px-2 py-2 focus:outline-btn   "
+              />
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <label className="text-secondary-text">CVV</label>
+              <input
+                type="password"
+                placeholder="CVV"
+                maxLength={4}
+                className="border text-primary-text border-primary-border rounded px-2 py-2 focus:outline-btn   "
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

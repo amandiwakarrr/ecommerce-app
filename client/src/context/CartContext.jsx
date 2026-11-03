@@ -17,7 +17,6 @@ export const CartProvider = ({ children }) => {
             : item,
         );
       }
-
       return [...prevCart, { ...product, quantity: 1 }];
     });
   };
