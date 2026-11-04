@@ -1,6 +1,14 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap'); */
 @import "tailwindcss";
+@font-face {
+  font-family: "Syne";
+  src: url("./assets/fonts/Syne-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+}
 
 /* Global theme */
 @theme {
@@ -25,5 +33,6 @@
 /* Global styles */
 body {
   background-color: var(--color-dark);
-  color: var(--color-primary);
+  /* color: var(--color-primary); */
+  margin: 0;
 }
