@@ -10,7 +10,6 @@ import BrownLeatherBelt from "../assets/brown-leather-belt.webp";
 import CharcoalCasualBlazer from "../assets/charcoal-blazer.webp";
 import KhakiCasualShorts from "../assets/khaki-shorts.webp";
 import NavyBlueCardigan from "../assets/navy-cardigan.webp";
-
 import ProductCard from "../components/ProductCard";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
