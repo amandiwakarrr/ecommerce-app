@@ -1,0 +1,391 @@
+
+[
+  {
+    "title": "White Linen Shirt",
+    "slug": "white-linen-shirt",
+    "sku": "UW-SH-001",
+    "subtitle": "Lightweight, breathable and stylish",
+    "description": "A timeless white linen shirt crafted from premium linen fabric. Lightweight, breathable and comfortable with a relaxed fit. Perfect for casual, vacation and smart-casual looks.",
+    "brand": "UrbanWear",
+    "category": "Shirts",
+    "tags": ["linen", "white", "casual", "summer", "breathable"],
+    "gender": "Men",
+    "material": "100% Linen",
+    "fit": "Relaxed Fit",
+    "careInstructions": "Machine wash cold. Do not bleach. Iron at medium heat.",
+    "price": 2999,
+    "discountPrice": 2499,
+    "quantity": 30,
+    "lowStockThreshold": 5,
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "colors": ["White"],
+    "badge": "Best Seller",
+    "isFeatured": true,
+    "status": "active",
+    "seo": {
+      "title": "White Linen Shirt - UrbanWear",
+      "description": "Shop the white linen shirt for men at UrbanWear. Lightweight, breathable and stylish for every occasion."
+    },
+    "images": [
+      "white-linen-shirt/front.webp",
+      "white-linen-shirt/back.webp",
+      "white-linen-shirt/side.webp",
+      "white-linen-shirt/detail.webp",
+      "white-linen-shirt/folded.webp"
+    ]
+  },
+  
+{
+  "title": "Black Formal Trousers",
+  "slug": "black-formal-trousers",
+  "sku": "UW-PT-006",
+  "subtitle": "Sharp tailoring for a refined look",
+  "description": "Classic black formal trousers crafted from premium fabric with a clean tailored silhouette. Ideal for office wear, formal occasions and smart styling.",
+  "brand": "UrbanWear",
+  "category": "Pants",
+  "tags": ["black", "formal", "trousers", "office", "tailored"],
+  "gender": "Men",
+  "material": "Polyester Viscose Blend",
+  "fit": "Slim Fit",
+  "careInstructions": "Machine wash cold on a gentle cycle. Do not bleach. Iron at low temperature.",
+  "price": 2799,
+  "discountPrice": 2299,
+  "quantity": 25,
+  "lowStockThreshold": 5,
+  "sizes": ["28", "30", "32", "34", "36"],
+  "colors": ["Black"],
+  "badge": "Best Seller",
+  "isFeatured": true,
+  "status": "active",
+  "seo": {
+    "title": "Black Formal Trousers for Men - UrbanWear",
+    "description": "Shop tailored black formal trousers for men at UrbanWear. A refined choice for office wear and formal occasions."
+  },
+  "images": [
+    "black-formal-trousers/front.webp",
+    "black-formal-trousers/back.webp",
+    "black-formal-trousers/side.webp",
+    "black-formal-trousers/detail.webp",
+    "black-formal-trousers/folded.webp"
+  ]
+},
+
+{
+  "title": "Brown Leather Belt",
+  "slug": "brown-leather-belt",
+  "sku": "UW-AC-009",
+  "subtitle": "A timeless accessory for every outfit",
+  "description": "A premium brown leather belt featuring a classic silver-tone buckle, refined stitching and a durable design. Perfect for formal and casual outfits.",
+  "brand": "UrbanWear",
+  "category": "Accessories",
+  "tags": ["brown", "leather", "belt", "formal", "accessory"],
+  "gender": "Men",
+  "material": "Genuine Leather",
+  "fit": "Regular Fit",
+  "careInstructions": "Wipe clean with a soft dry cloth. Keep away from excessive moisture.",
+  "price": 1299,
+  "discountPrice": 999,
+  "quantity": 40,
+  "lowStockThreshold": 5,
+  "sizes": ["30", "32", "34", "36", "38", "40"],
+  "colors": ["Brown"],
+  "badge": "New",
+  "isFeatured": true,
+  "status": "active",
+  "seo": {
+    "title": "Brown Leather Belt for Men - UrbanWear",
+    "description": "Shop premium brown leather belts for men at UrbanWear. A timeless accessory for formal and casual styling."
+  },
+  "images": [
+    "brown-leather-belt/front.webp",
+    "brown-leather-belt/back.webp",
+    "brown-leather-belt/side.webp",
+    "brown-leather-belt/detail.webp",
+    "brown-leather-belt/folded.webp"
+  ]
+},
+
+{
+  "title": "Classic Black Polo",
+  "slug": "classic-black-polo",
+  "sku": "UW-TS-002",
+  "subtitle": "Minimal style with everyday comfort",
+  "description": "A classic black polo shirt made from premium cotton pique fabric. Featuring a refined collar, button placket and subtle UrbanWear chest embroidery. Perfect for casual and smart-casual outfits.",
+  "brand": "UrbanWear",
+  "category": "Shirts",
+  "tags": ["black", "polo", "cotton", "casual", "minimal"],
+  "gender": "Men",
+  "material": "100% Cotton Pique",
+  "fit": "Regular Fit",
+  "careInstructions": "Machine wash cold with similar colors. Do not bleach. Iron at low temperature.",
+  "price": 1799,
+  "discountPrice": 1499,
+  "quantity": 35,
+  "lowStockThreshold": 5,
+  "sizes": ["S", "M", "L", "XL", "XXL"],
+  "colors": ["Black"],
+  "badge": "Best Seller",
+  "isFeatured": true,
+  "status": "active",
+  "seo": {
+    "title": "Classic Black Polo Shirt for Men - UrbanWear",
+    "description": "Shop the classic black polo shirt for men at UrbanWear. Premium cotton comfort with a timeless minimalist design."
+  },
+  "images": [
+    "classic-black-polo/front.webp",
+    "classic-black-polo/back.webp",
+    "classic-black-polo/side.webp",
+    "classic-black-polo/detail.webp",
+    "classic-black-polo/folded.webp"
+  ]
+},
+
+{
+  "title": "Minimal White Sneakers",
+  "slug": "minimal-white-sneakers",
+  "sku": "UW-SN-008",
+  "subtitle": "Clean design for everyday comfort",
+  "description": "Minimal white sneakers featuring a clean silhouette, comfortable cushioned interior and durable rubber outsole. Easy to pair with jeans, chinos and casual outfits.",
+  "brand": "UrbanWear",
+  "category": "Accessories",
+  "tags": ["white", "sneakers", "minimal", "casual", "everyday"],
+  "gender": "Unisex",
+  "material": "Synthetic Leather",
+  "fit": "Regular Fit",
+  "careInstructions": "Clean with a soft damp cloth. Do not machine wash. Air dry away from direct sunlight.",
+  "price": 3999,
+  "discountPrice": 3499,
+  "quantity": 30,
+  "lowStockThreshold": 5,
+  "sizes": ["6", "7", "8", "9", "10", "11"],
+  "colors": ["White"],
+  "badge": "New",
+  "isFeatured": true,
+  "status": "active",
+  "seo": {
+    "title": "Minimal White Sneakers - UrbanWear",
+    "description": "Shop minimal white sneakers at UrbanWear. Discover versatile everyday footwear with a clean design and comfortable fit."
+  },
+  "images": [
+    "minimal-white-sneakers/front.webp",
+    "minimal-white-sneakers/back.webp",
+    "minimal-white-sneakers/side.webp",
+    "minimal-white-sneakers/detail.webp",
+    "minimal-white-sneakers/folded.webp"
+  ]
+},
+
+{
+  "title": "Black Essential Hoodie",
+  "slug": "black-essential-hoodie",
+  "sku": "UW-HD-010",
+  "subtitle": "Everyday comfort with a minimal look",
+  "description": "A premium black pullover hoodie crafted for everyday comfort. Features a soft fleece interior, adjustable drawstrings, a spacious kangaroo pocket and subtle UrbanWear chest embroidery.",
+  "brand": "UrbanWear",
+  "category": "Hoodies",
+  "tags": ["black", "hoodie", "minimal", "casual", "fleece"],
+  "gender": "Unisex",
+  "material": "Cotton Polyester Fleece",
+  "fit": "Relaxed Fit",
+  "careInstructions": "Machine wash cold inside out with similar colors. Do not bleach. Tumble dry low.",
+  "price": 2999,
+  "discountPrice": 2499,
+  "quantity": 35,
+  "lowStockThreshold": 5,
+  "sizes": ["S", "M", "L", "XL", "XXL"],
+  "colors": ["Black"],
+  "badge": "New",
+  "isFeatured": true,
+  "status": "active",
+  "seo": {
+    "title": "Black Essential Hoodie - UrbanWear",
+    "description": "Shop the Black Essential Hoodie at UrbanWear. Discover premium fleece comfort and minimalist everyday style."
+  },
+  "images": [
+    "black-essential-hoodie/front.webp",
+    "black-essential-hoodie/back.webp",
+    "black-essential-hoodie/side.webp",
+    "black-essential-hoodie/detail.webp",
+    "black-essential-hoodie/folded.webp"
+  ]
+},
+
+{
+  "title": "Olive Cargo Pants",
+  "slug": "olive-cargo-pants",
+  "sku": "UW-PT-011",
+  "subtitle": "Utility-inspired style with everyday comfort",
+  "description": "Modern olive cargo pants crafted from durable cotton twill. Featuring spacious side cargo pockets, a comfortable relaxed fit and a versatile design for everyday casual styling.",
+  "brand": "UrbanWear",
+  "category": "Pants",
+  "tags": ["olive", "cargo", "pants", "utility", "casual"],
+  "gender": "Men",
+  "material": "100% Cotton Twill",
+  "fit": "Relaxed Fit",
+  "careInstructions": "Machine wash cold with similar colors. Do not bleach. Iron at medium temperature.",
+  "price": 2499,
+  "discountPrice": 1999,
+  "quantity": 30,
+  "lowStockThreshold": 5,
+  "sizes": ["28", "30", "32", "34", "36"],
+  "colors": ["Olive"],
+  "badge": "Trending",
+  "isFeatured": true,
+  "status": "active",
+  "seo": {
+    "title": "Olive Cargo Pants for Men - UrbanWear",
+    "description": "Shop olive cargo pants for men at UrbanWear. Discover comfortable utility-inspired styling with spacious cargo pockets."
+  },
+  "images": [
+    "olive-cargo-pants/front.webp",
+    "olive-cargo-pants/back.webp",
+    "olive-cargo-pants/side.webp",
+    "olive-cargo-pants/detail.webp",
+    "olive-cargo-pants/folded.webp"
+  ]
+},
+
+{
+  "title": "Black Zip-Up Jacket",
+  "slug": "black-zip-up-jacket",
+  "sku": "UW-JK-012",
+  "subtitle": "A clean essential for layered styling",
+  "description": "A versatile black zip-up jacket featuring a sleek stand collar, smooth front zipper, comfortable fabric and subtle UrbanWear chest branding. Perfect for everyday layering and casual outfits.",
+  "brand": "UrbanWear",
+  "category": "Jackets",
+  "tags": ["black", "jacket", "zip-up", "minimal", "casual"],
+  "gender": "Men",
+  "material": "Cotton Polyester Blend",
+  "fit": "Regular Fit",
+  "careInstructions": "Machine wash cold inside out with similar colors. Do not bleach. Air dry.",
+  "price": 3499,
+  "discountPrice": 2999,
+  "quantity": 25,
+  "lowStockThreshold": 5,
+  "sizes": ["S", "M", "L", "XL", "XXL"],
+  "colors": ["Black"],
+  "badge": "New",
+  "isFeatured": true,
+  "status": "active",
+  "seo": {
+    "title": "Black Zip-Up Jacket for Men - UrbanWear",
+    "description": "Shop the Black Zip-Up Jacket at UrbanWear. Discover versatile layering and minimalist everyday style."
+  },
+  "images": [
+    "black-zip-up-jacket/front.webp",
+    "black-zip-up-jacket/back.webp",
+    "black-zip-up-jacket/side.webp",
+    "black-zip-up-jacket/detail.webp",
+    "black-zip-up-jacket/folded.webp"
+  ]
+},
+
+{
+  "title": "Black Leather Biker Jacket",
+  "slug": "black-leather-biker-jacket",
+  "sku": "UW-JK-013",
+  "subtitle": "Bold style with a premium finish",
+  "description": "A premium black leather biker jacket featuring a sleek front zipper, snap-button stand collar, quilted shoulder detailing and functional side pockets. Designed to add a bold, timeless edge to casual outfits.",
+  "brand": "UrbanWear",
+  "category": "Jackets",
+  "tags": ["black", "leather", "biker", "jacket", "premium"],
+  "gender": "Men",
+  "material": "Premium Synthetic Leather",
+  "fit": "Slim Fit",
+  "careInstructions": "Wipe clean with a soft damp cloth. Do not machine wash. Store in a cool, dry place.",
+  "price": 5999,
+  "discountPrice": 5299,
+  "quantity": 15,
+  "lowStockThreshold": 5,
+  "sizes": ["S", "M", "L", "XL", "XXL"],
+  "colors": ["Black"],
+  "badge": "Premium",
+  "isFeatured": true,
+  "status": "active",
+  "seo": {
+    "title": "Black Leather Biker Jacket for Men - UrbanWear",
+    "description": "Shop the Black Leather Biker Jacket at UrbanWear. Discover premium biker styling with a bold silhouette and refined detailing."
+  },
+  "images": [
+    "black-leather-biker-jacket/front.webp",
+    "black-leather-biker-jacket/back.webp",
+    "black-leather-biker-jacket/side.webp",
+    "black-leather-biker-jacket/detail.webp",
+    "black-leather-biker-jacket/folded.webp"
+  ]
+},
+
+{
+  "title": "Cream Puffer Jacket",
+  "slug": "cream-puffer-jacket",
+  "sku": "UW-JK-014",
+  "subtitle": "Warm comfort with a modern silhouette",
+  "description": "A stylish cream puffer jacket featuring a padded high collar, quilted construction, smooth front zipper and practical side pockets. Designed to provide warmth while maintaining a clean, contemporary look.",
+  "brand": "UrbanWear",
+  "category": "Jackets",
+  "tags": ["cream", "puffer", "jacket", "winter", "casual"],
+  "gender": "Men",
+  "material": "Polyester Shell with Synthetic Insulation",
+  "fit": "Regular Fit",
+  "careInstructions": "Gentle machine wash in cold water. Do not bleach. Air dry completely before storage.",
+  "price": 4999,
+  "discountPrice": 4299,
+  "quantity": 20,
+  "lowStockThreshold": 5,
+  "sizes": ["S", "M", "L", "XL", "XXL"],
+  "colors": ["Cream"],
+  "badge": "Trending",
+  "isFeatured": true,
+  "status": "active",
+  "seo": {
+    "title": "Cream Puffer Jacket for Men - UrbanWear",
+    "description": "Shop the Cream Puffer Jacket at UrbanWear. Stay warm with a modern design and comfortable padded construction."
+  },
+  "images": [
+    "cream-puffer-jacket/front.webp",
+    "cream-puffer-jacket/back.webp",
+    "cream-puffer-jacket/side.webp",
+    "cream-puffer-jacket/detail.webp",
+    "cream-puffer-jacket/folded.webp"
+  ]
+},
+
+{
+  "title": "Navy Striped Knit Sweater",
+  "slug": "navy-striped-knit-sweater",
+  "sku": "UW-HD-015",
+  "subtitle": "Classic stripes with a modern knit finish",
+  "description": "A stylish navy blue crewneck knit sweater featuring contrasting white horizontal stripes across the chest and sleeves. Made for comfortable everyday wear with a timeless design.",
+  "brand": "UrbanWear",
+  "category": "Hoodies",
+  "tags": ["navy", "striped", "knit", "sweater", "casual"],
+  "gender": "Men",
+  "material": "Cotton Acrylic Blend",
+  "fit": "Regular Fit",
+  "careInstructions": "Hand wash gently in cold water. Do not bleach. Lay flat to dry.",
+  "price": 3299,
+  "discountPrice": 2799,
+  "quantity": 20,
+  "lowStockThreshold": 5,
+  "sizes": ["S", "M", "L", "XL", "XXL"],
+  "colors": ["Navy Blue"],
+  "badge": "Trending",
+  "isFeatured": true,
+  "status": "active",
+  "seo": {
+    "title": "Navy Striped Knit Sweater - UrbanWear",
+    "description": "Shop the Navy Striped Knit Sweater at UrbanWear. Discover timeless stripes and comfortable everyday knitwear."
+  },
+  "images": [
+    "navy-striped-knit-sweater/front.webp",
+    "navy-striped-knit-sweater/back.webp",
+    "navy-striped-knit-sweater/side.webp",
+    "navy-striped-knit-sweater/detail.webp",
+    "navy-striped-knit-sweater/folded.webp"
+  ]
+}
+
+
+
+
+]

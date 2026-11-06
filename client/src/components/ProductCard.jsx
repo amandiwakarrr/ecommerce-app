@@ -2,16 +2,19 @@ import { useState } from "react";
 
 function ProductCard({ product }) {
   const [clicked, SetClicked] = useState(false);
+  const image = product.images?.[0]?.url;
+  const displayPrice = product.discountPrice ?? product.price;
+  const hasDiscount =
+    product.discountPrice != null && product.discountPrice < product.price;
   return (
     <div className="w-full">
       <div
         key={product.id}
-        className="card group grid place-items-center cursor-pointer group w-full h-full rounded gap-2"
-      >
+        className="card group grid place-items-center cursor-pointer group w-full h-full rounded gap-2">
         <div className="grid place-items-center w-full h-auto pb-5 bg-secondary-bg rounded pt-2">
           <div className="w-full flex px-1 justify-between">
             <span className="text-[12px] p-2 rounded font-bold text-tertiary-text font-syne">
-              {product.tag}
+              {product.badge || ""}
             </span>
             <span className="text-[12px p-2 rounded-full flex items-center">
               <i
@@ -22,8 +25,9 @@ function ProductCard({ product }) {
           </div>
           <img
             className="w-[80%] aspect-3/4 object-cover h-[90%] rounded"
-            src={product.img}
-            alt=""
+            src={image}
+            alt={product.images?.[0]?.alt || product.title}
+            loading="lazy"
           />
           <div className="relative w-full h-8.75 flex justify-center items-center">
             <span className="group-hover:invisible font-syne text-primary-text ">
@@ -38,9 +42,17 @@ function ProductCard({ product }) {
           <h1 className="text-[clamp(12px,1vw,2rem)] font-bold font-syne ">
             {product.title}
           </h1>
-          <span className="text-[clamp(12px,1vw,2rem)] font-bold">
-            ₹{product.price}
-          </span>
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-[clamp(12px,1vw,2rem)] font-bold">
+              ₹{displayPrice.toLocaleString("en-IN")}
+            </span>
+
+            {hasDiscount && (
+              <span className="text-xs text-tertiary-text line-through">
+                ₹{product.price.toLocaleString("en-IN")}
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </div>

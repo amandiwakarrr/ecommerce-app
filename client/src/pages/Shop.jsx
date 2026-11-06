@@ -1,140 +1,8 @@
-import WhiteLinenShirt from "../assets/white-linen-shirt.webp";
-import ClassicBlackPolo from "../assets/black-polo-shirt.webp";
-import SlimfitChinos from "../assets/beige-chinos.webp";
-import OliveUtilityOvershirt from "../assets/olive-overshirt.webp";
-import CreamKnitSweater from "../assets/cream-sweater.webp";
-import BlackFormalTrousers from "../assets/black-formal-trousers.webp";
-import BlueOxfordShirt from "../assets/blue-oxford-shirt.webp";
-import MinimalWhiteSneakers from "../assets/white-sneakers.webp";
-import BrownLeatherBelt from "../assets/brown-leather-belt.webp";
-import CharcoalCasualBlazer from "../assets/charcoal-blazer.webp";
-import KhakiCasualShorts from "../assets/khaki-shorts.webp";
-import NavyBlueCardigan from "../assets/navy-cardigan.webp";
+import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-const products = [
-  {
-    id: 1,
-    img: WhiteLinenShirt,
-    title: "White Linen Shirt",
-    price: "2,499",
-    category: "Shirts",
-    tag: "New",
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    imageName: "White Linen Shirt Men Fashion Product Photography",
-  },
-  {
-    id: 2,
-    img: ClassicBlackPolo,
-    title: "Classic Black Polo",
-    price: "1,799",
-    category: "Tshirts",
-    tag: "Popular",
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    imageName: "Black Polo Shirt Men Studio Product Photography",
-  },
-  {
-    id: 3,
-    img: SlimfitChinos,
-    title: "Beige Slim Fit Chinos",
-    price: "2,299",
-    category: "Pants",
-    tag: "",
-    sizes: ["28", "30", "32", "34", "36"],
-    imageName: "Beige Slim Fit Chino Trousers Men Product Photo",
-  },
-  {
-    id: 4,
-    img: OliveUtilityOvershirt,
-    title: "Olive Utility Overshirt",
-    price: "3,299",
-    category: "Shirts",
-    tag: "Trend",
-    sizes: ["S", "M", "L", "XL"],
-    imageName: "Olive Green Utility Overshirt Men Fashion",
-  },
-  {
-    id: 5,
-    img: CreamKnitSweater,
-    title: "Cream Knit Sweater",
-    price: "3,499",
-    category: "Sweaters",
-    tag: "New",
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    imageName: "Cream Beige Knit Sweater Men Minimalist Fashion",
-  },
-  {
-    id: 6,
-    img: BlackFormalTrousers,
-    title: "Black Formal Trousers",
-    price: "2,799",
-    category: "Pants",
-    tag: "",
-    sizes: ["28", "30", "32", "34", "36"],
-    imageName: "Black Tailored Formal Trousers Men Product Photography",
-  },
-  {
-    id: 7,
-    img: BlueOxfordShirt,
-    title: "Blue Oxford Shirt",
-    price: "2,199",
-    category: "Shirts",
-    tag: "Best Seller",
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    imageName: "Light Blue Oxford Button Down Shirt Men",
-  },
-  {
-    id: 8,
-    img: MinimalWhiteSneakers,
-    title: "Minimal White Sneakers",
-    price: "3,999",
-    category: "Accessories",
-    tag: "Popular",
-    sizes: ["7", "8", "9", "10", "11"],
-    imageName: "Minimal White Low Top Sneakers Isolated White Background",
-  },
-  {
-    id: 9,
-    img: BrownLeatherBelt,
-    title: "Brown Leather Belt",
-    price: "1,299",
-    category: "Accessories",
-    tag: "",
-    sizes: ["S", "M", "L", "XL"],
-    imageName: "Brown Leather Belt Silver Buckle Product Photography",
-  },
-  {
-    id: 10,
-    img: CharcoalCasualBlazer,
-    title: "Charcoal Casual Blazer",
-    price: "5,999",
-    category: "Blazers",
-    tag: "Premium",
-    sizes: ["S", "M", "L", "XL"],
-    imageName: "Charcoal Grey Casual Blazer Men Studio Photography",
-  },
-  {
-    id: 11,
-    img: KhakiCasualShorts,
-    title: "Khaki Casual Shorts",
-    price: "1,699",
-    category: "Shorts",
-    tag: "Sale",
-    sizes: ["S", "M", "L", "XL", "XXL"],
-    imageName: "Khaki Beige Casual Shorts Men Fashion Product Photo",
-  },
-  {
-    id: 12,
-    img: NavyBlueCardigan,
-    title: "Navy Blue Cardigan",
-    price: "3,799",
-    category: "Sweaters",
-    tag: "New",
-    sizes: ["S", "M", "L", "XL"],
-    imageName: "Navy Blue Button Up Knit Cardigan Men Minimalist Fashion",
-  },
-];
+import { getAllProducts } from "../services/productService";
 
 const categories = [
   "All",
@@ -149,6 +17,24 @@ function Shop() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [sortedOrder, setSortedOrder] = useState("newest");
 
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await getAllProducts();
+        setProducts(Array.isArray(data) ? data : data.products || []);
+      } catch (error) {
+        setError(error.response?.data?.message || "Failed to load products.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
+
   const selectedCategory = searchParams.get("category") || "All";
   const filteredProducts =
     selectedCategory === "All"
@@ -156,13 +42,27 @@ function Shop() {
       : products.filter((product) => product.category === selectedCategory);
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
-    const priceA = Number(a.price.replace(/[₹,]/g, ""));
-    const priceB = Number(b.price.replace(/[₹,]/g, ""));
+    // const priceA = Number(a.price.replace(/[₹,]/g, ""));
+    // const priceB = Number(b.price.replace(/[₹,]/g, ""));
 
-    if (sortedOrder === "low") return priceA - priceB;
-    if (sortedOrder === "high") return priceB - priceA;
-    return b.id - a.id;
+    if (sortedOrder === "low")
+      return (a.discountPrice ?? a.price) - (b.discountPrice ?? b.price);
+    if (sortedOrder === "high")
+      return (b.discountPrice ?? b.price) - (a.discountPrice ?? a.price);
+    return new Date(b.createdAt) - new Date(a.createdAt);
   });
+
+  if (loading) {
+    return (
+      <div className="py-20 text-center text-primary-text">
+        Loading products...
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div className="py-20 text-center text-red-500">{error}</div>;
+  }
 
   return (
     <div>
@@ -213,9 +113,21 @@ function Shop() {
           </div>
 
           <div className="cards mt-5 w-full h-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5  place-items-center gap-3">
-            {sortedProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+            {sortedProducts.length === 0 ? (
+              <p className="col-span-full py-10 text-center text-secondary-text">
+                No products found.
+              </p>
+            ) : (
+              sortedProducts.map((product) => (
+                <Link
+                  key={product._id}
+                  to={`/product/${product._id}`}
+                  className="w-full"
+                >
+                  <ProductCard  product={product} />
+                </Link>
+              ))
+            )}
           </div>
         </div>
       </div>
