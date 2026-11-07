@@ -18,14 +18,12 @@ function Navbar() {
         console.error("Failed to fetch search products:", error);
       }
     };
-
     fetchProducts();
   }, []);
 
   const searchResults = products
     .filter((product) => {
       const query = search.trim().toLowerCase();
-
       return (
         query &&
         [product.name, product.title, product.category]
@@ -37,15 +35,13 @@ function Navbar() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-
     const query = search.trim();
-
     if (!query) return;
-
     navigate(`/shop?search=${encodeURIComponent(query)}`);
     setSearch("");
     setShowResults(false);
   };
+
   return (
     <div className="sticky font-syne top-0 z-40 w-full min-h-16 bg-dark/90 backdrop-blur-[2px] flex items-center justify-center border-b border-primary-border px-3 sm:px-5 md:px-10  xl:px-15">
       <div className="w-full flex flex-row items-center justify-between pl-2">
