@@ -1,9 +1,51 @@
-import { Link } from "react-router-dom";
-import { NavLink } from "react-router-dom";
-import { useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { getAllProducts } from "../services/productService";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
+  const [showResults, setShowResults] = useState(false);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await getAllProducts();
+        setProducts(Array.isArray(data) ? data : data.products || []);
+      } catch (error) {
+        console.error("Failed to fetch search products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const searchResults = products
+    .filter((product) => {
+      const query = search.trim().toLowerCase();
+
+      return (
+        query &&
+        [product.name, product.title, product.category]
+          .filter(Boolean)
+          .some((value) => value.toLowerCase().includes(query))
+      );
+    })
+    .slice(0, 5);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+
+    const query = search.trim();
+
+    if (!query) return;
+
+    navigate(`/shop?search=${encodeURIComponent(query)}`);
+    setSearch("");
+    setShowResults(false);
+  };
   return (
     <div className="sticky font-syne top-0 z-40 w-full min-h-16 bg-dark/90 backdrop-blur-[2px] flex items-center justify-center border-b border-primary-border px-3 sm:px-5 md:px-10  xl:px-15">
       <div className="w-full flex flex-row items-center justify-between pl-2">
@@ -76,12 +118,54 @@ function Navbar() {
           </div>
         </div>
         <div className="flex flex-row items-center gap-1">
-          <div className="px-5 max-[1080px]:hidden">
-            <input
-              className="border border-primary-border bg-secondary-bg bg-product-bg px-5 py-2 rounded-4xl text-primary-text"
-              type="search"
-              placeholder="Search Products"
-            />
+          <div className="px-5 max-[1080px]:hidden relative">
+            <form onSubmit={handleSearch} className="flex items-center">
+              <input
+                className="border border-primary-border bg-secondary-bg px-5 py-2 rounded-4xl text-primary-text outline-none"
+                type="search"
+                value={search}
+                onFocus={() => setShowResults(true)}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search Products..."
+              />
+              <button type="submit" className="-ml-10">
+                <i className="pi pi-search text-secondary-text"></i>
+              </button>
+            </form>
+
+            {search.trim() && showResults && (
+              <div className="absolute top-full mt-2 left-5 right-5 bg-dark border border-primary-border rounded-lg shadow-xl overflow-hidden z-50">
+                {searchResults.length > 0 ? (
+                  searchResults.map((product) => (
+                    <Link
+                      key={product._id}
+                      to={`/product/${product._id}`}
+                      onClick={() => {
+                        setSearch("");
+                        setShowResults(false);
+                      }}
+                      className="block px-4 py-3 text-primary-text hover:bg-secondary-bg"
+                    >
+                      <p>{product.name || product.title}</p>
+                      <p className="text-xs text-secondary-text">
+                        {product.category}
+                      </p>
+                    </Link>
+                  ))
+                ) : (
+                  <p className="p-4 text-secondary-text text-sm">
+                    No products found.
+                  </p>
+                )}
+
+                <button
+                  onClick={handleSearch}
+                  className="w-full border-t border-primary-border p-3 text-tertiary-text hover:bg-secondary-bg"
+                >
+                  View all results
+                </button>
+              </div>
+            )}
           </div>
           <Link
             to={"/account/wishlist"}

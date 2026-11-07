@@ -1,48 +1,9 @@
-// import AshDenimJacket from "../assets/BestSell1.webp";
-// import CipherGraphicTee from "../assets/BestSell2.webp";
-// import ObsidianJoggers from "../assets/BestSell3.webp";
-// import EmberZipHoodie from "../assets/BestSell4.webp";
-
 import ProductCard from "../components/ProductCard";
 import QuantityButton from "../components/QuantityButton";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getProductById, getAllProducts } from "../services/productService";
 import { Link } from "react-router-dom";
-// const products = [
-//   {
-//     id: 1,
-//     img: AshDenimJacket,
-//     title: "Ash Denim Jacket",
-//     price: "$129.00",
-//     category: "Hoodies",
-//     tag: "New",
-//   },
-//   {
-//     id: 2,
-//     img: CipherGraphicTee,
-//     title: "Cipher Graphic Tee",
-//     price: "$45.00",
-//     category: "Jackets",
-//     tag: "Trend",
-//   },
-//   {
-//     id: 3,
-//     img: ObsidianJoggers,
-//     title: "Obsidian Joggers",
-//     price: "$89.00",
-//     category: "Pants",
-//     tag: "",
-//   },
-//   {
-//     id: 4,
-//     img: EmberZipHoodie,
-//     title: "Ember Zip Hoodie",
-//     price: "$99.00",
-//     category: "Tshirts",
-//     tag: "Best Sell",
-//   },
-// ];
 
 function Product() {
   const { id } = useParams();
@@ -50,6 +11,7 @@ function Product() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedImage, setSelectedImage] = useState(0);
 
   //  console.log("Product ID:", id);
   const [selectedColor, setSelectedColor] = useState("");
@@ -67,7 +29,7 @@ function Product() {
         setSelectedColor(productData.colors?.[0]?.name || "");
         setSelectedSize(productData.size?.[0] || "");
       } catch (err) {
-        setError(error.response?.data?.message || "Failed to load product.");
+        setError(err.response?.data?.message || "Failed to load product.");
       } finally {
         setLoading(false);
       }
@@ -78,13 +40,13 @@ function Product() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-       const data = await getAllProducts();
+        const data = await getAllProducts();
 
-const productList = Array.isArray(data)
-  ? data
-  : data.products || data.data?.products || [];
+        const productList = Array.isArray(data)
+          ? data
+          : data.products || data.data?.products || [];
 
-setProducts(productList);
+        setProducts(productList);
       } catch (err) {
         console.error("Failed to load recommended products:", err);
       }
@@ -103,13 +65,20 @@ setProducts(productList);
       </div>
     );
   }
-  // const colors = [
-  //   { name: "Cream", hex: "#FEF3C7" },
-  //   { name: "Blue", hex: "#60A5FA" },
-  //   { name: "Green", hex: "#065F46" },
-  //   { name: "Mauve", hex: "#C084FC" },
-  // ];
-  // const sizes = ["S", "M", "L", "XL", "XXL"];
+  const colorMap = {
+    Black: "#000000",
+    White: "#FFFFFF",
+    "Navy Blue": "#000080",
+    Red: "#FF0000",
+    Green: "#008000",
+    Grey: "#808080",
+    Gray: "#808080",
+    Beige: "#F5F5DC",
+    Brown: "#8B4513",
+    Blue: "#0000FF",
+    Pink: "#FFC0CB",
+  };
+
   return (
     <div className="w-full h-auto py-2 grid place-items-center px-5 sm:px-8 md:px-15 lg:px-18">
       <div className="w-full grid ">
@@ -123,8 +92,8 @@ setProducts(productList);
           <div className="w-full flex flex-col gap-3">
             <div className="w-full bg-white rounded place-items-center">
               <img
-                className="w-[60%] sm:w-[70%] rounded"
-                src={product.images?.[0]?.url}
+                className="w-[60%] h-42.5 sm:h-125 sm:w-[70%] rounded"
+                src={product.images?.[selectedImage]?.url}
                 alt={product.title}
               />
             </div>
@@ -134,6 +103,7 @@ setProducts(productList);
                   <img
                     className="rounded cursor-pointer"
                     src={image.url}
+                    onClick={() => setSelectedImage(index)}
                     alt={image.alt || `${product.title} ${index + 1}`}
                   />
                 </div>
@@ -162,14 +132,10 @@ setProducts(productList);
             <p className="text-secondary-text">{product.description}</p>
 
             <div className="w-full flex flex-col gap-2">
-              <div className="w-full flex gap-2">
-                <span className="text-primary-text">Color :</span>
-                <span className="text-tertiary-text">{selectedColor}</span>
-              </div>
               <div className="flex items-center gap-3">
                 {product.colors?.length > 0 && (
                   <div className="w-full flex flex-col gap-2">
-                    <div className="w-full flex gap-2">
+                    <div className="flex gap-2">
                       <span className="text-primary-text">Color :</span>
                       <span className="text-tertiary-text">
                         {selectedColor}
@@ -179,15 +145,19 @@ setProducts(productList);
                     <div className="flex items-center gap-3">
                       {product.colors.map((color) => (
                         <button
-                          key={color.name}
+                          key={color}
                           type="button"
-                          title={color.name}
-                          onClick={() => setSelectedColor(color.name)}
-                          style={{ backgroundColor: color.hex }}
+                          title={color}
+                          aria-label={`Select ${color}`}
+                          aria-pressed={selectedColor === color}
+                          onClick={() => setSelectedColor(color)}
+                          style={{
+                            backgroundColor: colorMap[color] || color,
+                          }}
                           className={`w-8 h-8 rounded-full cursor-pointer border-2 ${
-                            selectedColor === color.name
+                            selectedColor === color
                               ? "border-white outline outline-gray-400"
-                              : "border-transparent"
+                              : "border-primary-border"
                           }`}
                         />
                       ))}
@@ -197,15 +167,12 @@ setProducts(productList);
               </div>
             </div>
             <div className="w-full flex flex-col gap-2">
-              <div className="w-full flex gap-2">
-                <span className="text-primary-text">Size :</span>
-                <span className="text-tertiary-text">{selectedSize}</span>
-              </div>
               <div className="w-70 grid grid-cols-5 gap-2 ">
                 {product.sizes?.length > 0 && (
                   <div className="w-full flex flex-col gap-2">
                     <div className="w-full flex gap-2">
-                      <span className="text-primary-text">Size :</span>
+                      <span className="text-primary-text">Size</span>
+                      <span className="text-primary-text">:</span>
                       <span className="text-tertiary-text">{selectedSize}</span>
                     </div>
 
@@ -263,17 +230,21 @@ setProducts(productList);
           </h1>
           <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-3 place-items-center">
             {products
-    .filter((item) => item._id !== product._id)
-    .slice(0, 4)
-    .map((item) => (
-      <Link
-        key={item._id}
-        to={`/product/${item._id}`}
-        className="w-full"
-      >
-        <ProductCard product={item} />
-      </Link>
-    ))}
+              .filter(
+                (item) =>
+                  item._id !== product._id &&
+                  item.category === product.category,
+              )
+              .slice(0, 4)
+              .map((item) => (
+                <Link
+                  key={item._id}
+                  to={`/product/${item._id}`}
+                  className="w-full"
+                >
+                  <ProductCard product={item} />
+                </Link>
+              ))}
           </div>
         </div>
       </div>

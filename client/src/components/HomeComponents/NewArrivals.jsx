@@ -1,45 +1,24 @@
 import { Link } from "react-router-dom";
-import VoidOversizedHoodie from "../../assets/NewArriable1.webp";
-import NightfallBomberacket from "../../assets/NewArriable2.webp";
-import SlateCargoPants from "../../assets/NewArriable3.webp";
-import MonoBoxyTee from "../../assets/NewArriable4.jpg";
 import ProductCard from "../ProductCard";
-const products = [
-  {
-    id: 1,
-    img: VoidOversizedHoodie,
-    title: "Void Oversized Hoodie",
-    price: "279.00",
-    category: "Hoodies",
-    tag: "New",
-  },
-  {
-    id: 2,
-    img: NightfallBomberacket,
-    title: "Nightfall Bomber Jacket",
-    price: "149.00",
-    category: "Jackets",
-    tag: "",
-  },
-  {
-    id: 3,
-    img: SlateCargoPants,
-    title: "Slate Cargo Pants",
-    price: "889.00",
-    category: "Pants",
-    tag: "",
-  },
-  {
-    id: 4,
-    img: MonoBoxyTee,
-    title: "Mono Boxy Tee",
-    price: "539.00",
-    category: "Tshirts",
-    tag: "Best Sell",
-  },
-];
+import { getAllProducts } from "../../services/productService";
+import { useState, useEffect } from "react";
 
 function NewArrivals() {
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await getAllProducts();
+        const productList = Array.isArray(data)
+          ? data
+          : data.products || data.data?.products || [];
+        setProducts(productList);
+      } catch (error) {
+        console.error("Failed to load recommended products:", error);
+      }
+    };
+    fetchProducts();
+  }, []);
   return (
     <div className="w-full h-auto grid py-5">
       <div className="w-full pb-5 flex justify-between items-center px-5 sm:px-19 gap-1 max-[425px]:py-2">
@@ -54,9 +33,14 @@ function NewArrivals() {
         </Link>
       </div>
       <div className="cards w-full h-auto px-5 sm:px-16 grid grid-cols-2 sm:grid-cols-4 place-items-center gap-5">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+        {products
+          .filter((product) => product.badge?.toLowerCase() === "new")
+          .slice(0, 4)
+          .map((product) => (
+            <Link key={product._id} to={`/product/${product._id}`}>
+              <ProductCard product={product} />
+            </Link>
+          ))}
       </div>
     </div>
   );

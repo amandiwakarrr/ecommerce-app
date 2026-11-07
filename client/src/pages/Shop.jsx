@@ -12,15 +12,17 @@ const categories = [
   "Shirts",
   "Accessories",
 ];
+
 function Shop() {
-  // const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchParams, setSearchParams] = useSearchParams();
+  const searchQuery = searchParams.get("search") || "";
   const [sortedOrder, setSortedOrder] = useState("newest");
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  // fetch all products
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -35,20 +37,39 @@ function Shop() {
     fetchProducts();
   }, []);
 
+  // Category filter
   const selectedCategory = searchParams.get("category") || "All";
-  const filteredProducts =
-    selectedCategory === "All"
-      ? products
-      : products.filter((product) => product.category === selectedCategory);
 
+  // Search and category filtering
+  const filteredProducts = products.filter((product) => {
+    const query = searchQuery.trim().toLowerCase();
+
+    const matchesSearch = [
+      product.name,
+      product.title,
+      product.category,
+      product.description,
+    ]
+
+      .filter(Boolean)
+      .some((value) => String(value).toLowerCase().includes(query));
+
+    const matchesCategory =
+      selectedCategory === "All" || product.category === selectedCategory;
+
+    return matchesSearch && matchesCategory;
+  });
+
+  // Products sorting
   const sortedProducts = [...filteredProducts].sort((a, b) => {
-    // const priceA = Number(a.price.replace(/[₹,]/g, ""));
-    // const priceB = Number(b.price.replace(/[₹,]/g, ""));
-
-    if (sortedOrder === "low")
+    if (sortedOrder === "low") {
       return (a.discountPrice ?? a.price) - (b.discountPrice ?? b.price);
-    if (sortedOrder === "high")
+    }
+
+    if (sortedOrder === "high") {
       return (b.discountPrice ?? b.price) - (a.discountPrice ?? a.price);
+    }
+
     return new Date(b.createdAt) - new Date(a.createdAt);
   });
 
@@ -72,11 +93,11 @@ function Shop() {
             <h2 className="text-[clamp(1.8rem,3vw,2rem)] text-primary-text font-syne font-bold">
               Category
             </h2>
-           
           </div>
         </div> */}
 
         <div className="w-full px-5 flex flex-col ">
+          {/* Filter and Sorting Section */}
           <div className="w-full flex flex-col bg-dark/90 backdrop-blur-[2px] sticky top-16 pt-2 z-10">
             <div className="w-full flex flex-wrap items-center justify-between pb-2 gap-3">
               <span className="text-tertiary-text font-syne font-bold text-sm">
@@ -93,16 +114,23 @@ function Shop() {
                 <option value="high">Price: high to low</option>
               </select>
             </div>
+            {/* Category Filter */}
             <div className="w-full flex overflow-x-auto sm:overflow-x-hidden sm:w-150 gap-1 items-center text-secondary-text pb-3">
               {categories.map((cat, index) => (
                 <button
                   key={index}
                   onClick={() => {
-                    if (cat === "All") {
-                      setSearchParams({});
-                    } else {
-                      setSearchParams({ category: cat });
-                    }
+                    setSearchParams((prev) => {
+                      const params = new URLSearchParams(prev);
+
+                      if (cat === "All") {
+                        params.delete("category");
+                      } else {
+                        params.set("category", cat);
+                      }
+
+                      return params;
+                    });
                   }}
                   className={`w-full justify-center items-center font-sans cursor-pointer px-2 py-1 sm:py-2 rounded flex ${selectedCategory === cat ? "bg-btn text-dark hover:bg-[#d69329]" : " hover:bg-secondary-bg"}`}
                 >
@@ -111,7 +139,7 @@ function Shop() {
               ))}
             </div>
           </div>
-
+          {/* Products Grid */}
           <div className="cards mt-5 w-full h-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5  place-items-center gap-3">
             {sortedProducts.length === 0 ? (
               <p className="col-span-full py-10 text-center text-secondary-text">
@@ -124,7 +152,7 @@ function Shop() {
                   to={`/product/${product._id}`}
                   className="w-full"
                 >
-                  <ProductCard  product={product} />
+                  <ProductCard product={product} />
                 </Link>
               ))
             )}

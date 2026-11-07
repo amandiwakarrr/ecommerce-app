@@ -1,44 +1,24 @@
-import AshDenimJacket from "../../assets/BestSell1.webp";
-import CipherGraphicTee from "../../assets/BestSell2.webp";
-import ObsidianJoggers from "../../assets/BestSell3.webp";
-import EmberZipHoodie from "../../assets/BestSell4.webp";
 import ProductCard from "../ProductCard";
-const products = [
-  {
-    id: 1,
-    img: AshDenimJacket,
-    title: "Ash Denim Jacket",
-    price: "129.00",
-    category: "Hoodies",
-    tag: "New",
-  },
-  {
-    id: 2,
-    img: CipherGraphicTee,
-    title: "Cipher Graphic Tee",
-    price: "445.00",
-    category: "Jackets",
-    tag: "Trend",
-  },
-  {
-    id: 3,
-    img: ObsidianJoggers,
-    title: "Obsidian Joggers",
-    price: "289.00",
-    category: "Pants",
-    tag: "",
-  },
-  {
-    id: 4,
-    img: EmberZipHoodie,
-    title: "Ember Zip Hoodie",
-    price: "599.00",
-    category: "Tshirts",
-    tag: "Best Sell",
-  },
-];
+import { useState, useEffect } from "react";
+import { getAllProducts } from "../../services/productService";
+import { Link } from "react-router-dom";
 
 function BestSellers() {
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await getAllProducts();
+        const productList = Array.isArray(data)
+          ? data
+          : data.products || data.data?.products || [];
+        setProducts(productList);
+      } catch (error) {
+        console.error("Failed to load recommended products:", error);
+      }
+    };
+    fetchProducts();
+  }, []);
   return (
     <div className="w-full h-auto grid py-5">
       <div className="w-full pb-5 px-5 sm:px-19 gap-1 text-[#8B9BFF] max-[425px]:py-2">
@@ -47,9 +27,14 @@ function BestSellers() {
         </h1>
       </div>
       <div className="cards w-full h-auto px-5 sm:px-16 grid grid-cols-2 sm:grid-cols-4 place-items-center gap-5">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+        {products
+          .filter((product) => product.badge?.toLowerCase() === "best seller")
+          .slice(0, 4)
+          .map((product) => (
+            <Link key={product.id} to={`/product/${product._id}`}>
+              <ProductCard product={product} />
+            </Link>
+          ))}
       </div>
     </div>
   );
