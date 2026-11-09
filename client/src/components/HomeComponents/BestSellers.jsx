@@ -31,7 +31,7 @@ function BestSellers() {
           .filter((product) => product.badge?.toLowerCase() === "best seller")
           .slice(0, 4)
           .map((product) => (
-            <Link key={product.id} to={`/product/${product._id}`}>
+            <Link key={product._id} to={`/product/${product._id}`}>
               <ProductCard product={product} />
             </Link>
           ))}

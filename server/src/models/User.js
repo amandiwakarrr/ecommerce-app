@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const addressSchema = new mongoose.Schema(
     {
-        fullname: {
+        fullName: {
             type: String,
             trim: true,
         },
@@ -57,6 +57,7 @@ const userSchema = new mongoose.Schema(
             trim: true,
             unique: true,
             lowercase: true,
+            match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Please enter a valid email address."],
         },
         password: {
             type: String,
@@ -91,13 +92,29 @@ const userSchema = new mongoose.Schema(
             enum: ["user", "admin"],
             default: "user",
         },
-        isVarified: {
+        isVerified: {
             type: Boolean,
             default: false,
         },
         isActive: {
             type: Boolean,
             default: true,
+        },
+        verificationTokenHash: {
+            type: String,
+            default: null,
+            select: false,
+        },
+
+        verificationTokenExpires: {
+            type: Date,
+            default: null,
+            select: false,
+        },
+        verificationEmailSentAt: {
+            type: Date,
+            default: null,
+            select: false,
         },
         lastLogin: {
             type: Date,

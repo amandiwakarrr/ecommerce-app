@@ -1,23 +1,27 @@
-import Register from "../components/Register";
-import { useState } from "react";
+
+import CreateAccount from "./CreateAccount";
 import UserDashboard from "./UserDashboard";
+import { useAuth } from "../context/useAuth";
 
 function Account() {
-  const [isLogin, setIsLogin] = useState(true);
+  const { isAuthenticated, loading } = useAuth();
 
-  return (
-    <div className="w-full h-auto">
-      {isLogin ? (
-        <UserDashboard />
-      ) : (
-        <Register />
-      )}
+  // Wait until authentication check finishes
+  if (loading) {
+    return (
+      <div className="w-full min-h-80 grid place-items-center">
+        Loading account...
+      </div>
+    );
+  }
 
-      <button onClick={() => setIsLogin(!isLogin)}>
-        Set Login
-      </button>
-    </div>
-  );
+  // Logged out: show login/register page
+  if (!isAuthenticated) {
+    return <CreateAccount />;
+  }
+
+  // Logged in: show dashboard
+  return <UserDashboard />;
 }
 
 export default Account;

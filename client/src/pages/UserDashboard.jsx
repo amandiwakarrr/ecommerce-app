@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import profile from "../assets/socialprof.webp";
-import { Outlet } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useAuth } from "../context/useAuth";
 
 function UserDashboard() {
   const location = useLocation();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const profileLinks = [
     {
       title: "Overview",
@@ -56,9 +57,11 @@ function UserDashboard() {
             <img src={profile} alt="" className="w-full h-full object-cover" />
           </div>
           <div className="flex flex-col min-w-0">
-            <h2 className="truncate text-primary-text">Aman diwakar</h2>
+            <h2 className="truncate text-primary-text">
+              {user?.name || "User"}
+            </h2>
             <span className="text-[12px] text-secondary-text truncate">
-              amandiwakar@gmail.com
+              {user?.email || ""}
             </span>
           </div>
         </div>
@@ -89,7 +92,14 @@ function UserDashboard() {
             );
           })}
           <button
-            // onClick={() => navigate("/")}
+            onClick={async () => {
+              try {
+                await logout();
+                navigate("/")
+              } catch (error) {
+                console.error("Logout failed:", error);
+              }
+            }}
             className="cursor-pointer w-full px-3 py-2 mt-1 rounded bg-dark border border-primary-border text-primary-text"
           >
             Sign out
