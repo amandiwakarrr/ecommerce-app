@@ -1,6 +1,8 @@
 import express from 'express';
 import dotenv from "dotenv";
-import cors from "cors"; // used to communicate frontend to backed
+// Your frontend needs permission to communicate with your backend.
+// We configure that permission later using cors().
+import cors from "cors"; 
 import connectDB from './config/db.js';
 import productRoutes from "./routes/productRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
@@ -33,6 +35,9 @@ app.use(
 app.use("/api/products", productRoutes);
 app.use("/api/auth",authRoutes);
 
+// app.get() defines a GET endpoint.
+// req represents the incoming request.
+// res represents the response we send back.
 app.get("/", (req, res) => {
     res.status(200).json({
         success: true,

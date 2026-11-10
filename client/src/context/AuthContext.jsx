@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext.js";
 import { getCurrentUser, logoutUser } from "../services/authService";

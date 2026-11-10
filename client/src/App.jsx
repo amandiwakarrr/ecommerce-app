@@ -16,7 +16,7 @@ import About from "./pages/About";
 import Preferences from "./components/UserDashboardComponents/Preferences";
 import Overview from "./components/UserDashboardComponents/Overview";
 import OrderSuccess from "./pages/OrderSuccess";
-import VerifyEmail from "./pages/VerifyEmail";
+import VerifyOTP from "./pages/VerifyOTP";
 function App() {
   return (
     <Routes>
@@ -30,7 +30,7 @@ function App() {
         <Route path="/product/:id" element={<Product />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/order-success" element={<OrderSuccess />} />
-        <Route path="/verify-email" element={<VerifyEmail/>}/>
+        <Route path="/verify-otp" element={<VerifyOTP/>}/>
 
         <Route path="/account" element={<Account />}>
           <Route index element={<Navigate to="overview" replace />} />

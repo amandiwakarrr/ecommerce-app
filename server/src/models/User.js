@@ -100,18 +100,25 @@ const userSchema = new mongoose.Schema(
             type: Boolean,
             default: true,
         },
-        verificationTokenHash: {
+        otpHash: {
             type: String,
             default: null,
             select: false,
         },
 
-        verificationTokenExpires: {
+        otpExpiresAt: {
             type: Date,
             default: null,
             select: false,
         },
-        verificationEmailSentAt: {
+
+        otpAttempts: {
+            type: Number,
+            default: 0,
+            select: false,
+        },
+
+        otpSentAt: {
             type: Date,
             default: null,
             select: false,
