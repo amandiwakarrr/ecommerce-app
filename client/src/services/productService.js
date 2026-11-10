@@ -1,12 +1,11 @@
-import api from "./api";
+import api from "./api.js";
 
 export const getAllProducts = async () => {
  const response = await api.get("/products");
-  // console.log("Products API response:", response.data);
   return response.data;
 };
 
-export const getProductById = async (id) => {
-  const response = await api.get(`/products/${id}`);
+export const getProductBySlug = async (slug) => {
+  const response = await api.get(`/products/${slug}`);
   return response.data;
 };

@@ -1,24 +1,16 @@
 import ProductCard from "../ProductCard";
-import { useState, useEffect } from "react";
-import { getAllProducts } from "../../services/productService";
 import { Link } from "react-router-dom";
+import { useProduct } from "../../context/useProduct";
 
 function BestSellers() {
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const data = await getAllProducts();
-        const productList = Array.isArray(data)
-          ? data
-          : data.products || data.data?.products || [];
-        setProducts(productList);
-      } catch (error) {
-        console.error("Failed to load recommended products:", error);
-      }
-    };
-    fetchProducts();
-  }, []);
+  const { products, loading, error } = useProduct();
+  if (loading) {
+    return <p>Best sellers products are loading...</p>;
+  }
+  if (error) {
+    return <p>{error}</p>;
+  }
+
   return (
     <div className="w-full h-auto grid py-5">
       <div className="w-full pb-5 px-5 sm:px-19 gap-1 text-[#8B9BFF] max-[425px]:py-2">
@@ -31,7 +23,7 @@ function BestSellers() {
           .filter((product) => product.badge?.toLowerCase() === "best seller")
           .slice(0, 4)
           .map((product) => (
-            <Link key={product._id} to={`/product/${product._id}`}>
+            <Link key={product._id} to={`/product/${product.slug}`}>
               <ProductCard product={product} />
             </Link>
           ))}

@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
-import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
-import { getAllProducts } from "../services/productService";
+import { useState } from "react";
+import { useProduct } from "../context/useProduct";
 
 const categories = [
   "All",
@@ -18,24 +17,7 @@ function Shop() {
   const searchQuery = searchParams.get("search") || "";
   const [sortedOrder, setSortedOrder] = useState("newest");
 
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  // fetch all products
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const data = await getAllProducts();
-        setProducts(Array.isArray(data) ? data : data.products || []);
-      } catch (error) {
-        setError(error.response?.data?.message || "Failed to load products.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProducts();
-  }, []);
+  const { products, loading, error } = useProduct();
 
   // Category filter
   const selectedCategory = searchParams.get("category") || "All";
@@ -149,7 +131,7 @@ function Shop() {
               sortedProducts.map((product) => (
                 <Link
                   key={product._id}
-                  to={`/product/${product._id}`}
+                  to={`/product/${product.slug}`}
                   className="w-full"
                 >
                   <ProductCard product={product} />

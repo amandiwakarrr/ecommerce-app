@@ -27,11 +27,11 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/product/:id" element={<Product />} />
+        <Route path="/product/:slug" element={<Product />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/order-success" element={<OrderSuccess />} />
         <Route path="/verify-otp" element={<VerifyOTP/>}/>
-
+        
         <Route path="/account" element={<Account />}>
           <Route index element={<Navigate to="overview" replace />} />
           <Route path="overview" element={<Overview />} />

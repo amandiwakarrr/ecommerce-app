@@ -219,11 +219,11 @@ const getAllProducts = async (req, res) => {
 };
 
 // Get single product by ID
-const getProductById = async (req, res) => {
+const getProductBySlug = async (req, res) => {
     try {
-        const { id } = req.params;
+        const { slug } = req.params;
 
-        const product = await Product.findById(id);
+        const product = await Product.findOne({slug})
 
         if (!product) {
             return res.status(404).json({
@@ -249,10 +249,10 @@ const updateProduct = async (req, res) => {
     let uploadedImages = [];
 
     try {
-        const { id } = req.params;
+        const { slug } = req.params;
         const { imageAction } = req.body;
 
-        const product = await Product.findById(id);
+        const product = await Product.findOne({slug});
 
         if (!product) {
             return res.status(404).json({
@@ -458,9 +458,9 @@ const deleteProductImage = async (req, res) => {
 // Delete complete product
 const deleteProduct = async (req, res) => {
     try {
-        const { id } = req.params;
+        const { slug } = req.params;
 
-        const product = await Product.findById(id);
+        const product = await Product.findOne({slug});
 
         if (!product) {
             return res.status(404).json({
@@ -475,7 +475,7 @@ const deleteProduct = async (req, res) => {
         );
 
         // Delete product from MongoDB
-        await Product.findByIdAndDelete(id);
+        await Product.findOneAndDelete({slug});
 
         return res.status(200).json({
             success: true,
@@ -493,7 +493,7 @@ const deleteProduct = async (req, res) => {
 export {
     createProduct,
     getAllProducts,
-    getProductById,
+    getProductBySlug,
     updateProduct,
     deleteProduct,
     deleteProductImage,
