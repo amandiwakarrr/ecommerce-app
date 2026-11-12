@@ -6,6 +6,7 @@ import UserSchema from "../validations/UserSchema";
 import LoginSchema from "../validations/LoginSchema";
 import { registerUser, loginUser } from "../services/authService";
 import { useAuth } from "../context/useAuth";
+import { mergeCart } from "../services/cartService";
 
 function CreateAccount() {
   const location = useLocation();
@@ -72,6 +73,26 @@ function CreateAccount() {
           password: data.password,
         });
 
+        // Get guest cart from localStorage
+        const guestCart = JSON.parse(
+          localStorage.getItem("urbanwear_guest_cart") || "[]",
+        );
+
+        // Merge guest cart into MongoDB
+        if (guestCart.length > 0) {
+          await mergeCart(
+            guestCart.map((item) => ({
+              productId: item.productId || item._id,
+              size: item.size || "",
+              color: item.color || "",
+              quantity: item.quantity,
+            })),
+          );
+
+          // Clear guest cart only after successful merge
+          localStorage.removeItem("urbanwear_guest_cart");
+        }
+
         setUser(response.user);
 
         setServerMessage(response.message);
@@ -136,7 +157,7 @@ function CreateAccount() {
                 <input
                   id="fullname"
                   type="text"
-                   autoComplete="name"
+                  autoComplete="name"
                   {...register("fullname")}
                   className="border w-full px-2 py-3 border-primary-border rounded focus:outline-amber-600 text-primary-text"
                 />
@@ -156,7 +177,7 @@ function CreateAccount() {
               <input
                 id="email"
                 type="email"
-                  autoComplete="email"
+                autoComplete="email"
                 {...register("email")}
                 className="border w-full px-2 py-3 border-primary-border rounded focus:outline-amber-600 text-primary-text"
               />

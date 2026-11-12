@@ -2,11 +2,12 @@ import express from 'express';
 import dotenv from "dotenv";
 // Your frontend needs permission to communicate with your backend.
 // We configure that permission later using cors().
-import cors from "cors"; 
+import cors from "cors";
 import connectDB from './config/db.js';
 import productRoutes from "./routes/productRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import cookieParser from "cookie-parser";
+import cartRoutes from "./routes/cartRoutes.js"
 
 // load environment variables
 dotenv.config();
@@ -33,7 +34,8 @@ app.use(
     })
 );
 app.use("/api/products", productRoutes);
-app.use("/api/auth",authRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/cart", cartRoutes);
 
 // app.get() defines a GET endpoint.
 // req represents the incoming request.

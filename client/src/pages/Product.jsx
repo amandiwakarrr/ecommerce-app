@@ -3,13 +3,29 @@ import QuantityButton from "../components/QuantityButton";
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import { useProduct } from "../context/useProduct";
+import useCart from "../context/useCart";
 
 // Product details component
 function ProductDetails({ product }) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedColor, setSelectedColor] = useState(product.colors?.[0] || "");
   const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || "");
+  const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
+  const handleAddToCart = async () => {
+    try {
+      await addToCart({
+        product,
+        size: selectedSize,
+        color: selectedColor,
+        quantity,
+      });
 
+      alert("Product added to cart successfully!");
+    } catch (error) {
+      alert(error.response?.data?.message || "Unable to add product to cart.");
+    }
+  };
   const colorMap = {
     Black: "#000000",
     White: "#FFFFFF",
@@ -143,13 +159,15 @@ function ProductDetails({ product }) {
             {/* Quantity, Cart and Wishlist */}
             <div className="w-full order grid grid-col-2 md:grid-cols-5 gap-3">
               <div className="col-span-1 order-1 bg-dark text-primary-text py-2 rounded border border-primary-border">
-                <QuantityButton />
+                <QuantityButton quantity={quantity} setQuantity={setQuantity} />
               </div>
 
-              <button className="col-span-3 cursor-pointer order-3 sm:order-2 bg-btn text-black py-2 rounded border border-primary-border">
-                Add to cart
+              <button
+                onClick={handleAddToCart}
+                className="col-span-3 cursor-pointer order-3 sm:order-2 bg-btn text-black py-2 rounded border border-primary-border"
+              >
+                Quick add
               </button>
-
               <button className="col-span-1 cursor-pointer order-2 sm:order-3 flex items-center justify-center gap-1 bg-dark text-primary-text py-2 rounded border border-primary-border">
                 <i className="pi pi-heart-fill"></i> Wishlist
               </button>
