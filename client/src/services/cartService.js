@@ -27,10 +27,10 @@ export const clearCart = async () => {
     return response.data;
 }
 
-export const mergeCart = async (items) => {
-  const response = await api.post("/cart/merge", {
-    items,
-  });
+// export const mergeCart = async (items) => {
+//   const response = await api.post("/cart/merge", {
+//     items,
+//   });
 
-  return response.data;
-};  
+//   return response.data;
+// };  

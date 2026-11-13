@@ -8,15 +8,18 @@ import { ProductProvider } from "./context/ProductContext.jsx";
 import "./index.css";
 import "primeicons/primeicons.css";
 import App from "./App.jsx";
+import { WishlistProvider } from "./context/WishlistContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
         <CartProvider>
-          <ProductProvider>
-            <App />
-          </ProductProvider>
+          <WishlistProvider>
+            <ProductProvider>
+              <App />
+            </ProductProvider>
+          </WishlistProvider>
         </CartProvider>
       </AuthProvider>
     </BrowserRouter>

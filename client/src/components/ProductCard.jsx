@@ -1,16 +1,21 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import useCart from "../context/useCart";
-import { useAuth } from "../context/useAuth";
+import { Link } from "react-router-dom";
+import useWishlistActions from "../hooks/useWishlistActions";
+import useCartActions from "../hooks/useCartActions";
 
 function ProductCard({ product }) {
-  const [clicked, SetClicked] = useState(false);
   const [adding, setAdding] = useState(false);
+  const [wishlistLoading, setWishlistLoading] = useState(false);
 
-  const { addToCart } = useCart();
-  const { isAuthenticated, loading: authLoading } = useAuth();
+  const {
+    handleAddToCart,
+  } = useCartActions();
 
-  const navigate = useNavigate();
+  const {
+    isWishlisted,
+    toggleWishlist,
+    authLoading,
+  } = useWishlistActions();
 
   const [toast, setToast] = useState({
     show: false,
@@ -26,47 +31,7 @@ function ProductCard({ product }) {
   const hasDiscount =
     product.discountPrice != null && product.discountPrice < product.price;
 
-  // Quick Add
-  const handleQuickAdd = async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    // Wait until authentication check is complete
-    if (authLoading) return;
-
-    // Redirect guest user to login
-    if (!isAuthenticated) {
-      navigate("/login", {
-        state: {
-          from: `/product/${product.slug}`,
-          showLogin: true,
-        },
-      });
-      return;
-    }
-
-    try {
-      setAdding(true);
-
-      await addToCart({
-        product,
-        size: product.sizes?.[0] || "",
-        color: product.colors?.[0] || "",
-        quantity: 1,
-      });
-
-      showToast("Product added to cart successfully!");
-    } catch (error) {
-      showToast(
-        error.response?.data?.message ||
-          error.message ||
-          "Unable to add product.",
-        "error",
-      );
-    } finally {
-      setAdding(false);
-    }
-  };
+  const wishlisted = isWishlisted(product._id);
 
   // Toast notification
   const showToast = (message, type = "success") => {
@@ -77,6 +42,59 @@ function ProductCard({ product }) {
     toastTimer.current = setTimeout(() => {
       setToast((prev) => ({ ...prev, show: false }));
     }, 3000);
+  };
+
+  // Quick Add to Cart
+  const handleQuickAdd = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (authLoading || adding) return;
+
+    try {
+      setAdding(true);
+
+      await handleAddToCart(
+        product,
+        product.sizes?.[0] || "",
+        product.colors?.[0] || "",
+        1
+      );
+
+      showToast("Product added to cart successfully!");
+    } catch (error) {
+      showToast(
+        error.response?.data?.message ||
+          error.message ||
+          "Unable to add product.",
+        "error"
+      );
+    } finally {
+      setAdding(false);
+    }
+  };
+
+  // Add or remove from Wishlist
+  const handleWishlist = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (authLoading || wishlistLoading) return;
+
+    try {
+      setWishlistLoading(true);
+
+      await toggleWishlist(product, showToast);
+    } catch (error) {
+      showToast(
+        error.response?.data?.message ||
+          error.message ||
+          "Unable to update wishlist.",
+        "error"
+      );
+    } finally {
+      setWishlistLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -92,14 +110,21 @@ function ProductCard({ product }) {
               {product.badge || ""}
             </span>
 
-            <span className="text-[12px] p-2 rounded-full flex items-center">
+            <button
+              type="button"
+              onClick={handleWishlist}
+              disabled={wishlistLoading || authLoading}
+              aria-label={
+                wishlisted ? "Remove from wishlist" : "Add to wishlist"
+              }
+              className="text-[12px] p-2 rounded-full flex items-center disabled:opacity-50 cursor-pointer"
+            >
               <i
-                onClick={() => SetClicked(!clicked)}
                 className={`pi pi-heart-fill ${
-                  clicked ? "text-red-600" : "text-primary-text"
+                  wishlisted ? "text-red-600" : "text-primary-text"
                 }`}
-              ></i>
-            </span>
+              />
+            </button>
           </div>
 
           <Link
@@ -163,7 +188,7 @@ function ProductCard({ product }) {
                 ? "pi-check-circle text-green-400"
                 : "pi-exclamation-circle text-red-400"
             }`}
-          ></i>
+          />
 
           <span className="text-sm font-medium">{toast.message}</span>
         </div>

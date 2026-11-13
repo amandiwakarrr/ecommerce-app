@@ -1,10 +1,12 @@
+
 import ProductCard from "../components/ProductCard";
 import QuantityButton from "../components/QuantityButton";
-import { useParams, useNavigate } from "react-router-dom";
-import useCart from "../context/useCart";
-import { useAuth } from "../context/useAuth";
+import { useParams } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useProduct } from "../context/useProduct";
+
+import useCartActions from "../hooks/useCartActions";
+import useWishlistActions from "../hooks/useWishlistActions";
 
 // Product details component
 function ProductDetails({ product }) {
@@ -12,10 +14,17 @@ function ProductDetails({ product }) {
   const [selectedColor, setSelectedColor] = useState(product.colors?.[0] || "");
   const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || "");
   const [quantity, setQuantity] = useState(1);
+  const [adding, setAdding] = useState(false);
+  const [wishlistLoading, setWishlistLoading] = useState(false);
 
-  const { addToCart } = useCart();
-  const { isAuthenticated, loading: authLoading } = useAuth();
-  const navigate = useNavigate();
+  const { handleAddToCart, authLoading } = useCartActions();
+
+  const {
+    isWishlisted,
+    toggleWishlist,
+  } = useWishlistActions();
+
+  const wishlisted = isWishlisted(product._id);
 
   // Toast state
   const [toast, setToast] = useState({
@@ -43,28 +52,18 @@ function ProductDetails({ product }) {
   }, []);
 
   // Add product to cart
-  const handleAddToCart = async () => {
-    // Wait until authentication check is complete
-    if (authLoading) return;
-
-    // Redirect guest user to login
-    if (!isAuthenticated) {
-      navigate("/login", {
-        state: {
-          from: `/product/${product.slug}`,
-          showLogin: true,
-        },
-      });
-      return;
-    }
+  const handleCart = async () => {
+    if (authLoading || adding) return;
 
     try {
-      await addToCart({
+      setAdding(true);
+
+      await handleAddToCart(
         product,
-        size: selectedSize,
-        color: selectedColor,
-        quantity,
-      });
+        selectedSize,
+        selectedColor,
+        quantity
+      );
 
       showToast("Product added to cart successfully!");
     } catch (error) {
@@ -72,8 +71,30 @@ function ProductDetails({ product }) {
         error.response?.data?.message ||
           error.message ||
           "Unable to add product to cart.",
-        "error",
+        "error"
       );
+    } finally {
+      setAdding(false);
+    }
+  };
+
+  // Add or remove product from wishlist
+  const handleWishlist = async () => {
+    if (authLoading || wishlistLoading) return;
+
+    try {
+      setWishlistLoading(true);
+
+      await toggleWishlist(product, showToast);
+    } catch (error) {
+      showToast(
+        error.response?.data?.message ||
+          error.message ||
+          "Unable to update wishlist.",
+        "error"
+      );
+    } finally {
+      setWishlistLoading(false);
     }
   };
 
@@ -137,7 +158,7 @@ function ProductDetails({ product }) {
               <span className="text-primary-text">
                 ₹
                 {(product.discountPrice ?? product.price).toLocaleString(
-                  "en-IN",
+                  "en-IN"
                 )}
               </span>
 
@@ -210,19 +231,35 @@ function ProductDetails({ product }) {
             {/* Quantity, Cart and Wishlist */}
             <div className="w-full order grid grid-col-2 md:grid-cols-5 gap-3">
               <div className="col-span-1 order-1 bg-dark text-primary-text py-2 rounded border border-primary-border">
-                <QuantityButton quantity={quantity} setQuantity={setQuantity} />
+                <QuantityButton
+                  quantity={quantity}
+                  setQuantity={setQuantity}
+                />
               </div>
 
               <button
-                onClick={handleAddToCart}
-                disabled={authLoading}
-                className="col-span-3 cursor-pointer order-3 sm:order-2 bg-btn text-black py-2 rounded border border-primary-border"
+                onClick={handleCart}
+                disabled={authLoading || adding}
+                className="col-span-3 cursor-pointer order-3 sm:order-2 bg-btn text-black py-2 rounded border border-primary-border disabled:opacity-50"
               >
-                Quick add
+                {adding ? "Adding..." : "Quick add"}
               </button>
 
-              <button className="col-span-1 cursor-pointer order-2 sm:order-3 flex items-center justify-center gap-1 bg-dark text-primary-text py-2 rounded border border-primary-border">
-                <i className="pi pi-heart-fill"></i> Wishlist
+              <button
+                type="button"
+                onClick={handleWishlist}
+                disabled={authLoading || wishlistLoading}
+                aria-label={
+                  wishlisted ? "Remove from wishlist" : "Add to wishlist"
+                }
+                className="col-span-1 cursor-pointer order-2 sm:order-3 flex items-center justify-center gap-1 bg-dark text-primary-text py-2 rounded border border-primary-border disabled:opacity-50"
+              >
+                <i
+                  className={`pi pi-heart-fill ${
+                    wishlisted ? "text-red-600" : ""
+                  }`}
+                />
+                Wishlist
               </button>
             </div>
 
@@ -260,7 +297,7 @@ function ProductDetails({ product }) {
                 ? "pi-check-circle text-green-400"
                 : "pi-exclamation-circle text-red-400"
             }`}
-          ></i>
+          />
 
           <span className="text-sm font-medium">{toast.message}</span>
         </div>
@@ -305,7 +342,7 @@ function Product() {
               .filter(
                 (item) =>
                   item.slug !== product.slug &&
-                  item.category === product.category,
+                  item.category === product.category
               )
               .slice(0, 4)
               .map((item) => (
