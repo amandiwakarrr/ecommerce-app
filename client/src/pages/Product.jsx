@@ -1,9 +1,10 @@
 import ProductCard from "../components/ProductCard";
 import QuantityButton from "../components/QuantityButton";
-import { Link, useParams } from "react-router-dom";
-import { useState } from "react";
-import { useProduct } from "../context/useProduct";
+import { useParams, useNavigate } from "react-router-dom";
 import useCart from "../context/useCart";
+import { useAuth } from "../context/useAuth";
+import { useState, useEffect, useRef } from "react";
+import { useProduct } from "../context/useProduct";
 
 // Product details component
 function ProductDetails({ product }) {
@@ -11,8 +12,52 @@ function ProductDetails({ product }) {
   const [selectedColor, setSelectedColor] = useState(product.colors?.[0] || "");
   const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || "");
   const [quantity, setQuantity] = useState(1);
+
   const { addToCart } = useCart();
+  const { isAuthenticated, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
+
+  // Toast state
+  const [toast, setToast] = useState({
+    show: false,
+    message: "",
+    type: "success",
+  });
+
+  const toastTimer = useRef(null);
+
+  // Show toast notification
+  const showToast = (message, type = "success") => {
+    setToast({ show: true, message, type });
+
+    clearTimeout(toastTimer.current);
+
+    toastTimer.current = setTimeout(() => {
+      setToast((prev) => ({ ...prev, show: false }));
+    }, 3000);
+  };
+
+  // Clear toast timer when component unmounts
+  useEffect(() => {
+    return () => clearTimeout(toastTimer.current);
+  }, []);
+
+  // Add product to cart
   const handleAddToCart = async () => {
+    // Wait until authentication check is complete
+    if (authLoading) return;
+
+    // Redirect guest user to login
+    if (!isAuthenticated) {
+      navigate("/login", {
+        state: {
+          from: `/product/${product.slug}`,
+          showLogin: true,
+        },
+      });
+      return;
+    }
+
     try {
       await addToCart({
         product,
@@ -21,11 +66,17 @@ function ProductDetails({ product }) {
         quantity,
       });
 
-      alert("Product added to cart successfully!");
+      showToast("Product added to cart successfully!");
     } catch (error) {
-      alert(error.response?.data?.message || "Unable to add product to cart.");
+      showToast(
+        error.response?.data?.message ||
+          error.message ||
+          "Unable to add product to cart.",
+        "error",
+      );
     }
   };
+
   const colorMap = {
     Black: "#000000",
     White: "#FFFFFF",
@@ -164,10 +215,12 @@ function ProductDetails({ product }) {
 
               <button
                 onClick={handleAddToCart}
+                disabled={authLoading}
                 className="col-span-3 cursor-pointer order-3 sm:order-2 bg-btn text-black py-2 rounded border border-primary-border"
               >
                 Quick add
               </button>
+
               <button className="col-span-1 cursor-pointer order-2 sm:order-3 flex items-center justify-center gap-1 bg-dark text-primary-text py-2 rounded border border-primary-border">
                 <i className="pi pi-heart-fill"></i> Wishlist
               </button>
@@ -193,6 +246,25 @@ function ProductDetails({ product }) {
           </div>
         </div>
       </div>
+
+      {/* Toast notification */}
+      {toast.show && (
+        <div
+          className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3 rounded-lg shadow-xl text-white ${
+            toast.type === "success" ? "bg-[#202820]" : "bg-[#351c1c]"
+          }`}
+        >
+          <i
+            className={`pi ${
+              toast.type === "success"
+                ? "pi-check-circle text-green-400"
+                : "pi-exclamation-circle text-red-400"
+            }`}
+          ></i>
+
+          <span className="text-sm font-medium">{toast.message}</span>
+        </div>
+      )}
     </div>
   );
 }
@@ -201,6 +273,7 @@ function ProductDetails({ product }) {
 function Product() {
   const { slug } = useParams();
   const { products, loading, error } = useProduct();
+
   const product = products.find((item) => item.slug === slug);
 
   if (loading) {
@@ -236,13 +309,9 @@ function Product() {
               )
               .slice(0, 4)
               .map((item) => (
-                <Link
-                  key={item._id}
-                  to={`/product/${item.slug}`}
-                  className="w-full"
-                >
+                <div key={item._id} className="w-full">
                   <ProductCard product={item} />
-                </Link>
+                </div>
               ))}
           </div>
         </div>

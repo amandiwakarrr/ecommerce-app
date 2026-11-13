@@ -1,5 +1,4 @@
 import ProductCard from "../ProductCard";
-import { Link } from "react-router-dom";
 import { useProduct } from "../../context/useProduct";
 
 function BestSellers() {
@@ -23,9 +22,9 @@ function BestSellers() {
           .filter((product) => product.badge?.toLowerCase() === "best seller")
           .slice(0, 4)
           .map((product) => (
-            <Link key={product._id} to={`/product/${product.slug}`}>
+            <div key={product._id} className="w-full">
               <ProductCard product={product} />
-            </Link>
+            </div>
           ))}
       </div>
     </div>

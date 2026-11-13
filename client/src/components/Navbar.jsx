@@ -1,6 +1,7 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getAllProducts } from "../services/productService";
+import useCart from "../context/useCart";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -8,6 +9,7 @@ function Navbar() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [showResults, setShowResults] = useState(false);
+  const { cartCount } = useCart();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -176,10 +178,15 @@ function Navbar() {
             Account
           </Link>
           <Link
-            to={"/cart"}
-            className=" flex items-center text-secondary-text hover:text-primary-text  hover:bg-secondary-bg active:text-primary-text px-2 py-2 rounded max-[425px]:hidden"
+            to="/cart"
+            className="flex items-center gap-2 text-secondary-text hover:text-primary-text hover:bg-secondary-bg active:text-primary-text px-2 py-2 rounded max-[425px]:hidden"
           >
             Cart
+            {cartCount > 0 && (
+              <span className="bg-btn text-black text-xs font-bold min-w-5 h-5 px-1 rounded-full flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
           </Link>
         </div>
       </div>

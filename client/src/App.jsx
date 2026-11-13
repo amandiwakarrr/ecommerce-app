@@ -17,6 +17,7 @@ import Preferences from "./components/UserDashboardComponents/Preferences";
 import Overview from "./components/UserDashboardComponents/Overview";
 import OrderSuccess from "./pages/OrderSuccess";
 import VerifyOTP from "./pages/VerifyOTP";
+import CreateAccount from "./pages/CreateAccount";
 function App() {
   return (
     <Routes>
@@ -31,6 +32,7 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/order-success" element={<OrderSuccess />} />
         <Route path="/verify-otp" element={<VerifyOTP/>}/>
+        <Route path="/login" element={<CreateAccount />} />
         
         <Route path="/account" element={<Account />}>
           <Route index element={<Navigate to="overview" replace />} />

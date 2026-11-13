@@ -6,16 +6,18 @@ import UserSchema from "../validations/UserSchema";
 import LoginSchema from "../validations/LoginSchema";
 import { registerUser, loginUser } from "../services/authService";
 import { useAuth } from "../context/useAuth";
-import { mergeCart } from "../services/cartService";
 
 function CreateAccount() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [isActive, setIsActive] = useState(() => !location.state?.showLogin);
+  const [isActive, setIsActive] = useState(() => {
+    if (location.pathname === "/login") return true;
+    return false;
+  });
 
   const [serverMessage, setServerMessage] = useState(() =>
-    location.state?.showLogin
+    location.state?.verified
       ? "Email verified successfully. Please log in."
       : "",
   );
@@ -73,30 +75,18 @@ function CreateAccount() {
           password: data.password,
         });
 
-        // Get guest cart from localStorage
-        const guestCart = JSON.parse(
-          localStorage.getItem("urbanwear_guest_cart") || "[]",
-        );
-
-        // Merge guest cart into MongoDB
-        if (guestCart.length > 0) {
-          await mergeCart(
-            guestCart.map((item) => ({
-              productId: item.productId || item._id,
-              size: item.size || "",
-              color: item.color || "",
-              quantity: item.quantity,
-            })),
-          );
-
-          // Clear guest cart only after successful merge
-          localStorage.removeItem("urbanwear_guest_cart");
-        }
-
+        // Update authentication state
         setUser(response.user);
 
-        setServerMessage(response.message);
-        navigate("/account");
+        // Redirect to the previous page or Account
+        const redirectTo =
+          typeof location.state?.from === "string" &&
+          location.state.from.startsWith("/") &&
+          !location.state.from.startsWith("//")
+            ? location.state.from
+            : "/account";
+
+        navigate(redirectTo, { replace: true });
       }
     } catch (error) {
       const errorData = error.response?.data;

@@ -1,4 +1,4 @@
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import { useState } from "react";
 import { useProduct } from "../context/useProduct";
@@ -129,13 +129,9 @@ function Shop() {
               </p>
             ) : (
               sortedProducts.map((product) => (
-                <Link
-                  key={product._id}
-                  to={`/product/${product.slug}`}
-                  className="w-full"
-                >
+                <div key={product._id} className="w-full">
                   <ProductCard product={product} />
-                </Link>
+                </div>
               ))
             )}
           </div>
