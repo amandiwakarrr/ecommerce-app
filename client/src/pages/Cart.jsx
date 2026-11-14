@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import useCart from "../context/useCart";
 
@@ -22,7 +21,6 @@ function Cart() {
   return (
     <div className="w-full h-auto px-5 py-5 sm:px-8 lg:px-15">
       <div className="w-full h-auto grid grid-cols-1 sm:grid-cols-2 gap-5 place-items-start">
-
         {/* Cart items */}
         <div className="w-full gap-4 min-w-0">
           <div className="w-full pb-5">
@@ -53,90 +51,79 @@ function Cart() {
             </div>
           ) : (
             cart.map((item) => {
-              // Guest cart stores product details directly.
-              // MongoDB cart stores them inside item.product.
               const product = item.product || item;
-
-              const price =
-                product.discountPrice ?? product.price ?? 0;
+              const price = product.discountPrice ?? product.price ?? 0;
 
               const itemKey =
-                item._id ||
-                `${item.productId}-${item.size}-${item.color}`;
+                item._id || `${item.productId}-${item.size}-${item.color}`;
 
               return (
                 <div
                   key={itemKey}
-                  className="w-full flex items-center justify-between gap-3 border-b border-primary-border py-2 sm:py-5"
+                  className="w-full flex items-center gap-3 sm:gap-5 p-3 sm:p-4 bg-secondary-bg border border-primary-border rounded-lg hover:border-[#f5b544]/50 transition-colors mb-2"
                 >
-                  {/* Product image */}
-                  <div>
+                  {/* Product Image */}
+                  <div className="shrink-0 w-20 h-22 sm:w-36 sm:h-40 bg-white rounded-md overflow-hidden flex items-center justify-center">
                     <img
-                      className="w-16 h-16 rounded object-cover"
+                      className="w-full h-full object-contain p-2 transition-transform duration-300 hover:scale-110"
                       src={product.images?.[0]?.url}
                       alt={product.images?.[0]?.alt || product.title}
                     />
                   </div>
 
-                  <div className="w-full flex justify-between gap-2">
-                    {/* Product details */}
-                    <div className="w-full flex flex-col justify-between gap-2">
-                      <h2 className="text-[clamp(0.8rem,2vw,1.5rem)] font-syne font-bold text-primary-text">
-                        {product.title}
-                      </h2>
+                  {/* Product Details */}
+                  <div className="flex-1 min-w-0 flex flex-col justify-center gap-2 sm:gap-3">
+                    <h2 className="text-sm sm:text-xl font-syne font-bold text-primary-text line-clamp-2">
+                      {product.title}
+                    </h2>
 
-                      <div className="w-full flex flex-row flex-wrap gap-2">
-                        <span className="text-[12px] text-secondary-text">
-                          Size: {item.size || "N/A"}
-                        </span>
-
-                        <span className="text-[12px] text-secondary-text">
-                          Color: {item.color || "N/A"}
-                        </span>
-
-                        <span className="text-[12px] text-secondary-text">
-                          ₹{formatPrice(price)}
-                        </span>
-                      </div>
-
-                      {/* Quantity controls */}
-                      <div className="w-fit mt-1 text-primary-text border border-primary-border rounded h-8 flex items-center justify-center gap-4 px-3 text-sm">
-                        <button
-                          type="button"
-                          onClick={() => decreaseQuantity(item)}
-                          className="cursor-pointer"
-                          aria-label="Decrease quantity"
-                        >
-                          -
-                        </button>
-
-                        <span>{item.quantity}</span>
-
-                        <button
-                          type="button"
-                          onClick={() => increaseQuantity(item)}
-                          className="cursor-pointer"
-                          aria-label="Increase quantity"
-                        >
-                          +
-                        </button>
-                      </div>
+                    <div className="flex flex-wrap gap-x-3 gap-y-1 text-[11px] sm:text-sm text-secondary-text">
+                      <span>Size: {item.size || "N/A"}</span>
+                      <span>Color: {item.color || "N/A"}</span>
                     </div>
 
-                    {/* Price and remove */}
-                    <div className="flex items-end flex-col justify-between">
-                      <h2 className="text-[clamp(0.9rem,2vw,1.5rem)] text-tertiary-text">
-                        ₹{formatPrice(price * item.quantity)}
-                      </h2>
+                    <span className="text-sm sm:text-base font-semibold text-primary-text">
+                      ₹{formatPrice(price)}
+                    </span>
+
+                    {/* Quantity Controls */}
+                    <div className="w-fit flex items-center gap-4 px-3 h-8 border border-primary-border rounded text-primary-text text-sm">
+                      <button
+                        type="button"
+                        onClick={() => decreaseQuantity(item)}
+                        className="cursor-pointer hover:text-[#f5b544]"
+                        aria-label="Decrease quantity"
+                      >
+                        -
+                      </button>
+
+                      <span>{item.quantity}</span>
 
                       <button
                         type="button"
-                        onClick={() => removeFromCart(item)}
-                        className="text-[12px] cursor-pointer text-primary-text"
+                        onClick={() => increaseQuantity(item)}
+                        className="cursor-pointer hover:text-[#f5b544]"
+                        aria-label="Increase quantity"
                       >
-                        Remove
+                        +
                       </button>
                     </div>
+                  </div>
+
+                  {/* Price and Remove */}
+                  <div className="shrink-0 flex flex-col items-end justify-between self-stretch">
+                    <span className="text-sm sm:text-xl font-semibold text-tertiary-text">
+                      ₹{formatPrice(price * item.quantity)}
+                    </span>
+
+                    <button
+                      type="button"
+                      onClick={() => removeFromCart(item)}
+                      className="flex items-center gap-1 text-xs sm:text-sm text-secondary-text hover:text-red-500 transition-colors cursor-pointer"
+                    >
+                      <i className="pi pi-trash text-xs" />
+                      <span>Remove</span>
+                    </button>
                   </div>
                 </div>
               );
@@ -145,7 +132,7 @@ function Cart() {
         </div>
 
         {/* Order Summary */}
-        <div className="w-full flex flex-col min-w-0 gap-2 mt-5 sm:mt-20">
+        <div className="w-full flex flex-col min-w-0 gap-2 mt-5 sm:mt-17">
           <div className="w-full border border-primary-border p-5 rounded bg-secondary-bg">
             <h2 className="font-syne font-extrabold text-primary-text">
               Order summary
@@ -166,9 +153,7 @@ function Cart() {
             </div>
 
             <div className="w-full flex items-center justify-between mt-2">
-              <span className="text-tertiary-text font-bold">
-                Total
-              </span>
+              <span className="text-tertiary-text font-bold">Total</span>
 
               <span className="text-tertiary-text font-bold">
                 ₹{formatPrice(cartTotal)}
@@ -181,7 +166,9 @@ function Cart() {
             <button
               type="button"
               disabled={cart.length === 0}
-              onClick={() => navigate("/checkout")}
+              onClick={() => {
+                navigate("/checkout");
+              }}
               className="cursor-pointer w-full text-dark bg-btn py-2 px-3 rounded disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Go to checkout

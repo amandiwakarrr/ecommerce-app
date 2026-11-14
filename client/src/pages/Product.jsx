@@ -125,13 +125,13 @@ function ProductDetails({ product }) {
         <div className="w-full grid sm:grid-cols-2 gap-5">
           {/* Left: Product images */}
           <div className="w-full flex flex-col gap-3">
-            <div className="w-full bg-white rounded place-items-center">
-              <img
-                className="w-[60%] h-42.5 sm:h-125 sm:w-[70%] rounded"
-                src={product.images?.[selectedImage]?.url}
-                alt={product.title}
-              />
-            </div>
+            <div className="w-full bg-white rounded h-42.5 sm:h-125 flex items-center justify-center overflow-hidden group cursor-zoom-in">
+  <img
+    className="w-[60%] sm:w-[70%] rounded object-contain transition-transform duration-500 ease-in-out group-hover:scale-150"
+    src={product.images?.[selectedImage]?.url}
+    alt={product.title}
+  />
+</div>
 
             <div className="w-full grid grid-cols-4 gap-2">
               {product.images?.map((image, index) => (

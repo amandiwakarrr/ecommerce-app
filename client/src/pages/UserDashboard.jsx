@@ -1,11 +1,14 @@
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import profile from "../assets/socialprof.webp";
 import { useAuth } from "../context/useAuth";
+import { useWishlist } from "../context/useWishlist";
 
 function UserDashboard() {
   const location = useLocation();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { wishlist } = useWishlist();
+
   const profileLinks = [
     {
       title: "Overview",
@@ -22,7 +25,7 @@ function UserDashboard() {
       title: "Wishlist",
       icon: "pi pi-heart-fill",
       path: "/account/wishlist",
-      count: 5,
+      count:` ${wishlist.length}`,
     },
     {
       title: "Address",
@@ -95,7 +98,7 @@ function UserDashboard() {
             onClick={async () => {
               try {
                 await logout();
-                navigate("/")
+                navigate("/");
               } catch (error) {
                 console.error("Logout failed:", error);
               }
