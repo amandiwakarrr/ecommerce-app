@@ -223,7 +223,7 @@ const getProductBySlug = async (req, res) => {
     try {
         const { slug } = req.params;
 
-        const product = await Product.findOne({slug})
+        const product = await Product.findOne({ slug })
 
         if (!product) {
             return res.status(404).json({
@@ -252,7 +252,7 @@ const updateProduct = async (req, res) => {
         const { slug } = req.params;
         const { imageAction } = req.body;
 
-        const product = await Product.findOne({slug});
+        const product = await Product.findOne({ slug });
 
         if (!product) {
             return res.status(404).json({
@@ -460,7 +460,7 @@ const deleteProduct = async (req, res) => {
     try {
         const { slug } = req.params;
 
-        const product = await Product.findOne({slug});
+        const product = await Product.findOne({ slug });
 
         if (!product) {
             return res.status(404).json({
@@ -475,7 +475,7 @@ const deleteProduct = async (req, res) => {
         );
 
         // Delete product from MongoDB
-        await Product.findOneAndDelete({slug});
+        await Product.findOneAndDelete({ slug });
 
         return res.status(200).json({
             success: true,
@@ -490,6 +490,47 @@ const deleteProduct = async (req, res) => {
     }
 };
 
+const getProductCategories = async (req, res) => {
+    try {
+        const categories = await Product.aggregate([
+            {
+                $match: {
+                    status: "active",
+                },
+            },
+            {
+                $group: {
+                    _id: "$category",
+                    count: { $sum: 1 },
+                },
+            },
+            {
+                $project: {
+                    _id: 0,
+                    name: "$_id",
+                    count: 1,
+                },
+            },
+            {
+                $sort: {
+                    name: 1,
+                },
+            },
+        ]);
+
+        return res.status(200).json({
+            success: true,
+            categories,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Failed to fetch product categories.",
+            error: error.message,
+        });
+    }
+};
+
 export {
     createProduct,
     getAllProducts,
@@ -497,4 +538,5 @@ export {
     updateProduct,
     deleteProduct,
     deleteProductImage,
+    getProductCategories,
 };

@@ -38,11 +38,10 @@ function CheckoutProduct() {
                   <h2 className="text-[clamp(0.7rem,2vw,1.5rem)] font-syne font-bold text-primary-text">
                     {product.title}
                   </h2>
-                  <div className="text-[12px] text-secondary-text flex flex-col sm:flex-row sm:gap-2">
+                  <div className="text-[12px] text-secondary-text grid grid-cols-[max-content_max-content]  sm:grid-cols-[repeat(4,max-content)] gap-x-2 gap-y-1">
                     {item.size && <span>Size: {item.size}</span>}
-
                     {item.color && <span>Color: {item.color}</span>}
-
+                    {item.quantity && <span>Quantity: {item.quantity}</span>}
                     <span>Price: ₹{formatPrice(price)}</span>
                   </div>
                 </div>

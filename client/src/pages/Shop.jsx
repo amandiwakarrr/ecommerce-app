@@ -3,21 +3,19 @@ import ProductCard from "../components/ProductCard";
 import { useState } from "react";
 import { useProduct } from "../context/useProduct";
 
-const categories = [
-  "All",
-  "Hoodies",
-  "Jackets",
-  "Pants",
-  "Shirts",
-  "Accessories",
-];
-
 function Shop() {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get("search") || "";
   const [sortedOrder, setSortedOrder] = useState("newest");
 
-  const { products, loading, error } = useProduct();
+  const {
+    products,
+    categories,
+    loading,
+    error,
+    categoriesLoading,
+    categoriesError,
+  } = useProduct();
 
   // Category filter
   const selectedCategory = searchParams.get("category") || "All";
@@ -70,14 +68,6 @@ function Shop() {
   return (
     <div>
       <div className="w-full min-w-0 h-auto py-5 px-0 sm:px-5 lg:px-13">
-        {/* <div className="w-full col-span-4 sm:col-span-1 px-5 gap-1 text-[#8B9BFF]">
-          <div className="w-full grid grid-cols-1 pb-5 gap-2">
-            <h2 className="text-[clamp(1.8rem,3vw,2rem)] text-primary-text font-syne font-bold">
-              Category
-            </h2>
-          </div>
-        </div> */}
-
         <div className="w-full px-5 flex flex-col ">
           {/* Filter and Sorting Section */}
           <div className="w-full flex flex-col bg-dark/90 backdrop-blur-[2px] sticky top-16 pt-2 z-10">
@@ -96,29 +86,56 @@ function Shop() {
                 <option value="high">Price: high to low</option>
               </select>
             </div>
+
             {/* Category Filter */}
             <div className="w-full flex overflow-x-auto sm:overflow-x-hidden sm:w-150 gap-1 items-center text-secondary-text pb-3">
-              {categories.map((cat, index) => (
-                <button
-                  key={index}
-                  onClick={() => {
-                    setSearchParams((prev) => {
-                      const params = new URLSearchParams(prev);
+              {categoriesLoading && (
+                <span className="text-xs">Loading categories...</span>
+              )}
 
-                      if (cat === "All") {
-                        params.delete("category");
-                      } else {
-                        params.set("category", cat);
-                      }
+              {categoriesError && (
+                <span className="text-xs text-red-500">{categoriesError}</span>
+              )}
+              {/* All category */}
+              <button
+                onClick={() => {
+                  setSearchParams((prev) => {
+                    const params = new URLSearchParams(prev);
+                    params.delete("category");
+                    return params;
+                  });
+                }}
+                className={`shrink-0 justify-center items-center font-sans cursor-pointer px-3 py-2 rounded flex ${
+                  selectedCategory === "All"
+                    ? "bg-btn text-dark hover:bg-[#d69329]"
+                    : "hover:bg-secondary-bg"
+                }`}
+              >
+                All
+              </button>
 
-                      return params;
-                    });
-                  }}
-                  className={`w-full justify-center items-center font-sans cursor-pointer px-2 py-1 sm:py-2 rounded flex ${selectedCategory === cat ? "bg-btn text-dark hover:bg-[#d69329]" : " hover:bg-secondary-bg"}`}
-                >
-                  <span>{cat}</span>
-                </button>
-              ))}
+              {/* Dynamic categories */}
+              {!categoriesLoading &&
+                !categoriesError &&
+                categories.map((cat) => (
+                  <button
+                    key={cat.name}
+                    onClick={() => {
+                      setSearchParams((prev) => {
+                        const params = new URLSearchParams(prev);
+                        params.set("category", cat.name);
+                        return params;
+                      });
+                    }}
+                    className={`shrink-0 justify-center items-center font-sans cursor-pointer px-3 py-2 rounded flex ${
+                      selectedCategory === cat.name
+                        ? "bg-btn text-dark hover:bg-[#d69329]"
+                        : "hover:bg-secondary-bg"
+                    }`}
+                  >
+                    {cat.name}
+                  </button>
+                ))}
             </div>
           </div>
           {/* Products Grid */}
