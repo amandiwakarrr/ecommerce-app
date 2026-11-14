@@ -1,10 +1,9 @@
-
 import ProductCard from "../components/ProductCard";
 import QuantityButton from "../components/QuantityButton";
 import { useParams } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useProduct } from "../context/useProduct";
-
+import { Link } from "react-router-dom";
 import useCartActions from "../hooks/useCartActions";
 import useWishlistActions from "../hooks/useWishlistActions";
 
@@ -19,10 +18,7 @@ function ProductDetails({ product }) {
 
   const { handleAddToCart, authLoading } = useCartActions();
 
-  const {
-    isWishlisted,
-    toggleWishlist,
-  } = useWishlistActions();
+  const { isWishlisted, toggleWishlist } = useWishlistActions();
 
   const wishlisted = isWishlisted(product._id);
 
@@ -58,12 +54,7 @@ function ProductDetails({ product }) {
     try {
       setAdding(true);
 
-      await handleAddToCart(
-        product,
-        selectedSize,
-        selectedColor,
-        quantity
-      );
+      await handleAddToCart(product, selectedSize, selectedColor, quantity);
 
       showToast("Product added to cart successfully!");
     } catch (error) {
@@ -71,7 +62,7 @@ function ProductDetails({ product }) {
         error.response?.data?.message ||
           error.message ||
           "Unable to add product to cart.",
-        "error"
+        "error",
       );
     } finally {
       setAdding(false);
@@ -91,7 +82,7 @@ function ProductDetails({ product }) {
         error.response?.data?.message ||
           error.message ||
           "Unable to update wishlist.",
-        "error"
+        "error",
       );
     } finally {
       setWishlistLoading(false);
@@ -116,22 +107,40 @@ function ProductDetails({ product }) {
     <div className="w-full h-auto py-2 grid place-items-center px-5 sm:px-8 md:px-15 lg:px-18">
       <div className="w-full grid">
         {/* Breadcrumb */}
-        <div className="w-full py-5 text-[14px] truncate font-syne text-secondary-text flex gap-1">
-          <span className="text-tertiary-text">Home</span> /
-          <span className="text-tertiary-text">{product.category}</span> /
-          <span>{product.title}</span>
-        </div>
+        <nav className="flex items-center gap-2 text-sm flex-wrap pb-2">
+          <Link
+            to="/"
+            className="text-tertiary-text hover:text-primary-text transition-colors"
+          >
+            Home
+          </Link>
+
+          <span className="text-secondary-text">/</span>
+
+          <Link
+            to={`/shop?category=${encodeURIComponent(product.category)}`}
+            className="text-tertiary-text hover:text-primary-text transition-colors"
+          >
+            {product.category}
+          </Link>
+
+          <span className="text-secondary-text">/</span>
+
+          <span className="text-secondary-text" aria-current="page">
+            {product.title}
+          </span>
+        </nav>
 
         <div className="w-full grid sm:grid-cols-2 gap-5">
           {/* Left: Product images */}
           <div className="w-full flex flex-col gap-3">
             <div className="w-full bg-white rounded h-42.5 sm:h-125 flex items-center justify-center overflow-hidden group cursor-zoom-in">
-  <img
-    className="w-[60%] sm:w-[70%] rounded object-contain transition-transform duration-500 ease-in-out group-hover:scale-150"
-    src={product.images?.[selectedImage]?.url}
-    alt={product.title}
-  />
-</div>
+              <img
+                className="w-[60%] sm:w-[70%] rounded object-contain transition-transform duration-500 ease-in-out group-hover:scale-150"
+                src={product.images?.[selectedImage]?.url}
+                alt={product.title}
+              />
+            </div>
 
             <div className="w-full grid grid-cols-4 gap-2">
               {product.images?.map((image, index) => (
@@ -158,7 +167,7 @@ function ProductDetails({ product }) {
               <span className="text-primary-text">
                 ₹
                 {(product.discountPrice ?? product.price).toLocaleString(
-                  "en-IN"
+                  "en-IN",
                 )}
               </span>
 
@@ -231,10 +240,7 @@ function ProductDetails({ product }) {
             {/* Quantity, Cart and Wishlist */}
             <div className="w-full order grid grid-col-2 md:grid-cols-5 gap-3">
               <div className="col-span-1 order-1 bg-dark text-primary-text py-2 rounded border border-primary-border">
-                <QuantityButton
-                  quantity={quantity}
-                  setQuantity={setQuantity}
-                />
+                <QuantityButton quantity={quantity} setQuantity={setQuantity} />
               </div>
 
               <button
@@ -342,7 +348,7 @@ function Product() {
               .filter(
                 (item) =>
                   item.slug !== product.slug &&
-                  item.category === product.category
+                  item.category === product.category,
               )
               .slice(0, 4)
               .map((item) => (

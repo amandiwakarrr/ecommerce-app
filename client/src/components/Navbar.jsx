@@ -46,16 +46,18 @@ function Navbar() {
 
   return (
     <div className="sticky font-syne top-0 z-40 w-full min-h-16 bg-dark/90 backdrop-blur-[2px] flex items-center justify-center border-b border-primary-border px-3 sm:px-5 md:px-10  xl:px-15">
-      <div className="w-full flex flex-row items-center justify-between pl-2">
+      <div className="w-full flex flex-row items-center justify-between pl-2 max-[550px]:flex-col max-[550px]:pb-2">
         <div
-          className={`h-16 flex flex-row items-center justify-center max-[720px]:gap-4 gap-5 ${isMenuOpen}? flex-col`}
+          className={`h-16 flex flex-row items-center justify-center max-[720px]:gap-4 gap-5 ${
+            isMenuOpen ? "flex-col" : "flex-row"
+          } max-[550px]:justify-between max-[550px]:w-full`}
         >
           <div className="flex gap-2 items-center justify-center">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               type="button"
               aria-label="open menu"
-              className="hidden max-[720px]:flex text-primary-text text-center items-center"
+              className="hidden max-[980px]:flex text-primary-text text-center items-center"
             >
               {/* Menu */}
               <i className="pi pi-bars" style={{ fontSize: "25px" }}></i>
@@ -71,7 +73,7 @@ function Navbar() {
             className={`${
               isMenuOpen ? "flex" : "hidden"
             }  absolute top-full left-0 z-50 w-full flex-col items-start gap-5 bg-dark border border-border p-5
-              min-[721px]:static min-[721px]:flex min-[721px]:w-auto min-[721px]:flex-row min-[721px]:items-center min-[721px]:gap-3 min-[721px]:border-0 min-[721px]:bg-transparent min-[721px]:p-0`}
+              min-[981px]:static min-[981px]:flex min-[981px]:w-auto min-[981px]:flex-row min-[981px]:items-center min-[981px]:gap-3 min-[981px]:border-0 min-[981px]:bg-transparent min-[981px]:p-0`}
           >
             <NavLink
               to={"/"}
@@ -85,6 +87,7 @@ function Navbar() {
             </NavLink>
             <NavLink
               to={"/shop"}
+              onClick={() => setIsMenuOpen(false)}
               className={({ isActive }) =>
                 `hover:text-primary-text transition-colors duration-300 ${
                   isActive ? "text-primary-text" : "text-secondary-text"
@@ -95,6 +98,7 @@ function Navbar() {
             </NavLink>
             <NavLink
               to={"/about"}
+              onClick={() => setIsMenuOpen(false)}
               className={({ isActive }) =>
                 `hover:text-primary-text transition-colors duration-300 ${
                   isActive ? "text-primary-text" : "text-secondary-text"
@@ -105,6 +109,7 @@ function Navbar() {
             </NavLink>
             <NavLink
               to={"/contact"}
+              onClick={() => setIsMenuOpen(false)}
               className={({ isActive }) =>
                 `hover:text-primary-text transition-colors duration-300 ${
                   isActive ? "text-primary-text" : "text-secondary-text"
@@ -115,11 +120,12 @@ function Navbar() {
             </NavLink>
           </div>
         </div>
-        <div className="flex flex-row items-center gap-1">
-          <div className="px-5 max-[1080px]:hidden relative">
+
+        <div className="flex flex-row items-center gap-2 max-[550px]:w-full max-[550px]:justify-between">
+          <div className="px-5  relative max-[550px]:px-0 max-[550px]:w-full">
             <form onSubmit={handleSearch} className="flex items-center">
               <input
-                className="border border-primary-border bg-secondary-bg px-5 py-2 rounded-4xl text-primary-text outline-none"
+                className="border border-primary-border max-[550px]:w-full bg-secondary-bg px-5 py-2 rounded-4xl text-primary-text outline-none"
                 type="search"
                 value={search}
                 onFocus={() => setShowResults(true)}
@@ -167,19 +173,25 @@ function Navbar() {
           </div>
           <Link
             to={"/account/wishlist"}
-            className=" flex items-center text-secondary-text hover:text-primary-text  hover:bg-secondary-bg active:text-primary-text px-2 py-2 rounded max-[510px]:hidden"
+            className=" flex items-center text-secondary-text hover:text-primary-text  hover:bg-secondary-bg active:text-primary-text px-2 py-2 rounded max-[700px]:hidden"
           >
             Wishlist
           </Link>
           <Link
-            to={"/account"}
-            className=" flex items-center text-secondary-text hover:text-primary-text  hover:bg-secondary-bg active:text-primary-text px-2 py-2 rounded "
+            to="/account"
+            className="flex items-center text-secondary-text hover:text-primary-text hover:bg-secondary-bg px-2 py-2 rounded"
           >
-            Account
+            {/* Text: visible above 550px */}
+            <span className="max-[550px]:hidden">Account</span>
+
+            {/* Icon: visible at 550px and below */}
+            <span className="hidden max-[550px]:inline-block">
+              <i className="pi pi-user text-xl"></i>
+            </span>
           </Link>
           <Link
             to="/cart"
-            className="flex items-center gap-2 text-secondary-text hover:text-primary-text hover:bg-secondary-bg active:text-primary-text px-2 py-2 rounded max-[425px]:hidden"
+            className="flex items-center gap-2 text-secondary-text hover:text-primary-text hover:bg-secondary-bg active:text-primary-text px-2 py-2 rounded max-[600px]:hidden"
           >
             Cart
             {cartCount > 0 && (
