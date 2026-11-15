@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
+import { useWishlist } from "../../context/useWishlist";
 function Overview() {
   const navigate = useNavigate();
+  const {wishlist} = useWishlist();
   return (
     <div>
       <div className="w-full px-5 mt-2 sm:mt-10">
@@ -54,7 +56,7 @@ function Overview() {
               Wishlist
             </span>
             <h2 className="text-[clamp(1rem,3vw,2.25rem)] text-secondary-text">
-              5
+              {wishlist.length}
             </h2>
           </div>
         </div>
