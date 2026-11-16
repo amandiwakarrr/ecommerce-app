@@ -1,13 +1,14 @@
-
 import { useState, useEffect } from "react";
 import { CartContext } from "./CartContext.js";
 import { useAuth } from "./useAuth";
+
 import {
   getCart,
   addToCart as addCartItem,
   updateCartItem,
   removeCartItem,
 } from "../services/cartService.js";
+
 
 export const CartProvider = ({ children }) => {
   const { isAuthenticated, loading: authLoading } = useAuth();

@@ -20,37 +20,39 @@ function Cart() {
 
   return (
     <div className="w-full h-auto px-5 py-5 sm:px-8 lg:px-15">
-      <div className="w-full h-auto grid grid-cols-1 sm:grid-cols-2 gap-5 place-items-start">
-        {/* Cart items */}
-        <div className="w-full gap-4 min-w-0">
-          <div className="w-full pb-5">
-            <h2 className="text-[clamp(1rem,2vw,3rem)] font-extrabold font-syne text-primary-text">
-              Your cart ({cart.length})
-            </h2>
-          </div>
+      {cart.length === 0 ? (
+        /* Empty Cart */
+        <div className="w-full flex flex-col items-center justify-center gap-4 py-20">
+          <i className="pi pi-shopping-bag text-5xl text-secondary-text"></i>
 
-          {cart.length === 0 ? (
-            <div className="w-full flex flex-col items-center justify-center gap-4 py-12 border-b border-primary-border">
-              <i className="pi pi-shopping-bag text-4xl text-secondary-text"></i>
+          <h2 className="font-syne font-extrabold text-primary-text text-xl">
+            Your cart is empty
+          </h2>
 
-              <h2 className="font-syne font-extrabold text-primary-text text-xl">
-                Your cart is empty
+          <span className="text-secondary-text text-center">
+            Add something you like and it will show up here.
+          </span>
+
+          <button
+            type="button"
+            onClick={() => navigate("/shop")}
+            className="py-3 px-5 cursor-pointer bg-btn rounded text-dark"
+          >
+            Start Shopping
+          </button>
+        </div>
+      ) : (
+        /* Cart with Products */
+        <div className="w-full h-auto grid grid-cols-1 sm:grid-cols-2 gap-5 place-items-start">
+          {/* Cart Items */}
+          <div className="w-full gap-4 min-w-0">
+            <div className="w-full pb-5">
+              <h2 className="text-[clamp(1rem,2vw,3rem)] font-extrabold font-syne text-primary-text">
+                Your cart ({cart.length})
               </h2>
-
-              <span className="text-secondary-text text-center">
-                Add something you like and it will show up here.
-              </span>
-
-              <button
-                type="button"
-                onClick={() => navigate("/shop")}
-                className="py-3 px-5 cursor-pointer bg-btn rounded text-dark"
-              >
-                Start Shopping
-              </button>
             </div>
-          ) : (
-            cart.map((item) => {
+
+            {cart.map((item) => {
               const product = item.product || item;
               const price = product.discountPrice ?? product.price ?? 0;
 
@@ -127,55 +129,47 @@ function Cart() {
                   </div>
                 </div>
               );
-            })
-          )}
-        </div>
-
-        {/* Order Summary */}
-        <div className="w-full flex flex-col min-w-0 gap-2 mt-5 sm:mt-17">
-          <div className="w-full border border-primary-border p-5 rounded bg-secondary-bg">
-            <h2 className="font-syne font-extrabold text-primary-text">
-              Order summary
-            </h2>
-
-            <div className="w-full flex flex-col border-b border-primary-border gap-2 py-2">
-              <div className="w-full flex items-center justify-between text-secondary-text">
-                <span>Subtotal</span>
-
-                <span>₹{formatPrice(cartTotal)}</span>
-              </div>
-
-              <div className="w-full flex items-center justify-between text-secondary-text">
-                <span>Shipping</span>
-
-                <span>Free</span>
-              </div>
-            </div>
-
-            <div className="w-full flex items-center justify-between mt-2">
-              <span className="text-tertiary-text font-bold">Total</span>
-
-              <span className="text-tertiary-text font-bold">
-                ₹{formatPrice(cartTotal)}
-              </span>
-            </div>
+            })}
           </div>
 
-          {/* Checkout button */}
-          <div className="w-full">
+          {/* Order Summary */}
+          <div className="w-full flex flex-col min-w-0 gap-2 mt-5 sm:mt-17">
+            <div className="w-full border border-primary-border p-5 rounded bg-secondary-bg">
+              <h2 className="font-syne font-extrabold text-primary-text">
+                Order summary
+              </h2>
+
+              <div className="w-full flex flex-col border-b border-primary-border gap-2 py-2">
+                <div className="w-full flex items-center justify-between text-secondary-text">
+                  <span>Subtotal</span>
+                  <span>₹{formatPrice(cartTotal)}</span>
+                </div>
+
+                <div className="w-full flex items-center justify-between text-secondary-text">
+                  <span>Shipping</span>
+                  <span>Free</span>
+                </div>
+              </div>
+
+              <div className="w-full flex items-center justify-between mt-2">
+                <span className="text-tertiary-text font-bold">Total</span>
+                <span className="text-tertiary-text font-bold">
+                  ₹{formatPrice(cartTotal)}
+                </span>
+              </div>
+            </div>
+
+            {/* Checkout Button */}
             <button
               type="button"
-              disabled={cart.length === 0}
-              onClick={() => {
-                navigate("/checkout");
-              }}
-              className="cursor-pointer w-full text-dark bg-btn py-2 px-3 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={() => navigate("/checkout")}
+              className="cursor-pointer w-full text-dark bg-btn py-2 px-3 rounded"
             >
               Go to checkout
             </button>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

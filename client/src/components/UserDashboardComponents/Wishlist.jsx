@@ -7,7 +7,7 @@ function Wishlist() {
   return (
     <div className="px-5 mt-2">
       <div className="w-full flex flex-wrap items-center justify-between gap-2 py-3">
-        <h1 className="text-[clamp(1.5rem,3vw,2.25rem)] text-primary-text font-extrabold font-syne">
+        <h1 className="text-[clamp(1.5rem,3vw,2.25rem)] text-primary-text font-bold font-syne">
           Wishlist
         </h1>
 

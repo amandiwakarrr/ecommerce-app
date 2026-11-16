@@ -7,17 +7,33 @@ import { ProductProvider } from "./context/ProductContext.jsx";
 
 import "./index.css";
 import "primeicons/primeicons.css";
+import { Toaster } from "react-hot-toast";
 import App from "./App.jsx";
 import { WishlistProvider } from "./context/WishlistContext.jsx";
+import { AddressProvider } from "./context/AddressContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+          toastOptions={{
+            duration: 3000,
+            style: {
+              background: "#0f1114",
+              color: "#ffffff",
+              border: "1px solid #333333",
+            },
+          }}
+        />
         <CartProvider>
           <WishlistProvider>
             <ProductProvider>
-              <App />
+              <AddressProvider>
+                <App />
+              </AddressProvider>
             </ProductProvider>
           </WishlistProvider>
         </CartProvider>

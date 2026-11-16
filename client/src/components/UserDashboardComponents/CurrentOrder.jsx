@@ -5,7 +5,7 @@ function CurrentOrder() {
     <div className="grid py-2 mt-5">
       <div className="w-full px-2 flex flex-col items-center justify-around bg-secondary-bg rounded border border-primary-border">
         <div className="w-full flex items-center justify-between py-3">
-          <h1 className="text-[clamp(1.5rem,3vw,2.25rem)] text-primary-text font-extrabold font-syne">
+          <h1 className="text-[clamp(1.5rem,3vw,2.25rem)] text-primary-text font-bold font-syne">
           Order in progress 
         </h1>
           <Link className=" text-tertiary-text ">View order</Link>

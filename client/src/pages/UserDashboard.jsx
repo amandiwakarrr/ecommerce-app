@@ -25,7 +25,7 @@ function UserDashboard() {
       title: "Wishlist",
       icon: "pi pi-heart-fill",
       path: "/account/wishlist",
-      count:` ${wishlist.length}`,
+      count: wishlist.length,
     },
     {
       title: "Address",
@@ -49,16 +49,20 @@ function UserDashboard() {
     },
   ];
 
-  // const [selectedLink, setSelectedLink] = useState("Overview");
-
   return (
-    <div className="w-full order h-auto py-5 grid grid-cols-1 gap-4 sm:grid-cols-[220px_1fr] md:grid-cols-[260px_1fr] items-start md:px-6 lg:px-5 xl:px-16">
+    <div className="w-full h-auto mt-5 py-1 grid grid-cols-1 gap-4 sm:grid-cols-[220px_minmax(0,1fr)] md:grid-cols-[260px_minmax(0,1fr)] items-start md:px-6 lg:px-5 xl:px-16">
       {/* Sidebar */}
-      <div className="w-full order-2 sm:order-1 flex flex-col py-5 gap-2 px-5">
+      <aside className="w-full sm:order-1 flex flex-col gap-2 px-5 ">
+        {/* User Profile */}
         <div className="flex w-full items-center gap-3 border-b border-primary-border py-2">
           <div className="w-12 h-12 shrink-0 rounded-full bg-amber-400 overflow-hidden">
-            <img src={profile} alt="" className="w-full h-full object-cover" />
+            <img
+              src={profile}
+              alt="Profile"
+              className="w-full h-full object-cover"
+            />
           </div>
+
           <div className="flex flex-col min-w-0">
             <h2 className="truncate text-primary-text">
               {user?.name || "User"}
@@ -69,51 +73,54 @@ function UserDashboard() {
           </div>
         </div>
 
-        <div className="w-full flex flex-col gap-1">
-          {profileLinks.map((pl, index) => {
+        {/* Navigation */}
+        <nav className="w-full min-w-0 flex flex-row sm:flex-col overflow-x-auto sm:overflow-x-visible gap-1 pb-2 sm:pb-0">
+          {profileLinks.map((pl) => {
             const isActive =
               location.pathname === pl.path ||
               (location.pathname === "/account" && pl.title === "Overview");
 
             return (
-              <Link key={index} to={pl.path}>
+              <Link key={pl.path} to={pl.path} className="shrink-0 sm:w-full">
                 <div
-                  className={`w-full px-3 py-2 rounded flex items-center justify-between ${
+                  className={`w-full px-3 py-2 rounded flex items-center justify-between gap-3 ${
                     isActive
                       ? "bg-btn text-dark"
                       : "bg-dark hover:bg-secondary-bg text-secondary-text"
                   }`}
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 whitespace-nowrap">
                     <i className={pl.icon}></i>
                     <span>{pl.title}</span>
                   </div>
 
-                  {pl.count && <span>{pl.count}</span>}
+                  {pl.count !== undefined && <span>{pl.count}</span>}
                 </div>
               </Link>
             );
           })}
-          <button
-            onClick={async () => {
-              try {
-                await logout();
-                navigate("/");
-              } catch (error) {
-                console.error("Logout failed:", error);
-              }
-            }}
-            className="cursor-pointer w-full px-3 py-2 mt-1 rounded bg-dark border border-primary-border text-primary-text"
-          >
-            Sign out
-          </button>
-        </div>
-      </div>
+        </nav>
 
-      {/* Main content */}
-      <div className="w-full order-1 sm:order-2 min-w-0 grid grid-cols-1 gap-2">
+        {/* Sign Out */}
+        <button
+          onClick={async () => {
+            try {
+              await logout();
+              navigate("/");
+            } catch (error) {
+              console.error("Logout failed:", error);
+            }
+          }}
+          className="cursor-pointer w-full px-3 py-2 rounded bg-dark border border-primary-border text-primary-text"
+        >
+          Sign out
+        </button>
+      </aside>
+
+      {/* Main Content */}
+      <main className="w-full sm:order-2 min-w-0 grid grid-cols-1 gap-2 ">
         <Outlet />
-      </div>
+      </main>
     </div>
   );
 }

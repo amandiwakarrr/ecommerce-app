@@ -18,6 +18,8 @@ import Overview from "./components/UserDashboardComponents/Overview";
 import OrderSuccess from "./pages/OrderSuccess";
 import VerifyOTP from "./pages/VerifyOTP";
 import CreateAccount from "./pages/CreateAccount";
+import AddressForm from "./components/UserDashboardComponents/AddressForm";
+
 function App() {
   return (
     <Routes>
@@ -31,9 +33,9 @@ function App() {
         <Route path="/product/:slug" element={<Product />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/order-success" element={<OrderSuccess />} />
-        <Route path="/verify-otp" element={<VerifyOTP/>}/>
+        <Route path="/verify-otp" element={<VerifyOTP />} />
         <Route path="/login" element={<CreateAccount />} />
-        
+
         <Route path="/account" element={<Account />}>
           <Route index element={<Navigate to="overview" replace />} />
           <Route path="overview" element={<Overview />} />
@@ -41,6 +43,8 @@ function App() {
           <Route path="orders" element={<RecentOrders />} />
           <Route path="profile" element={<UserDetails />} />
           <Route path="address" element={<UserAddress />} />
+          <Route path="add-address" element={<AddressForm />} />
+          <Route path="edit-address/:id" element={<AddressForm />} />
           <Route path="payment-methods" element={<PaymentMethods />} />
           <Route path="preferences" element={<Preferences />} />
         </Route>

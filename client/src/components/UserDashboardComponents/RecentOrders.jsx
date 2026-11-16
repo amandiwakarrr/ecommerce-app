@@ -7,7 +7,7 @@ function RecentOrders() {
       <CurrentOrder />
       <div className="w-full flex flex-col gap-5 border border-primary-border p-2 rounded">
         <div className="w-full ">
-          <h1 className="text-[clamp(1.5rem,3vw,2.25rem)] text-primary-text font-extrabold font-syne">
+          <h1 className="text-[clamp(1.5rem,3vw,2.25rem)] text-primary-text font-bold font-syne">
             Recent orders
           </h1>
         </div>

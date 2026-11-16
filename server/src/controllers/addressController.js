@@ -8,7 +8,6 @@ export const addAddress = async (req, res) => {
             phone,
             addressLine1,
             addressLine2,
-
             city,
             state,
             postalCode,
@@ -19,13 +18,20 @@ export const addAddress = async (req, res) => {
 
         const userId = req.user._id;
 
+        // If the new address is default, unset the previous default
+        if (isDefault === true) {
+            await Address.updateMany(
+                { user: userId },
+                { $set: { isDefault: false } }
+            );
+        }
+
         const address = await Address.create({
             user: userId,
             fullName,
             phone,
             addressLine1,
             addressLine2,
-
             city,
             state,
             postalCode,
@@ -41,6 +47,7 @@ export const addAddress = async (req, res) => {
         });
     } catch (error) {
         console.error("Add address error:", error);
+
         return res.status(500).json({
             success: false,
             message: "Failed to add address.",
@@ -77,6 +84,33 @@ export const getAddresses = async (req, res) => {
 export const updateAddress = async (req, res) => {
     try {
         const { id } = req.params;
+
+        // Check whether the address belongs to this user
+        const existingAddress = await Address.findOne({
+            _id: id,
+            user: req.user._id,
+        });
+
+        if (!existingAddress) {
+            return res.status(404).json({
+                success: false,
+                message: "Address not found.",
+            });
+        }
+
+        // If this address is becoming the default,
+        // unset the default status of all other addresses
+        if (req.body.isDefault === true) {
+            await Address.updateMany(
+                {
+                    user: req.user._id,
+                    _id: { $ne: id },
+                },
+                { $set: { isDefault: false } }
+            );
+        }
+
+        // Update the selected address
         const address = await Address.findOneAndUpdate(
             {
                 _id: id,
@@ -86,24 +120,17 @@ export const updateAddress = async (req, res) => {
             {
                 new: true,
                 runValidators: true,
-            },
+            }
         );
-
-        if (!address) {
-            return res.status(404).json({
-                success: false,
-                message: "Address not found.",
-            });
-        };
 
         return res.status(200).json({
             success: true,
-            message: "Address updates successfully.",
+            message: "Address updated successfully.",
             address,
         });
-
     } catch (error) {
         console.error("Update address error:", error);
+
         return res.status(500).json({
             success: false,
             message: "Failed to update address.",
@@ -141,7 +168,7 @@ export const deleteAddress = async (req, res) => {
 
 }
 
-// set default address
+// Set default address
 export const setDefaultAddress = async (req, res) => {
     try {
         const { id } = req.params;
@@ -159,30 +186,30 @@ export const setDefaultAddress = async (req, res) => {
             });
         }
 
-        // Remove default status from other addresses
+        // Remove default status from all user's addresses
         await Address.updateMany(
             { user: userId },
             { $set: { isDefault: false } }
         );
 
-        // set selected address as default
-        address.isDefault = true,
-            await address.save();
+        // Set selected address as default
+        address.isDefault = true;
+        await address.save();
 
         return res.status(200).json({
             success: true,
-            message: "Set default address successfully.",
+            message: "Default address updated successfully.",
             address,
         });
-
     } catch (error) {
         console.error("Set default address error:", error);
+
         return res.status(500).json({
             success: false,
             message: "Failed to set default address.",
         });
     }
-}
+};
 
 // Get single address by ID
 export const getAddressById = async (req, res) => {

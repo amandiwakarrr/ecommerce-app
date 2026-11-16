@@ -9,7 +9,7 @@ function Preferences() {
     <div className="w-full h-auto py-5 px-5">
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 pb-5">
         <div className="w-full pb-5 gap-1 max-[425px]:py-2 flex flex-col">
-          <h1 className="text-[clamp(1.5rem,3vw,2.25rem)] text-primary-text font-extrabold font-syne">
+          <h1 className="text-[clamp(1.5rem,3vw,2.25rem)] text-primary-text font-bold font-syne">
             Your preferences
           </h1>
           <span className="text-secondary-text text-[12px]">
