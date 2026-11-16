@@ -68,10 +68,10 @@ function Shop() {
   return (
     <div>
       <div className="w-full min-w-0 h-auto py-5 px-0 sm:px-5 lg:px-13">
-        <div className="w-full px-5 flex flex-col ">
+        <div className="w-full px-5 grid grid-cols-1 md:grid-cols-5 items-start gap-5">
           {/* Filter and Sorting Section */}
-          <div className="w-full flex flex-col bg-dark/90 backdrop-blur-[2px] sticky top-16 pt-2 z-10">
-            <div className="w-full flex flex-wrap items-center justify-between pb-2 gap-3">
+          <div className="w-full col-span-1 flex flex-col bg-dark/90 backdrop-blur-[2px] sticky top-20 self-start h-fit pt-2 z-10">
+            <div className="w-full flex flex-wrap items-center md:items-start pb-2 gap-3 md:flex-col">
               <span className="text-tertiary-text font-syne font-bold text-sm">
                 {filteredProducts.length} products
               </span>
@@ -86,9 +86,8 @@ function Shop() {
                 <option value="high">Price: high to low</option>
               </select>
             </div>
-
             {/* Category Filter */}
-            <div className="w-full flex overflow-x-auto sm:overflow-x-hidden sm:w-150 gap-1 items-center text-secondary-text pb-3">
+            <div className="w-full flex overflow-x-auto sm:overflow-x-hidden md:flex-col   gap-1 items-center md:items-start text-secondary-text pb-3">
               {categoriesLoading && (
                 <span className="text-xs">Loading categories...</span>
               )}
@@ -139,7 +138,8 @@ function Shop() {
             </div>
           </div>
           {/* Products Grid */}
-          <div className="cards mt-5 w-full h-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5  place-items-center gap-3">
+          <div className="cards col-span-4 mt-5 w-full h-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 items-start gap-3">
+            {" "}
             {sortedProducts.length === 0 ? (
               <p className="col-span-full py-10 text-center text-secondary-text">
                 No products found.

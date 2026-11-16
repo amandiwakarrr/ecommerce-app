@@ -52,7 +52,7 @@ function UserDashboard() {
   return (
     <div className="w-full h-auto mt-5 py-1 grid grid-cols-1 gap-4 sm:grid-cols-[220px_minmax(0,1fr)] md:grid-cols-[260px_minmax(0,1fr)] items-start md:px-6 lg:px-5 xl:px-16">
       {/* Sidebar */}
-      <aside className="w-full sm:order-1 flex flex-col gap-2 px-5 ">
+      <aside className="w-full sm:order-1 flex flex-col gap-2 px-5 sm:sticky sm:top-20 sm:self-start sm:h-fit">
         {/* User Profile */}
         <div className="flex w-full items-center gap-3 border-b border-primary-border py-2">
           <div className="w-12 h-12 shrink-0 rounded-full bg-amber-400 overflow-hidden">
@@ -72,7 +72,6 @@ function UserDashboard() {
             </span>
           </div>
         </div>
-
         {/* Navigation */}
         <nav className="w-full min-w-0 flex flex-row sm:flex-col overflow-x-auto sm:overflow-x-visible gap-1 pb-2 sm:pb-0">
           {profileLinks.map((pl) => {
@@ -100,7 +99,6 @@ function UserDashboard() {
             );
           })}
         </nav>
-
         {/* Sign Out */}
         <button
           onClick={async () => {
@@ -116,7 +114,6 @@ function UserDashboard() {
           Sign out
         </button>
       </aside>
-
       {/* Main Content */}
       <main className="w-full sm:order-2 min-w-0 grid grid-cols-1 gap-2 ">
         <Outlet />
