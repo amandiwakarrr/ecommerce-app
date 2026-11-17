@@ -1,16 +1,23 @@
 import { useState, useEffect } from "react";
 import { ProductContext } from "./ProductContext";
-import { getAllProducts, getAllCategories } from "../services/productService";
+import {
+  getAllProducts,
+  getAllCategories,
+  getProductBrands,
+} from "../services/productService";
 
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [categoriesLoading, setCategoriesLoading] = useState(true);
+  const [brandsLoading, setBrandsLoading] = useState(true);
 
   const [error, setError] = useState("");
   const [categoriesError, setCategoriesError] = useState("");
+  const [brandsError, setBrandsError] = useState("");
 
   // Fetch all products
   const fetchProducts = async () => {
@@ -44,16 +51,34 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
-  // Fetch products and categories on mount
-  // Fetch products and categories on mount
+  // Fetch all brands
+  const fetchBrands = async () => {
+    try {
+      setBrandsLoading(true);
+      setBrandsError("");
+
+      const response = await getProductBrands();
+      setBrands(response.brands || []);
+    } catch (error) {
+      setBrandsError(
+        error.response?.data?.message || "Failed to fetch brands.",
+      );
+    } finally {
+      setBrandsLoading(false);
+    }
+  };
+
+  // Fetch products, categories and brands on mount
   useEffect(() => {
     let isMounted = true;
 
     const initializeData = async () => {
-      const [productsResult, categoriesResult] = await Promise.allSettled([
-        getAllProducts(),
-        getAllCategories(),
-      ]);
+      const [productsResult, categoriesResult, brandsResult] =
+        await Promise.allSettled([
+          getAllProducts(),
+          getAllCategories(),
+          getProductBrands(),
+        ]);
 
       if (!isMounted) return;
 
@@ -75,8 +100,18 @@ export const ProductProvider = ({ children }) => {
         );
       }
 
+      if (brandsResult.status === "fulfilled") {
+        setBrands(brandsResult.value.brands || []);
+      } else {
+        setBrandsError(
+          brandsResult.reason.response?.data?.message ||
+            "Failed to fetch brands.",
+        );
+      }
+
       setLoading(false);
       setCategoriesLoading(false);
+      setBrandsLoading(false);
     };
 
     initializeData();
@@ -89,12 +124,16 @@ export const ProductProvider = ({ children }) => {
   const value = {
     products,
     categories,
+    brands,
     loading,
     categoriesLoading,
+    brandsLoading,
     error,
     categoriesError,
+    brandsError,
     refreshProducts: fetchProducts,
     refreshCategories: fetchCategories,
+    refreshBrands: fetchBrands,
   };
 
   return (

@@ -201,7 +201,18 @@ const createProduct = async (req, res) => {
 // Get all products
 const getAllProducts = async (req, res) => {
     try {
-        const products = await Product.find().sort({
+        const { brand, category } = req.query;
+        const filter = {};
+
+        if (brand) {
+            filter.brand = brand;
+        }
+
+        if (category) {
+            filter.category = category;
+        }
+
+        const products = await Product.find(filter).sort({
             createdAt: -1,
         });
 
@@ -214,6 +225,23 @@ const getAllProducts = async (req, res) => {
 
     } catch (error) {
         console.error("Get all products error:", error);
+        return handleValidationError(error, res);
+    }
+};
+
+// Get all product brands
+const getProductBrands = async (req, res) => {
+    try {
+        const brands = await Product.distinct("brand", {
+            status: "active",
+        });
+
+        return res.status(200).json({
+            success: true,
+            brands: brands.sort(),
+        });
+    } catch (error) {
+        console.error("Get product brands error:", error);
         return handleValidationError(error, res);
     }
 };
@@ -539,4 +567,5 @@ export {
     deleteProduct,
     deleteProductImage,
     getProductCategories,
+    getProductBrands,
 };

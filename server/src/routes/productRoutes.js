@@ -8,7 +8,8 @@ import {
     getAllProducts,
     getProductBySlug,
     updateProduct,
-    getProductCategories
+    getProductCategories,
+    getProductBrands,
 } from "../controllers/productController.js";
 
 const router = express.Router();
@@ -17,6 +18,7 @@ router.post("/", upload.array("images", 5), createProduct);
 router.get("/", getAllProducts);
 // Keep specific routes before dynamic routes
 router.get("/categories", getProductCategories);
+router.get("/brands", getProductBrands);
 // Dynamic routes
 router.get("/:slug", getProductBySlug);
 router.put("/:slug", upload.array("images", 5), updateProduct);
