@@ -24,6 +24,10 @@ const cartItemSchema = new mongoose.Schema(
             required: true,
             min: 1,
             default: 1,
+            validate: {
+                validator: Number.isInteger,
+                message: "Quantity must be a whole number.",
+            },
         },
     },
 );
