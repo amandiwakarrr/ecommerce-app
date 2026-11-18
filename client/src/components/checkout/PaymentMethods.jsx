@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 const paymentOptions = [
   {
     id: "upi",
@@ -20,8 +20,7 @@ const paymentOptions = [
   },
 ];
 
-function PaymentMethods() {
-  const [selected, setSelected] = useState("upi");
+function PaymentMethods({ selectedPaymentMethod, onPaymentMethodChange }) {
   return (
     <div className="w-full flex flex-col gap-2">
       <h2 className="text-[clamp(1.2rem,2vw,2rem)] text-primary-text font-old font-syne">
@@ -31,18 +30,17 @@ function PaymentMethods() {
         <label
           key={option.id}
           className={`flex items-center border rounded cursor-pointer px-2 gap-2
-                     ${
-                       selected === option.id
-                         ? "border-black bg-btn text-dark"
-                         : "text-primary-text border border-primary-border"
-                     }`}
+                     ${selectedPaymentMethod === option.id
+              ? "border-black bg-btn text-dark"
+              : "text-primary-text border border-primary-border"
+            }`}
         >
           <input
             type="radio"
             name="payment"
             value={option.id}
-            checked={selected === option.id}
-            onChange={() => setSelected(option.id)}
+            checked={selectedPaymentMethod === option.id}
+            onChange={() => onPaymentMethodChange(option.id)}
           />
 
           <i className={`${option.icon}`}></i>
@@ -54,7 +52,7 @@ function PaymentMethods() {
         </label>
       ))}
 
-      {selected === "card" && (
+      {selectedPaymentMethod === "card" && (
         <div className="w-full flex flex-col gap-3 p-4 border border-primary-border rounded-lg">
           <div className="flex flex-col gap-1">
             <label className="text-secondary-text">Cardholder Name</label>

@@ -2,6 +2,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getAllProducts } from "../services/productService";
 import useCart from "../context/useCart";
+import { useWishlist } from "../context/useWishlist";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,6 +11,7 @@ function Navbar() {
   const [products, setProducts] = useState([]);
   const [showResults, setShowResults] = useState(false);
   const { cartCount } = useCart();
+  const { wishlist } = useWishlist();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -48,9 +50,8 @@ function Navbar() {
     <div className="sticky font-syne top-0 z-40 w-full min-h-16 bg-dark/90 backdrop-blur-[2px] flex items-center justify-center border-b border-primary-border px-3 sm:px-5 md:px-10  xl:px-15">
       <div className="w-full flex flex-row items-center justify-between pl-2 max-[550px]:flex-col max-[550px]:pb-2">
         <div
-          className={`h-16 flex flex-row items-center justify-center max-[720px]:gap-4 gap-5 ${
-            isMenuOpen ? "flex-col" : "flex-row"
-          } max-[550px]:justify-between max-[550px]:w-full`}
+          className={`h-16 flex flex-row items-center justify-center max-[720px]:gap-4 gap-5 ${isMenuOpen ? "flex-col" : "flex-row"
+            } max-[550px]:justify-between max-[550px]:w-full`}
         >
           <div className="flex gap-2 items-center justify-center">
             <button
@@ -70,16 +71,14 @@ function Navbar() {
             </Link>
           </div>
           <div
-            className={`${
-              isMenuOpen ? "flex" : "hidden"
-            }  absolute top-full left-0 z-50 w-full flex-col items-start gap-5 bg-dark border border-border p-5
+            className={`${isMenuOpen ? "flex" : "hidden"
+              }  absolute top-full left-0 z-50 w-full flex-col items-start gap-5 bg-dark border border-border p-5
               min-[981px]:static min-[981px]:flex min-[981px]:w-auto min-[981px]:flex-row min-[981px]:items-center min-[981px]:gap-3 min-[981px]:border-0 min-[981px]:bg-transparent min-[981px]:p-0`}
           >
             <NavLink
               to={"/"}
               className={({ isActive }) =>
-                `hover:text-primary-text transition-colors duration-300 ${
-                  isActive ? "text-primary-text" : "text-secondary-text"
+                `hover:text-primary-text transition-colors duration-300 ${isActive ? "text-primary-text" : "text-secondary-text"
                 }`
               }
             >
@@ -89,8 +88,7 @@ function Navbar() {
               to={"/shop"}
               onClick={() => setIsMenuOpen(false)}
               className={({ isActive }) =>
-                `hover:text-primary-text transition-colors duration-300 ${
-                  isActive ? "text-primary-text" : "text-secondary-text"
+                `hover:text-primary-text transition-colors duration-300 ${isActive ? "text-primary-text" : "text-secondary-text"
                 }`
               }
             >
@@ -100,8 +98,7 @@ function Navbar() {
               to={"/about"}
               onClick={() => setIsMenuOpen(false)}
               className={({ isActive }) =>
-                `hover:text-primary-text transition-colors duration-300 ${
-                  isActive ? "text-primary-text" : "text-secondary-text"
+                `hover:text-primary-text transition-colors duration-300 ${isActive ? "text-primary-text" : "text-secondary-text"
                 }`
               }
             >
@@ -111,8 +108,7 @@ function Navbar() {
               to={"/contact"}
               onClick={() => setIsMenuOpen(false)}
               className={({ isActive }) =>
-                `hover:text-primary-text transition-colors duration-300 ${
-                  isActive ? "text-primary-text" : "text-secondary-text"
+                `hover:text-primary-text transition-colors duration-300 ${isActive ? "text-primary-text" : "text-secondary-text"
                 }`
               }
             >
@@ -173,9 +169,14 @@ function Navbar() {
           </div>
           <Link
             to={"/account/wishlist"}
-            className=" flex items-center text-secondary-text hover:text-primary-text  hover:bg-secondary-bg active:text-primary-text px-2 py-2 rounded max-[700px]:hidden"
+            className=" flex items-center gap-2 text-secondary-text hover:text-primary-text  hover:bg-secondary-bg active:text-primary-text px-2 py-2 rounded max-[700px]:hidden"
           >
             Wishlist
+            {wishlist.length > 0 && (
+              <span className="bg-btn text-black text-xs font-bold min-w-5 h-5  px-1 rounded-full flex items-center justify-center">
+                {wishlist.length}
+              </span>
+            )}
           </Link>
           <Link
             to="/account"

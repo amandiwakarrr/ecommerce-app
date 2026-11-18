@@ -1,5 +1,4 @@
 
-import mongoose from "mongoose";
 import Cart from "../models/Cart.js";
 import Product from "../models/Product.js";
 import Address from "../models/Address.js";
@@ -7,11 +6,10 @@ import Order from "../models/Order.js";
 import User from "../models/User.js";
 
 export const createOrder = async (req, res) => {
-  const session = await mongoose.startSession();
+  let reservedItems = [];
+  let createdOrder = null;
 
   try {
-    session.startTransaction();
-
     const userId = req.user._id;
     const { addressId, paymentMethod } = req.body;
 
@@ -19,7 +17,6 @@ export const createOrder = async (req, res) => {
     const validPaymentMethods = ["UPI", "CARD", "COD"];
 
     if (!validPaymentMethods.includes(paymentMethod)) {
-      await session.abortTransaction();
       return res.status(400).json({
         success: false,
         message: "Invalid payment method.",
@@ -27,12 +24,9 @@ export const createOrder = async (req, res) => {
     }
 
     // 2. Get user email
-    const user = await User.findById(userId)
-      .select("email")
-      .session(session);
+    const user = await User.findById(userId).select("email");
 
     if (!user) {
-      await session.abortTransaction();
       return res.status(404).json({
         success: false,
         message: "User not found.",
@@ -40,10 +34,9 @@ export const createOrder = async (req, res) => {
     }
 
     // 3. Get user's cart
-    const cart = await Cart.findOne({ user: userId }).session(session);
+    const cart = await Cart.findOne({ user: userId });
 
     if (!cart || cart.items.length === 0) {
-      await session.abortTransaction();
       return res.status(400).json({
         success: false,
         message: "Your cart is empty.",
@@ -54,10 +47,9 @@ export const createOrder = async (req, res) => {
     const address = await Address.findOne({
       _id: addressId,
       user: userId,
-    }).session(session);
+    });
 
     if (!address) {
-      await session.abortTransaction();
       return res.status(404).json({
         success: false,
         message: "Shipping address not found.",
@@ -69,7 +61,7 @@ export const createOrder = async (req, res) => {
 
     const products = await Product.find({
       _id: { $in: productIds },
-    }).session(session);
+    });
 
     const productMap = new Map(
       products.map((product) => [
@@ -95,7 +87,9 @@ export const createOrder = async (req, res) => {
       );
 
       if (!product || product.status !== "active") {
-        throw new Error("A product in your cart is unavailable.");
+        throw new Error(
+          "A product in your cart is unavailable."
+        );
       }
 
       if (product.quantity < cartItem.quantity) {
@@ -124,11 +118,14 @@ export const createOrder = async (req, res) => {
         );
       }
 
+      // Get actual product price
       const price = product.discountPrice ?? product.price;
+
       const itemTotal = price * cartItem.quantity;
 
       subtotal += itemTotal;
 
+      // Store product snapshot
       orderItems.push({
         product: product._id,
         sku: product.sku,
@@ -145,35 +142,7 @@ export const createOrder = async (req, res) => {
     const shippingCharge = subtotal < 200 ? 49 : 0;
     const totalAmount = subtotal + shippingCharge;
 
-    // 8. Create order
-    const [order] = await Order.create(
-      [
-        {
-          user: userId,
-          email: user.email,
-          items: orderItems,
-          shippingAddress: {
-            fullName: address.fullName,
-            phone: address.phone,
-            addressLine1: address.addressLine1,
-            addressLine2: address.addressLine2,
-            city: address.city,
-            state: address.state,
-            postalCode: address.postalCode,
-            country: address.country,
-          },
-          subtotal,
-          shippingCharge,
-          totalAmount,
-          paymentMethod,
-          paymentStatus: "Pending",
-          orderStatus: "Placed",
-        },
-      ],
-      { session }
-    );
-
-    // 9. Reduce product stock and update total sold
+    // 8. Reserve product stock
     for (const item of cart.items) {
       const updatedProduct = await Product.findOneAndUpdate(
         {
@@ -187,10 +156,7 @@ export const createOrder = async (req, res) => {
             totalSold: item.quantity,
           },
         },
-        {
-          new: true,
-          session,
-        }
+        { new: true }
       );
 
       if (!updatedProduct) {
@@ -198,30 +164,82 @@ export const createOrder = async (req, res) => {
           "Product stock changed. Please try again."
         );
       }
+
+      // Keep track of reserved stock for restoration
+      reservedItems.push({
+        product: item.product,
+        quantity: item.quantity,
+      });
     }
+
+    // 9. Create order
+    createdOrder = new Order({
+      user: userId,
+      email: user.email,
+      items: orderItems,
+      shippingAddress: {
+        fullName: address.fullName,
+        phone: address.phone,
+        addressLine1: address.addressLine1,
+        addressLine2: address.addressLine2,
+        city: address.city,
+        state: address.state,
+        postalCode: address.postalCode,
+        country: address.country,
+      },
+      subtotal,
+      shippingCharge,
+      totalAmount,
+      paymentMethod,
+      paymentStatus: "Pending",
+      orderStatus: "Placed",
+    });
+
+    await createdOrder.save();
 
     // 10. Clear cart
     cart.items = [];
-    await cart.save({ session });
+    await cart.save();
 
-    // 11. Commit transaction
-    await session.commitTransaction();
-
+    // 11. Send success response
     return res.status(201).json({
       success: true,
       message: "Order placed successfully.",
-      order,
+      order: createdOrder,
     });
+
   } catch (error) {
-    if (session.inTransaction()) {
-      await session.abortTransaction();
+    // 12. Delete created order if a later operation failed
+    if (createdOrder?._id) {
+      try {
+        await Order.deleteOne({ _id: createdOrder._id });
+      } catch (rollbackError) {
+        console.error("Order rollback failed:", rollbackError);
+      }
     }
+
+    // 13. Restore reserved stock if an operation failed
+    for (const item of reservedItems) {
+      try {
+        await Product.updateOne(
+          { _id: item.product },
+          {
+            $inc: {
+              quantity: item.quantity,
+              totalSold: -item.quantity,
+            },
+          }
+        );
+      } catch (rollbackError) {
+        console.error("Stock restoration failed:", rollbackError);
+      }
+    }
+
+    console.error("Create order error:", error);
 
     return res.status(400).json({
       success: false,
       message: error.message || "Failed to place order.",
     });
-  } finally {
-    await session.endSession();
   }
 };

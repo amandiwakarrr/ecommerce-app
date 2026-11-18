@@ -1,6 +1,9 @@
+import { useState } from "react";
 import ShippingDetails from "../components/checkout/ShippingDetails";
 import CheckoutProduct from "../components/checkout/CheckoutProduct";
 function Checkout() {
+  const [selectedAddressId, setSelectedAddressId] = useState("");
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("upi");
   return (
     <div className="w-full h-auto px-5 py-5 sm:px-8 lg:px-15">
       <div className="w-full h-auto grid grid-cols-1 md:grid-cols-2 gap-5 ">
@@ -13,10 +16,16 @@ function Checkout() {
             <span>Confirm</span>
           </div>
           {/* Shipping Details */}
-          <ShippingDetails />
+          <ShippingDetails
+            selectedAddressId={selectedAddressId}
+            onAddressChange={setSelectedAddressId}
+            selectedPaymentMethod={selectedPaymentMethod}
+            onPaymentMethodChange={setSelectedPaymentMethod}
+          />
         </div>
         {/* checkout order summary  and Products*/}
-        <CheckoutProduct />
+        <CheckoutProduct selectedAddressId={selectedAddressId}
+          selectedPaymentMethod={selectedPaymentMethod} />
       </div>
     </div>
   );

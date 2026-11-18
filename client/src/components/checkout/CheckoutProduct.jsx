@@ -1,9 +1,15 @@
 import useCart from "../../context/useCart";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { createOrder } from "../../services/orderService";
 // import OrderSummary from "./OrderSummary";
-function CheckoutProduct() {
+function CheckoutProduct({ selectedAddressId,
+  selectedPaymentMethod,
+}) {
   const navigate = useNavigate();
   const { cart, cartTotal } = useCart();
+  const [loading, setLoading] = useState(false);
+  const [orderError, setOrderError] = useState("");
 
   const formatPrice = (price) =>
     Number(price || 0).toLocaleString("en-IN", {
@@ -13,6 +19,44 @@ function CheckoutProduct() {
 
   const shippingPrice = cartTotal < 149 ? 49 : 0;
   const finalTotal = cartTotal + shippingPrice;
+
+  const handlePlaceOrder = async () => {
+    if (!selectedAddressId) {
+      setOrderError("Please select a delivery address.");
+      return;
+    }
+
+    if (!selectedPaymentMethod) {
+      setOrderError("Please select a payment method.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setOrderError("");
+
+      const orderData = {
+        addressId: selectedAddressId,
+        paymentMethod: selectedPaymentMethod.toUpperCase(),
+      };
+
+      const response = await createOrder(orderData);
+
+      console.log("Order created successfully:", response);
+      navigate("/", {
+        state: {
+          order: response.order,
+        },
+      });
+
+    } catch (error) {
+      setOrderError(
+        error.response?.data?.message || "Failed to place your order."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className={`w-full sm:mt-13`}>
@@ -97,15 +141,17 @@ function CheckoutProduct() {
 
         {/* Checkout button */}
         <div className="w-full">
+          {orderError && (
+            <p className="text-red-500 text-sm mb-2">{orderError}</p>
+          )}
+
           <button
             type="button"
-            disabled={cart.length === 0}
-            onClick={() => {
-              navigate("/checkout");
-            }}
+            disabled={cart.length === 0 || !selectedAddressId || loading}
+            onClick={handlePlaceOrder}
             className="cursor-pointer w-full text-dark bg-btn py-2 px-3 rounded disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Place Order
+            {loading ? "Placing Order..." : "Place Order"}
           </button>
         </div>
       </div>

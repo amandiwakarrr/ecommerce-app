@@ -10,6 +10,7 @@ import cookieParser from "cookie-parser";
 import cartRoutes from "./routes/cartRoutes.js";
 import wishlistRoutes from "./routes/wishlistRoutes.js";
 import addressRoutes from "./routes/addressRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
 
 // load environment variables
 dotenv.config();
@@ -40,6 +41,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/wishlist", wishlistRoutes)
 app.use("/api/addresses",addressRoutes);
+app.use("/api/orders", orderRoutes)
 
 // app.get() defines a GET endpoint.
 // req represents the incoming request.
