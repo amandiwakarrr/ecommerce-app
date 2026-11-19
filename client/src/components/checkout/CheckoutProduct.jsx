@@ -2,6 +2,7 @@ import useCart from "../../context/useCart";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { createOrder } from "../../services/orderService";
+import useOrders from "../../context/useOrders.js";
 
 // import OrderSummary from "./OrderSummary";
 function CheckoutProduct({ selectedAddressId,
@@ -9,6 +10,8 @@ function CheckoutProduct({ selectedAddressId,
 }) {
   const navigate = useNavigate();
   const { cart, cartTotal, clearCart } = useCart();
+  const { refreshOrders } = useOrders();
+
   const [loading, setLoading] = useState(false);
   const [orderError, setOrderError] = useState("");
 
@@ -18,7 +21,7 @@ function CheckoutProduct({ selectedAddressId,
       maximumFractionDigits: 2,
     });
 
-  const shippingPrice = cartTotal < 149 ? 49 : 0;
+  const shippingPrice = cartTotal < 200 ? 49 : 0;
   const finalTotal = cartTotal + shippingPrice;
 
   const handlePlaceOrder = async () => {
@@ -42,8 +45,9 @@ function CheckoutProduct({ selectedAddressId,
       };
 
       const response = await createOrder(orderData);
-      await clearCart();
-      console.log("Order created successfully:", response); 
+      clearCart();
+      await refreshOrders();
+      // console.log("Order created successfully:", response);
       navigate("/order-success", {
         state: {
           order: response.order,

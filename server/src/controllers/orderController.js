@@ -14,217 +14,240 @@ const createClientError = (message) => {
 };
 
 // Create Order
+// Method	Purpose
+// mongoose.startSession()	Starts a MongoDB session
+// session.withTransaction()	Executes operations in a transaction
+// .session(session)	Associates database reads with the transaction
+// { session }	Associates database writes with the transaction
+// session.endSession()	Closes the session
 export const createOrder = async (req, res) => {
-  let reservedItems = [];
-  let createdOrder = null;
+  // Validate request data before starting transaction
+  const userId = req.user._id;
+  const { addressId, paymentMethod } = req.body;
+
+  const validPaymentMethods = ["UPI", "CARD", "COD"];
+
+  if (!validPaymentMethods.includes(paymentMethod)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid payment method.",
+    });
+  }
+
+  if (!mongoose.isValidObjectId(addressId)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid shipping address ID.",
+    });
+  }
+
+  // Start MongoDB session
+  const session = await mongoose.startSession();
 
   try {
-    const userId = req.user._id;
-    const { addressId, paymentMethod } = req.body;
+    let createdOrder;
 
-    // 1. Validate payment method
-    const validPaymentMethods = ["UPI", "CARD", "COD"];
+    // Execute all database operations in one transaction
+    await session.withTransaction(async () => {
 
-    if (!validPaymentMethods.includes(paymentMethod)) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid payment method.",
-      });
-    }
+      // 1. Get user email
+      const user = await User.findById(userId)
+        .select("email")
+        .session(session);
 
-    // 2. Validate address ID
-    if (!mongoose.isValidObjectId(addressId)) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid shipping address ID.",
-      });
-    }
-
-    // 3. Get user email
-    const user = await User.findById(userId).select("email");
-
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found.",
-      });
-    }
-
-    // 4. Get user's cart
-    const cart = await Cart.findOne({ user: userId });
-
-    if (!cart || cart.items.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: "Your cart is empty.",
-      });
-    }
-
-    // 5. Get and validate shipping address
-    const address = await Address.findOne({
-      _id: addressId,
-      user: userId,
-    });
-
-    if (!address) {
-      return res.status(404).json({
-        success: false,
-        message: "Shipping address not found.",
-      });
-    }
-
-    // 6. Get products from database
-    const productIds = cart.items.map((item) => item.product);
-
-    const products = await Product.find({
-      _id: { $in: productIds },
-    });
-
-    const productMap = new Map(
-      products.map((product) => [
-        product._id.toString(),
-        product,
-      ])
-    );
-
-    let subtotal = 0;
-    const orderItems = [];
-
-    // 7. Validate cart items and calculate subtotal
-    for (const cartItem of cart.items) {
-      if (
-        !Number.isInteger(cartItem.quantity) ||
-        cartItem.quantity < 1
-      ) {
-        throw createClientError("Invalid product quantity.");
+      if (!user) {
+        const error = new Error("User not found.");
+        error.statusCode = 404;
+        throw error;
       }
 
-      const product = productMap.get(
-        cartItem.product.toString()
+      // 2. Get user's cart
+      const cart = await Cart.findOne({ user: userId })
+        .session(session);
+
+      if (!cart || cart.items.length === 0) {
+        const error = new Error("Your cart is empty.");
+        error.statusCode = 400;
+        throw error;
+      }
+
+      // 3. Get shipping address
+      const address = await Address.findOne({
+        _id: addressId,
+        user: userId,
+      }).session(session);
+
+      if (!address) {
+        const error = new Error("Shipping address not found.");
+        error.statusCode = 404;
+        throw error;
+      }
+
+      // 4. Get products
+      const productIds = cart.items.map(
+        (item) => item.product
       );
 
-      if (!product || product.status !== "active") {
-        throw createClientError(
-          "A product in your cart is unavailable."
+      const products = await Product.find({
+        _id: { $in: productIds },
+      }).session(session);
+
+      const productMap = new Map(
+        products.map((product) => [
+          product._id.toString(),
+          product,
+        ])
+      );
+
+      let subtotal = 0;
+      const orderItems = [];
+
+      // 5. Validate cart items and calculate subtotal
+      for (const cartItem of cart.items) {
+        if (
+          !Number.isInteger(cartItem.quantity) ||
+          cartItem.quantity < 1
+        ) {
+          const error = new Error("Invalid product quantity.");
+          error.statusCode = 400;
+          throw error;
+        }
+
+        const product = productMap.get(
+          cartItem.product.toString()
         );
+
+        if (!product || product.status !== "active") {
+          const error = new Error(
+            "A product in your cart is unavailable."
+          );
+          error.statusCode = 400;
+          throw error;
+        }
+
+        if (product.quantity < cartItem.quantity) {
+          const error = new Error(
+            `Insufficient stock for ${product.title}.`
+          );
+          error.statusCode = 400;
+          throw error;
+        }
+
+        // Validate selected size
+        if (
+          product.sizes?.length > 0 &&
+          !product.sizes.includes(cartItem.size)
+        ) {
+          const error = new Error(
+            `Please select a valid size for ${product.title}.`
+          );
+          error.statusCode = 400;
+          throw error;
+        }
+
+        // Validate selected color
+        if (
+          product.colors?.length > 0 &&
+          !product.colors.includes(cartItem.color)
+        ) {
+          const error = new Error(
+            `Please select a valid color for ${product.title}.`
+          );
+          error.statusCode = 400;
+          throw error;
+        }
+
+        // Get actual product price
+        const price = product.discountPrice ?? product.price;
+
+        if (!Number.isFinite(price) || price < 0) {
+          throw new Error(
+            `Invalid price for product ${product.title}.`
+          );
+        }
+
+        const itemTotal = price * cartItem.quantity;
+        subtotal += itemTotal;
+
+        // Product snapshot
+        orderItems.push({
+          product: product._id,
+          sku: product.sku,
+          title: product.title,
+          image: product.images?.[0]?.url,
+          price,
+          quantity: cartItem.quantity,
+          size: cartItem.size,
+          color: cartItem.color,
+        });
       }
 
-      if (product.quantity < cartItem.quantity) {
-        throw createClientError(
-          `Insufficient stock for ${product.title}.`
-        );
-      }
+      // 6. Calculate shipping
+      const shippingCharge = subtotal < 200 ? 49 : 0;
+      const totalAmount = subtotal + shippingCharge;
 
-      // Validate selected size
-      if (
-        product.sizes?.length > 0 &&
-        !product.sizes.includes(cartItem.size)
-      ) {
-        throw createClientError(
-          `Please select a valid size for ${product.title}.`
-        );
-      }
-
-      // Validate selected color
-      if (
-        product.colors?.length > 0 &&
-        !product.colors.includes(cartItem.color)
-      ) {
-        throw createClientError(
-          `Please select a valid color for ${product.title}.`
-        );
-      }
-
-      // Get actual product price
-      const price = product.discountPrice ?? product.price;
-
-      if (!Number.isFinite(price) || price < 0) {
-        throw new Error(
-          `Invalid price for product ${product.title}.`
-        );
-      }
-
-      const itemTotal = price * cartItem.quantity;
-
-      subtotal += itemTotal;
-
-      // Store product snapshot
-      orderItems.push({
-        product: product._id,
-        sku: product.sku,
-        title: product.title,
-        image: product.images?.[0]?.url,
-        price,
-        quantity: cartItem.quantity,
-        size: cartItem.size,
-        color: cartItem.color,
-      });
-    }
-
-    // 8. Calculate shipping charge
-    const shippingCharge = subtotal < 200 ? 49 : 0;
-    const totalAmount = subtotal + shippingCharge;
-
-    // 9. Reserve product stock
-    for (const item of cart.items) {
-      const updatedProduct = await Product.findOneAndUpdate(
-        {
-          _id: item.product,
-          status: "active",
-          quantity: { $gte: item.quantity },
-        },
-        {
-          $inc: {
-            quantity: -item.quantity,
-            totalSold: item.quantity,
+      // 7. Reserve product stock
+      for (const item of cart.items) {
+        const updatedProduct = await Product.findOneAndUpdate(
+          {
+            _id: item.product,
+            status: "active",
+            quantity: { $gte: item.quantity },
           },
-        },
-        { new: true }
-      );
-
-      if (!updatedProduct) {
-        throw createClientError(
-          "Product stock changed. Please try again."
+          {
+            $inc: {
+              quantity: -item.quantity,
+              totalSold: item.quantity,
+            },
+          },
+          {
+            new: true,
+            session,
+          }
         );
+
+        if (!updatedProduct) {
+          const error = new Error(
+            "Product stock changed. Please try again."
+          );
+          error.statusCode = 400;
+          throw error;
+        }
       }
 
-      // Keep track of reserved stock for restoration
-      reservedItems.push({
-        product: item.product,
-        quantity: item.quantity,
+      // 8. Create order
+      const order = new Order({
+        user: userId,
+        email: user.email,
+        items: orderItems,
+        shippingAddress: {
+          fullName: address.fullName,
+          phone: address.phone,
+          addressLine1: address.addressLine1,
+          addressLine2: address.addressLine2,
+          city: address.city,
+          state: address.state,
+          postalCode: address.postalCode,
+          country: address.country,
+        },
+        subtotal,
+        shippingCharge,
+        totalAmount,
+        paymentMethod,
+        paymentStatus: "Pending",
+        orderStatus: "Placed",
       });
-    }
 
-    // 10. Create order
-    createdOrder = new Order({
-      user: userId,
-      email: user.email,
-      items: orderItems,
-      shippingAddress: {
-        fullName: address.fullName,
-        phone: address.phone,
-        addressLine1: address.addressLine1,
-        addressLine2: address.addressLine2,
-        city: address.city,
-        state: address.state,
-        postalCode: address.postalCode,
-        country: address.country,
-      },
-      subtotal,
-      shippingCharge,
-      totalAmount,
-      paymentMethod,
-      paymentStatus: "Pending",
-      orderStatus: "Placed",
+      await order.save({ session });
+
+      createdOrder = order;
+
+      // 9. Clear cart
+      cart.items = [];
+      await cart.save({ session });
     });
 
-    await createdOrder.save();
-
-    // 11. Clear cart
-    cart.items = [];
-    await cart.save();
-
-    // 12. Send success response
+    // Transaction committed successfully
     return res.status(201).json({
       success: true,
       message: "Order placed successfully.",
@@ -232,48 +255,21 @@ export const createOrder = async (req, res) => {
     });
 
   } catch (error) {
-    // 13. Delete created order if a later operation failed
-    if (createdOrder?._id) {
-      try {
-        await Order.deleteOne({
-          _id: createdOrder._id,
-        });
-      } catch (rollbackError) {
-        console.error("Order rollback failed:", rollbackError);
-      }
-    }
-
-    // 14. Restore reserved stock if an operation failed
-    for (const item of reservedItems) {
-      try {
-        await Product.updateOne(
-          { _id: item.product },
-          {
-            $inc: {
-              quantity: item.quantity,
-              totalSold: -item.quantity,
-            },
-          }
-        );
-      } catch (rollbackError) {
-        console.error(
-          "Stock restoration failed:",
-          rollbackError
-        );
-      }
-    }
-
     console.error("Create order error:", error);
 
     return res.status(error.statusCode || 500).json({
       success: false,
-      message:
-        error.statusCode
-          ? error.message
-          : "An unexpected error occurred while placing your order.",
+      message: error.statusCode
+        ? error.message
+        : "An unexpected error occurred while placing your order.",
     });
+
+  } finally {
+    // Always close the session
+    await session.endSession();
   }
 };
+
 
 // Get All Orders
 export const getAllOrders = async (req, res) => {
