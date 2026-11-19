@@ -8,6 +8,7 @@ function UserDashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const { wishlist } = useWishlist();
+ 
 
   const profileLinks = [
     {
@@ -19,7 +20,7 @@ function UserDashboard() {
       title: "Orders",
       icon: "pi pi-shopping-bag",
       path: "/account/orders",
-      count: 23,
+      count: "",
     },
     {
       title: "Wishlist",
@@ -82,11 +83,10 @@ function UserDashboard() {
             return (
               <Link key={pl.path} to={pl.path} className="shrink-0 sm:w-full">
                 <div
-                  className={`w-full px-3 py-2 rounded flex items-center justify-between gap-3 ${
-                    isActive
-                      ? "bg-btn text-dark"
-                      : "bg-dark hover:bg-secondary-bg text-secondary-text"
-                  }`}
+                  className={`w-full px-3 py-2 rounded flex items-center justify-between gap-3 ${isActive
+                    ? "bg-btn text-dark"
+                    : "bg-dark hover:bg-secondary-bg text-secondary-text"
+                    }`}
                 >
                   <div className="flex items-center gap-2 whitespace-nowrap">
                     <i className={pl.icon}></i>

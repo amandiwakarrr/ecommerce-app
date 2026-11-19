@@ -2,12 +2,13 @@ import useCart from "../../context/useCart";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { createOrder } from "../../services/orderService";
+
 // import OrderSummary from "./OrderSummary";
 function CheckoutProduct({ selectedAddressId,
   selectedPaymentMethod,
 }) {
   const navigate = useNavigate();
-  const { cart, cartTotal } = useCart();
+  const { cart, cartTotal, clearCart } = useCart();
   const [loading, setLoading] = useState(false);
   const [orderError, setOrderError] = useState("");
 
@@ -41,9 +42,9 @@ function CheckoutProduct({ selectedAddressId,
       };
 
       const response = await createOrder(orderData);
-
-      console.log("Order created successfully:", response);
-      navigate("/", {
+      await clearCart();
+      console.log("Order created successfully:", response); 
+      navigate("/order-success", {
         state: {
           order: response.order,
         },

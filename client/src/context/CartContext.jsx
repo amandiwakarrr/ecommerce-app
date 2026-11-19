@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { CartContext } from "./CartContext.js";
 import { useAuth } from "./useAuth";
 
+
 import {
   getCart,
   addToCart as addCartItem,
@@ -71,6 +72,8 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+
+
   // Increase quantity
   const increaseQuantity = async (item) => {
     if (!isAuthenticated) {
@@ -134,6 +137,12 @@ export const CartProvider = ({ children }) => {
     return total + price * item.quantity;
   }, 0);
 
+  // clearCary
+  // Clear cart locally after successful order
+  const handleClearCart = () => {
+    setCart([]);
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -144,6 +153,7 @@ export const CartProvider = ({ children }) => {
         removeFromCart,
         cartCount,
         cartTotal,
+        clearCart: handleClearCart,
       }}
     >
       {children}

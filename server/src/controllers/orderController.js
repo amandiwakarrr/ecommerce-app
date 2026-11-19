@@ -1,10 +1,19 @@
 
+import mongoose from "mongoose";
 import Cart from "../models/Cart.js";
 import Product from "../models/Product.js";
 import Address from "../models/Address.js";
 import Order from "../models/Order.js";
 import User from "../models/User.js";
 
+// Helper for client-side validation errors
+const createClientError = (message) => {
+  const error = new Error(message);
+  error.statusCode = 400;
+  return error;
+};
+
+// Create Order
 export const createOrder = async (req, res) => {
   let reservedItems = [];
   let createdOrder = null;
@@ -23,7 +32,15 @@ export const createOrder = async (req, res) => {
       });
     }
 
-    // 2. Get user email
+    // 2. Validate address ID
+    if (!mongoose.isValidObjectId(addressId)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid shipping address ID.",
+      });
+    }
+
+    // 3. Get user email
     const user = await User.findById(userId).select("email");
 
     if (!user) {
@@ -33,7 +50,7 @@ export const createOrder = async (req, res) => {
       });
     }
 
-    // 3. Get user's cart
+    // 4. Get user's cart
     const cart = await Cart.findOne({ user: userId });
 
     if (!cart || cart.items.length === 0) {
@@ -43,7 +60,7 @@ export const createOrder = async (req, res) => {
       });
     }
 
-    // 4. Get and validate shipping address
+    // 5. Get and validate shipping address
     const address = await Address.findOne({
       _id: addressId,
       user: userId,
@@ -56,7 +73,7 @@ export const createOrder = async (req, res) => {
       });
     }
 
-    // 5. Get products from database
+    // 6. Get products from database
     const productIds = cart.items.map((item) => item.product);
 
     const products = await Product.find({
@@ -73,13 +90,13 @@ export const createOrder = async (req, res) => {
     let subtotal = 0;
     const orderItems = [];
 
-    // 6. Validate cart items and calculate subtotal
+    // 7. Validate cart items and calculate subtotal
     for (const cartItem of cart.items) {
       if (
         !Number.isInteger(cartItem.quantity) ||
         cartItem.quantity < 1
       ) {
-        throw new Error("Invalid product quantity.");
+        throw createClientError("Invalid product quantity.");
       }
 
       const product = productMap.get(
@@ -87,13 +104,13 @@ export const createOrder = async (req, res) => {
       );
 
       if (!product || product.status !== "active") {
-        throw new Error(
+        throw createClientError(
           "A product in your cart is unavailable."
         );
       }
 
       if (product.quantity < cartItem.quantity) {
-        throw new Error(
+        throw createClientError(
           `Insufficient stock for ${product.title}.`
         );
       }
@@ -103,7 +120,7 @@ export const createOrder = async (req, res) => {
         product.sizes?.length > 0 &&
         !product.sizes.includes(cartItem.size)
       ) {
-        throw new Error(
+        throw createClientError(
           `Please select a valid size for ${product.title}.`
         );
       }
@@ -113,13 +130,19 @@ export const createOrder = async (req, res) => {
         product.colors?.length > 0 &&
         !product.colors.includes(cartItem.color)
       ) {
-        throw new Error(
+        throw createClientError(
           `Please select a valid color for ${product.title}.`
         );
       }
 
       // Get actual product price
       const price = product.discountPrice ?? product.price;
+
+      if (!Number.isFinite(price) || price < 0) {
+        throw new Error(
+          `Invalid price for product ${product.title}.`
+        );
+      }
 
       const itemTotal = price * cartItem.quantity;
 
@@ -130,7 +153,7 @@ export const createOrder = async (req, res) => {
         product: product._id,
         sku: product.sku,
         title: product.title,
-        image: product.images[0]?.url,
+        image: product.images?.[0]?.url,
         price,
         quantity: cartItem.quantity,
         size: cartItem.size,
@@ -138,11 +161,11 @@ export const createOrder = async (req, res) => {
       });
     }
 
-    // 7. Calculate shipping charge
+    // 8. Calculate shipping charge
     const shippingCharge = subtotal < 200 ? 49 : 0;
     const totalAmount = subtotal + shippingCharge;
 
-    // 8. Reserve product stock
+    // 9. Reserve product stock
     for (const item of cart.items) {
       const updatedProduct = await Product.findOneAndUpdate(
         {
@@ -160,7 +183,7 @@ export const createOrder = async (req, res) => {
       );
 
       if (!updatedProduct) {
-        throw new Error(
+        throw createClientError(
           "Product stock changed. Please try again."
         );
       }
@@ -172,7 +195,7 @@ export const createOrder = async (req, res) => {
       });
     }
 
-    // 9. Create order
+    // 10. Create order
     createdOrder = new Order({
       user: userId,
       email: user.email,
@@ -197,11 +220,11 @@ export const createOrder = async (req, res) => {
 
     await createdOrder.save();
 
-    // 10. Clear cart
+    // 11. Clear cart
     cart.items = [];
     await cart.save();
 
-    // 11. Send success response
+    // 12. Send success response
     return res.status(201).json({
       success: true,
       message: "Order placed successfully.",
@@ -209,16 +232,18 @@ export const createOrder = async (req, res) => {
     });
 
   } catch (error) {
-    // 12. Delete created order if a later operation failed
+    // 13. Delete created order if a later operation failed
     if (createdOrder?._id) {
       try {
-        await Order.deleteOne({ _id: createdOrder._id });
+        await Order.deleteOne({
+          _id: createdOrder._id,
+        });
       } catch (rollbackError) {
         console.error("Order rollback failed:", rollbackError);
       }
     }
 
-    // 13. Restore reserved stock if an operation failed
+    // 14. Restore reserved stock if an operation failed
     for (const item of reservedItems) {
       try {
         await Product.updateOne(
@@ -231,15 +256,44 @@ export const createOrder = async (req, res) => {
           }
         );
       } catch (rollbackError) {
-        console.error("Stock restoration failed:", rollbackError);
+        console.error(
+          "Stock restoration failed:",
+          rollbackError
+        );
       }
     }
 
     console.error("Create order error:", error);
 
-    return res.status(400).json({
+    return res.status(error.statusCode || 500).json({
       success: false,
-      message: error.message || "Failed to place order.",
+      message:
+        error.statusCode
+          ? error.message
+          : "An unexpected error occurred while placing your order.",
+    });
+  }
+};
+
+// Get All Orders
+export const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({
+      user: req.user._id,
+    }).sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      count: orders.length,
+      orders,
+    });
+
+  } catch (error) {
+    console.error("Fetch orders error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch orders.",
     });
   }
 };

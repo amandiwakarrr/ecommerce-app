@@ -11,6 +11,7 @@ import { Toaster } from "react-hot-toast";
 import App from "./App.jsx";
 import { WishlistProvider } from "./context/WishlistContext.jsx";
 import { AddressProvider } from "./context/AddressContext.jsx";
+import OrdersProvider from "./context/OrdersProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -20,7 +21,7 @@ createRoot(document.getElementById("root")).render(
           position="top-right"
           reverseOrder={false}
           toastOptions={{
-            duration: 3000,
+            duration: 300,
             style: {
               background: "#0f1114",
               color: "#ffffff",
@@ -32,7 +33,9 @@ createRoot(document.getElementById("root")).render(
           <WishlistProvider>
             <ProductProvider>
               <AddressProvider>
-                <App />
+                <OrdersProvider>
+                  <App />
+                </OrdersProvider>
               </AddressProvider>
             </ProductProvider>
           </WishlistProvider>

@@ -25,10 +25,10 @@ function NewArrivals() {
           Shop All
         </Link>
       </div>
-      <div className="cards w-full h-auto px-5 sm:px-16 grid grid-cols-2 sm:grid-cols-4 place-items-center gap-5">
+      <div className="cards w-full h-auto px-5 sm:px-16 grid grid-cols-2 sm:grid-cols-5 place-items-center gap-5">
         {products
           .filter((product) => product.badge?.toLowerCase() === "new")
-          .slice(0, 4)
+          .slice(0, 5)
           .map((product) => (
             <div key={product._id} className="w-full">
               <ProductCard product={product} />
