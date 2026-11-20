@@ -6,27 +6,14 @@ import Address from "../models/Address.js";
 import Order from "../models/Order.js";
 import User from "../models/User.js";
 
-// Helper for client-side validation errors
-const createClientError = (message) => {
-  const error = new Error(message);
-  error.statusCode = 400;
-  return error;
-};
-
 // Create Order
-// Method	Purpose
-// mongoose.startSession()	Starts a MongoDB session
-// session.withTransaction()	Executes operations in a transaction
-// .session(session)	Associates database reads with the transaction
-// { session }	Associates database writes with the transaction
-// session.endSession()	Closes the session
 export const createOrder = async (req, res) => {
-  // Validate request data before starting transaction
   const userId = req.user._id;
   const { addressId, paymentMethod } = req.body;
 
   const validPaymentMethods = ["UPI", "CARD", "COD"];
 
+  // Validate payment method
   if (!validPaymentMethods.includes(paymentMethod)) {
     return res.status(400).json({
       success: false,
@@ -34,6 +21,7 @@ export const createOrder = async (req, res) => {
     });
   }
 
+  // Validate address ID
   if (!mongoose.isValidObjectId(addressId)) {
     return res.status(400).json({
       success: false,
@@ -41,15 +29,12 @@ export const createOrder = async (req, res) => {
     });
   }
 
-  // Start MongoDB session
   const session = await mongoose.startSession();
 
   try {
     let createdOrder;
 
-    // Execute all database operations in one transaction
     await session.withTransaction(async () => {
-
       // 1. Get user email
       const user = await User.findById(userId)
         .select("email")
@@ -84,9 +69,7 @@ export const createOrder = async (req, res) => {
       }
 
       // 4. Get products
-      const productIds = cart.items.map(
-        (item) => item.product
-      );
+      const productIds = cart.items.map((item) => item.product);
 
       const products = await Product.find({
         _id: { $in: productIds },
@@ -161,9 +144,11 @@ export const createOrder = async (req, res) => {
         const price = product.discountPrice ?? product.price;
 
         if (!Number.isFinite(price) || price < 0) {
-          throw new Error(
+          const error = new Error(
             `Invalid price for product ${product.title}.`
           );
+          error.statusCode = 400;
+          throw error;
         }
 
         const itemTotal = price * cartItem.quantity;
@@ -186,36 +171,7 @@ export const createOrder = async (req, res) => {
       const shippingCharge = subtotal < 200 ? 49 : 0;
       const totalAmount = subtotal + shippingCharge;
 
-      // 7. Reserve product stock
-      for (const item of cart.items) {
-        const updatedProduct = await Product.findOneAndUpdate(
-          {
-            _id: item.product,
-            status: "active",
-            quantity: { $gte: item.quantity },
-          },
-          {
-            $inc: {
-              quantity: -item.quantity,
-              totalSold: item.quantity,
-            },
-          },
-          {
-            new: true,
-            session,
-          }
-        );
-
-        if (!updatedProduct) {
-          const error = new Error(
-            "Product stock changed. Please try again."
-          );
-          error.statusCode = 400;
-          throw error;
-        }
-      }
-
-      // 8. Create order
+      // 7. Create order
       const order = new Order({
         user: userId,
         email: user.email,
@@ -242,18 +198,49 @@ export const createOrder = async (req, res) => {
 
       createdOrder = order;
 
-      // 9. Clear cart
-      cart.items = [];
-      await cart.save({ session });
+      // 8. COD: update stock and clear cart immediately
+      if (paymentMethod === "COD") {
+        for (const item of cart.items) {
+          const updatedProduct = await Product.findOneAndUpdate(
+            {
+              _id: item.product,
+              status: "active",
+              quantity: { $gte: item.quantity },
+            },
+            {
+              $inc: {
+                quantity: -item.quantity,
+                totalSold: item.quantity,
+              },
+            },
+            {
+              new: true,
+              session,
+            }
+          );
+
+          if (!updatedProduct) {
+            const error = new Error(
+              "Product stock changed. Please try again."
+            );
+            error.statusCode = 400;
+            throw error;
+          }
+        }
+
+        cart.items = [];
+        await cart.save({ session });
+      }
+
+      // For UPI and CARD:
+      // Keep the cart and stock unchanged until payment is verified.
     });
 
-    // Transaction committed successfully
     return res.status(201).json({
       success: true,
-      message: "Order placed successfully.",
+      message: "Order created successfully.",
       order: createdOrder,
     });
-
   } catch (error) {
     console.error("Create order error:", error);
 
@@ -261,15 +248,12 @@ export const createOrder = async (req, res) => {
       success: false,
       message: error.statusCode
         ? error.message
-        : "An unexpected error occurred while placing your order.",
+        : "An unexpected error occurred while creating your order.",
     });
-
   } finally {
-    // Always close the session
     await session.endSession();
   }
 };
-
 
 // Get All Orders
 export const getAllOrders = async (req, res) => {
@@ -283,7 +267,6 @@ export const getAllOrders = async (req, res) => {
       count: orders.length,
       orders,
     });
-
   } catch (error) {
     console.error("Fetch orders error:", error);
 

@@ -1,6 +1,11 @@
+
+import mongoose from "mongoose";
 import razorpay from "../config/razorpay.js";
 import Order from "../models/Order.js";
+import Cart from "../models/Cart.js";
+import Product from "../models/Product.js";
 import crypto from "crypto";
+
 // Create Razorpay Order
 export const createRazorpayOrder = async (req, res) => {
     try {
@@ -18,7 +23,7 @@ export const createRazorpayOrder = async (req, res) => {
             });
         }
 
-        // 2. Find user's existing order
+        // 2. Find user's order
         const order = await Order.findOne({
             _id: orderId,
             user: userId,
@@ -39,14 +44,15 @@ export const createRazorpayOrder = async (req, res) => {
             });
         }
 
-        // 4. Check payment status
+        // 4. Validate payment status
         if (order.paymentStatus !== "Pending") {
             return res.status(400).json({
                 success: false,
                 message: "This order cannot be paid again.",
             });
         }
-        // 5. Reuse existing Razorpay order if available
+
+        // 5. Reuse existing Razorpay order
         if (order.razorpayOrderId) {
             const existingRazorpayOrder = await razorpay.orders.fetch(
                 order.razorpayOrderId
@@ -60,29 +66,24 @@ export const createRazorpayOrder = async (req, res) => {
             });
         }
 
-        // 6. Create Razorpay payment order
+        // 6. Create Razorpay order
         const razorpayOrder = await razorpay.orders.create({
             amount: Math.round(order.totalAmount * 100),
             currency: "INR",
             receipt: order._id.toString(),
+            checkout_config_id: "config_U2QbJ4uKJwOyuB",
         });
 
-        // 6. Save Razorpay order ID
+        // 7. Save Razorpay order ID
         order.razorpayOrderId = razorpayOrder.id;
         await order.save();
-        return res.status(200).json({
-            success: true,
-            message: "Payment verified successfully.",
-        });
 
-        // 7. Send response
         return res.status(201).json({
             success: true,
             message: "Razorpay order created successfully.",
             razorpayOrder,
             key: process.env.RAZORPAY_KEY_ID,
         });
-
     } catch (error) {
         console.error("Create Razorpay order error:", error);
 
@@ -92,210 +93,6 @@ export const createRazorpayOrder = async (req, res) => {
         });
     }
 };
-
-
-// Create Razorpay UPI QR Code
-export const createUpiQrCode = async (req, res) => {
-    try {
-        const { orderId } = req.body;
-        const userId = req.user._id;
-
-        // 1. Validate order ID
-        if (
-            typeof orderId !== "string" ||
-            !/^[0-9a-fA-F]{24}$/.test(orderId)
-        ) {
-            return res.status(400).json({
-                success: false,
-                message: "Invalid order ID.",
-            });
-        }
-
-        // 2. Find user's order
-        const order = await Order.findOne({
-            _id: orderId,
-            user: userId,
-        });
-
-        if (!order) {
-            return res.status(404).json({
-                success: false,
-                message: "Order not found.",
-            });
-        }
-
-        // 3. Validate payment method
-        if (order.paymentMethod !== "UPI") {
-            return res.status(400).json({
-                success: false,
-                message: "This order is not a UPI order.",
-            });
-        }
-
-        // 4. Check payment status
-        if (order.paymentStatus !== "Pending") {
-            return res.status(400).json({
-                success: false,
-                message: "This order cannot be paid again.",
-            });
-        }
-
-        // 5. Reuse existing active QR code
-        if (order.razorpayQrCodeId) {
-            const existingQr = await razorpay.qrCode.fetch(
-                order.razorpayQrCodeId
-            );
-
-            if (existingQr.status === "active") {
-                return res.status(200).json({
-                    success: true,
-                    message: "Existing QR code retrieved.",
-                    qrCode: {
-                        id: existingQr.id,
-                        imageUrl: existingQr.image_url,
-                        amount: existingQr.payment_amount,
-                    },
-                });
-            }
-        }
-
-        // 6. Create a new single-use UPI QR code
-        const qrCode = await razorpay.qrCode.create({
-            type: "upi_qr",
-            name: "UrbanWear Order",
-            usage: "single_use",
-            fixed_amount: true,
-            payment_amount: Math.round(order.totalAmount * 100),
-            description: `Payment for order ${order._id}`,
-            notes: {
-                order_id: order._id.toString(),
-            },
-        });
-
-        // 7. Save QR details
-        order.razorpayQrCodeId = qrCode.id;
-        order.razorpayQrCodeUrl = qrCode.image_url;
-
-        await order.save();
-
-        // 8. Send response
-        return res.status(201).json({
-            success: true,
-            message: "UPI QR code created successfully.",
-            qrCode: {
-                id: qrCode.id,
-                imageUrl: qrCode.image_url,
-                amount: qrCode.payment_amount,
-            },
-        });
-
-    } catch (error) {
-        console.error("Create UPI QR error:", error);
-
-        return res.status(500).json({
-            success: false,
-            message: "Failed to create UPI QR code.",
-        });
-    }
-};
-
-
-// Verify UPI QR Payment
-export const verifyUpiQrPayment = async (req, res) => {
-    try {
-        const { orderId } = req.body;
-        const userId = req.user._id;
-
-        // 1. Validate order ID
-        if (
-            typeof orderId !== "string" ||
-            !/^[0-9a-fA-F]{24}$/.test(orderId)
-        ) {
-            return res.status(400).json({
-                success: false,
-                message: "Invalid order ID.",
-            });
-        }
-
-        // 2. Find user's order
-        const order = await Order.findOne({
-            _id: orderId,
-            user: userId,
-        });
-
-        if (!order) {
-            return res.status(404).json({
-                success: false,
-                message: "Order not found.",
-            });
-        }
-
-        // 3. Check whether already paid
-        if (order.paymentStatus === "Paid") {
-            return res.status(200).json({
-                success: true,
-                message: "Payment already verified.",
-            });
-        }
-
-        // 4. Validate order
-        if (
-            order.paymentMethod !== "UPI" ||
-            order.paymentStatus !== "Pending" ||
-            !order.razorpayQrCodeId
-        ) {
-            return res.status(400).json({
-                success: false,
-                message: "Order is not eligible for QR payment verification.",
-            });
-        }
-
-        // 5. Fetch payments for this QR code
-        const payments = await razorpay.qrCode.fetchAllPayments(
-            order.razorpayQrCodeId,
-            { count: 100 }
-        );
-
-        // 6. Find a successful payment matching the order
-        const payment = payments.items.find((item) =>
-            item.status === "captured" &&
-            item.captured === true &&
-            item.amount === Math.round(order.totalAmount * 100) &&
-            item.currency === "INR" &&
-            item.method === "upi" &&
-            (item.amount_refunded || 0) === 0
-        );
-
-        if (!payment) {
-            return res.status(400).json({
-                success: false,
-                message: "Payment has not been received yet.",
-            });
-        }
-
-        // 7. Save payment details
-        order.razorpayPaymentId = payment.id;
-        order.paymentMethod = "UPI";
-        order.paymentStatus = "Paid";
-
-        await order.save();
-
-        return res.status(200).json({
-            success: true,
-            message: "UPI QR payment verified successfully.",
-        });
-
-    } catch (error) {
-        console.error("Verify UPI QR payment error:", error);
-
-        return res.status(500).json({
-            success: false,
-            message: "UPI QR payment verification failed.",
-        });
-    }
-};
-
-
 
 // Verify Razorpay Payment
 export const verifyRazorpayPayment = async (req, res) => {
@@ -352,13 +149,12 @@ export const verifyRazorpayPayment = async (req, res) => {
             });
         }
 
-        // 4. Generate expected signature
+        // 4. Verify Razorpay signature
         const generatedSignature = crypto
             .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
             .update(`${razorpay_order_id}|${razorpay_payment_id}`)
             .digest("hex");
 
-        // 5. Compare signatures safely
         const expectedBuffer = Buffer.from(generatedSignature);
         const receivedBuffer = Buffer.from(razorpay_signature);
 
@@ -372,10 +168,10 @@ export const verifyRazorpayPayment = async (req, res) => {
             });
         }
 
-        // 6. Fetch actual payment details from Razorpay
+        // 5. Fetch actual payment details from Razorpay
         const payment = await razorpay.payments.fetch(razorpay_payment_id);
 
-        // 7. Verify payment details
+        // 6. Verify payment details
         if (
             payment.order_id !== razorpay_order_id ||
             payment.amount !== Math.round(order.totalAmount * 100) ||
@@ -387,7 +183,7 @@ export const verifyRazorpayPayment = async (req, res) => {
             });
         }
 
-        // 8. Ensure payment is captured
+        // 7. Ensure payment is captured
         if (payment.status !== "captured") {
             return res.status(400).json({
                 success: false,
@@ -395,29 +191,117 @@ export const verifyRazorpayPayment = async (req, res) => {
             });
         }
 
-        // 9. Save actual payment method
-        if (payment.method === "upi") {
-            order.paymentMethod = "UPI";
-        } else if (payment.method === "card") {
-            order.paymentMethod = "CARD";
-        } else {
+        // 8. Verify actual payment method
+        const actualPaymentMethod =
+            payment.method === "upi"
+                ? "UPI"
+                : payment.method === "card"
+                    ? "CARD"
+                    : null;
+
+        if (!actualPaymentMethod) {
             return res.status(400).json({
                 success: false,
                 message: "Unsupported payment method.",
             });
         }
 
-        // 10. Update payment status
-        order.razorpayPaymentId = razorpay_payment_id;
-        order.paymentStatus = "Paid";
+        // 9. Update stock, clear cart and mark order as paid
+        const session = await mongoose.startSession();
 
-        await order.save();
+        try {
+            await session.withTransaction(async () => {
+                // Recheck order inside transaction
+                const currentOrder = await Order.findOne({
+                    _id: orderId,
+                    user: userId,
+                    razorpayOrderId: razorpay_order_id,
+                }).session(session);
+
+                if (!currentOrder) {
+                    throw new Error("Order not found.");
+                }
+
+                // Prevent duplicate stock updates
+                if (currentOrder.paymentStatus === "Paid") {
+                    return;
+                }
+
+                if (currentOrder.paymentStatus !== "Pending") {
+                    throw new Error("Order is no longer pending.");
+                }
+
+                // Combine quantities if the same product appears more than once
+                const productQuantities = new Map();
+
+                for (const item of currentOrder.items) {
+                    const productId = item.product.toString();
+
+                    productQuantities.set(
+                        productId,
+                        (productQuantities.get(productId) || 0) + item.quantity
+                    );
+                }
+
+                // Decrease stock and update totalSold
+                for (const [productId, quantity] of productQuantities) {
+                    const updatedProduct = await Product.findOneAndUpdate(
+                        {
+                            _id: productId,
+                            quantity: { $gte: quantity },
+                        },
+                        {
+                            $inc: {
+                                quantity: -quantity,
+                                totalSold: quantity,
+                            },
+                        },
+                        {
+                            new: true,
+                            session,
+                        }
+                    );
+
+                    if (!updatedProduct) {
+                        const error = new Error(
+                            "Insufficient stock for one or more products."
+                        );
+                        error.statusCode = 409;
+                        throw error;
+                    }
+                }
+
+                // Clear MongoDB cart only after successful payment
+                const cart = await Cart.findOne({ user: userId }).session(session);
+
+                if (cart) {
+                    cart.items = [];
+                    await cart.save({ session });
+                }
+
+                // Mark order as paid
+                currentOrder.paymentMethod = actualPaymentMethod;
+                currentOrder.razorpayPaymentId = razorpay_payment_id;
+                currentOrder.paymentStatus = "Paid";
+
+                await currentOrder.save({ session });
+            });
+
+            return res.status(200).json({
+                success: true,
+                message: "Payment verified successfully.",
+            });
+        } finally {
+            await session.endSession();
+        }
     } catch (error) {
         console.error("Verify Razorpay payment error:", error);
 
-        return res.status(500).json({
+        return res.status(error.statusCode || 500).json({
             success: false,
-            message: "Payment verification failed.",
+            message: error.statusCode
+                ? error.message
+                : "Payment verification failed.",
         });
     }
 };

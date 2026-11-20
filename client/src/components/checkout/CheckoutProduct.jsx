@@ -7,8 +7,6 @@ import useOrders from "../../context/useOrders.js";
 import {
   createRazorpayOrder,
   verifyRazorpayPayment,
-  createUpiQrCode,
-  verifyUpiQrPayment,
 } from "../../services/paymentService.js";
 
 const loadRazorpayScript = () => {
@@ -33,7 +31,6 @@ function CheckoutProduct({
 
   const [loading, setLoading] = useState(false);
   const [orderError, setOrderError] = useState("");
-  const [qrData, setQrData] = useState(null);
 
   const formatPrice = (price) =>
     Number(price || 0).toLocaleString("en-IN", {
@@ -43,34 +40,6 @@ function CheckoutProduct({
 
   const shippingPrice = cartTotal < 200 ? 49 : 0;
   const finalTotal = cartTotal + shippingPrice;
-
-  // Verify UPI QR payment
-  const handleVerifyQrPayment = async () => {
-    if (!qrData?.orderId) return;
-
-    try {
-      setLoading(true);
-      setOrderError("");
-
-      await verifyUpiQrPayment(qrData.orderId);
-
-      clearCart();
-      await refreshOrders();
-
-      navigate("/order-success", {
-        state: {
-          order: { _id: qrData.orderId },
-        },
-      });
-    } catch (error) {
-      setOrderError(
-        error.response?.data?.message ||
-          "Payment not verified yet. Please try again."
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handlePlaceOrder = async () => {
     if (!selectedAddressId) {
@@ -108,19 +77,7 @@ function CheckoutProduct({
         return;
       }
 
-      // 3. UPI QR payment flow
-      if (selectedPaymentMethod.toUpperCase() === "UPI") {
-        const qrResponse = await createUpiQrCode(order._id);
-
-        setQrData({
-          ...qrResponse.qrCode,
-          orderId: order._id,
-        });
-
-        return;
-      }
-
-      // 4. Load Razorpay Checkout for Card
+      // 3. Load Razorpay Checkout for UPI and Card
       const isScriptLoaded = await loadRazorpayScript();
 
       if (!isScriptLoaded) {
@@ -128,10 +85,10 @@ function CheckoutProduct({
         return;
       }
 
-      // 5. Create Razorpay order
+      // 4. Create Razorpay order
       const paymentResponse = await createRazorpayOrder(order._id);
 
-      // 6. Configure Razorpay Checkout
+      // 5. Configure Razorpay Checkout
       const options = {
         key: paymentResponse.key,
         amount: paymentResponse.razorpayOrder.amount,
@@ -139,17 +96,6 @@ function CheckoutProduct({
         name: "UrbanWear",
         description: "Order Payment",
         order_id: paymentResponse.razorpayOrder.id,
-
-        config: {
-          display: {
-            hide: [
-              {
-                method: "upi",
-                flows: ["collect"],
-              },
-            ],
-          },
-        },
 
         handler: async function (paymentResult) {
           try {
@@ -189,7 +135,7 @@ function CheckoutProduct({
         },
       };
 
-      // 7. Open Razorpay Checkout
+      // 6. Open Razorpay Checkout
       const razorpayInstance = new window.Razorpay(options);
       razorpayInstance.open();
     } catch (error) {
@@ -288,66 +234,21 @@ function CheckoutProduct({
           </div>
         </div>
 
-        {/* UPI QR Code */}
-        {qrData && (
-          <div className="w-full flex flex-col items-center gap-3 border border-primary-border p-5 rounded bg-secondary-bg">
-            <h2 className="font-syne font-extrabold text-primary-text">
-              Scan and Pay with UPI
-            </h2>
-
-            <p className="text-sm text-secondary-text text-center">
-              Scan this QR code using Google Pay, PhonePe, Paytm or another
-              UPI app.
-            </p>
-
-            <img
-              src={qrData.imageUrl}
-              alt="UrbanWear UPI Payment QR Code"
-              className="w-56 h-56 object-contain"
-            />
-
-            <p className="text-lg font-bold text-primary-text">
-              ₹{formatPrice(qrData.amount / 100)}
-            </p>
-
-            <p className="text-xs text-secondary-text">
-              Order ID: {qrData.orderId}
-            </p>
-
-            <button
-              type="button"
-              disabled={loading}
-              onClick={handleVerifyQrPayment}
-              className="cursor-pointer w-full text-dark bg-btn py-2 px-3 rounded disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading
-                ? "Checking Payment..."
-                : "I've completed the payment"}
-            </button>
-          </div>
-        )}
-
         {/* Checkout button */}
-        {!qrData && (
-          <div className="w-full">
-            {orderError && (
-              <p className="text-red-500 text-sm mb-2">{orderError}</p>
-            )}
+        <div className="w-full">
+          {orderError && (
+            <p className="text-red-500 text-sm mb-2">{orderError}</p>
+          )}
 
-            <button
-              type="button"
-              disabled={cart.length === 0 || !selectedAddressId || loading}
-              onClick={handlePlaceOrder}
-              className="cursor-pointer w-full text-dark bg-btn py-2 px-3 rounded disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? "Placing Order..." : "Place Order"}
-            </button>
-          </div>
-        )}
-
-        {qrData && orderError && (
-          <p className="text-red-500 text-sm mb-2">{orderError}</p>
-        )}
+          <button
+            type="button"
+            disabled={cart.length === 0 || !selectedAddressId || loading}
+            onClick={handlePlaceOrder}
+            className="cursor-pointer w-full text-dark bg-btn py-2 px-3 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? "Placing Order..." : "Place Order"}
+          </button>
+        </div>
       </div>
     </div>
   );
