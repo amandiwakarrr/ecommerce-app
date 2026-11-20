@@ -1,11 +1,11 @@
 import {useState, useEffect } from "react";
-import { useAuth } from "./useAuth";
+import { useAuth } from "./useAuth.jsx";
 import { WishlistContext } from "./WishlistContext.js";
 import {
   getWishlist,
   addToWishlist as addWishlistItem,
   removeWishlistItem,
-} from "../services/wishlistService";
+} from "../services/wishlistService.js";
 
 export const WishlistProvider = ({ children }) => {
   const { isAuthenticated, loading: authLoading } = useAuth();

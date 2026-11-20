@@ -1,10 +1,16 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import useOrders from "../context/useOrders";
 
 function OrderSuccess() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { orders, loading } = useOrders();
-  const recentOrder = orders[0];
+
+  const orderId = location.state?.order?._id;
+
+  const recentOrder =
+    orders.find((order) => order._id === orderId) ||
+    (orderId ? location.state?.order : orders[0]);
 
   if (loading) {
     return (

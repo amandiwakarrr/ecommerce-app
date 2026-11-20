@@ -144,8 +144,7 @@ const OrderSchema = new mongoose.Schema(
             min: 0,
         },
 
-
-        //Payment info
+        // Payment info
         paymentMethod: {
             type: String,
             enum: ["UPI", "CARD", "COD"],
@@ -155,6 +154,24 @@ const OrderSchema = new mongoose.Schema(
             type: String,
             enum: ["Pending", "Paid", "Failed", "Refunded"],
             default: "Pending",
+        },
+
+        // Razorpay payment information
+        razorpayOrderId: {
+            type: String,
+            default: null,
+        },
+        razorpayPaymentId: {
+            type: String,
+            default: null,
+        },
+        razorpayQrCodeId: {
+            type: String,
+            default: null,
+        },
+        razorpayQrCodeUrl: {
+            type: String,
+            default: null,
         },
 
         // Order status
