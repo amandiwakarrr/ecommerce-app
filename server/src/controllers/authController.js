@@ -33,8 +33,6 @@ const getOTPEmailTemplate = (otp) => {
 };
 
 // REGISTER USER
-
-
 export const registerUser = async (req, res) => {
   try {
     const { name, email, phone, password, acceptedTerms } = req.body;
@@ -161,7 +159,6 @@ export const registerUser = async (req, res) => {
 };
 
 // VERIFY EMAIL OTP
-
 export const verifyEmailOTP = async (req, res) => {
   try {
     const { email, otp } = req.body;
@@ -345,7 +342,6 @@ export const verifyEmailOTP = async (req, res) => {
 };
 
 // RESEND VERIFICATION OTP
-
 export const resendVerificationOTP = async (req, res) => {
   try {
     const { email } = req.body;
@@ -486,7 +482,6 @@ export const resendVerificationOTP = async (req, res) => {
 };
 
 // LOGIN USER
-
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -586,7 +581,6 @@ export const loginUser = async (req, res) => {
 };
 
 // LOGOUT USER
-
 export const logoutUser = async (req, res) => {
   try {
     res.clearCookie("token", {
@@ -610,7 +604,6 @@ export const logoutUser = async (req, res) => {
 };
 
 // TEST EMAIL
-
 export const testEmail = async (req, res) => {
   try {
     const { email } = req.body;
