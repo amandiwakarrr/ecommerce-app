@@ -32,7 +32,7 @@ function CurrentOrder() {
           <h1 className="text-[clamp(1.5rem,3vw,2.25rem)] text-primary-text font-bold font-syne">
             Order in progress
           </h1>
-          <Link className=" text-tertiary-text ">View order</Link>
+          <Link to={`/account/view-order//${currentOrder._id}`} className=" text-tertiary-text ">View order</Link>
         </div>
         <div className="w-full flex flex-col gap-4">
           {currentOrder.items.map((item, index) => (

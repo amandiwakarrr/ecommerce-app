@@ -19,6 +19,7 @@ import OrderSuccess from "./pages/OrderSuccess";
 import VerifyOTP from "./pages/VerifyOTP";
 import CreateAccount from "./pages/CreateAccount";
 import AddressForm from "./components/UserDashboardComponents/AddressForm";
+import ViewOrder from "./components/UserDashboardComponents/ViewOrder";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
           <Route path="edit-address/:id" element={<AddressForm />} />
           <Route path="payment-methods" element={<PaymentMethods />} />
           <Route path="preferences" element={<Preferences />} />
+          <Route path="view-order/:id" element={<ViewOrder />} />
         </Route>
       </Route>
     </Routes>

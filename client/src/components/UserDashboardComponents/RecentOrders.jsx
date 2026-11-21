@@ -120,7 +120,7 @@ function RecentOrders() {
                 <p className="w-full text-primary-text hidden lg:flex items-center">
                   <Link
                     className="w-full flex items-center"
-                    to={`/viewOrder/${order._id}`}
+                    to={`/account/view-order//${order._id}`}
                   >
                     <i className="cursor-pointer pl-2 pi pi-eye hover:text-tertiary-text"></i>
                   </Link>

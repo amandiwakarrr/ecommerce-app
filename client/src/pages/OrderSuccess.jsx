@@ -282,7 +282,8 @@ function OrderSuccess() {
           </button>
 
           <button
-            onClick={() => navigate(`/view-order/${recentOrder._id}`)}
+          // to={`/account/view-order//${order._id}`}
+            onClick={() => navigate(`/account/view-order/${recentOrder._id}`)}
             className="px-5 py-3 border border-border text-primary-text rounded cursor-pointer"
           >
             View Order
