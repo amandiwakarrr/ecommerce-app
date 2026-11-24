@@ -637,3 +637,81 @@ export const testEmail = async (req, res) => {
     });
   }
 };
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { name, phone, dateOfBirth, gender } = req.body;
+
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    if (name !== undefined) {
+      if (name.trim().length < 2 || name.trim().length > 50) {
+        return res.status(400).json({
+          success: false,
+          message: "Name must be between 2 and 50 characters.",
+        });
+      }
+
+      user.name = name.trim();
+    }
+
+    if (phone !== undefined) {
+      user.phone = phone.trim();
+    }
+
+    if (dateOfBirth !== undefined) {
+      user.dateOfBirth = dateOfBirth || null;
+    }
+
+    if (gender !== undefined) {
+      const allowedGenders = [
+        "Male",
+        "Female",
+        "Other",
+        "Prefer not to say",
+      ];
+
+      if (!allowedGenders.includes(gender)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid gender selection.",
+        });
+      }
+
+      user.gender = gender;
+    }
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Profile updated successfully.",
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        profileImage: user.profileImage,
+        dateOfBirth: user.dateOfBirth,
+        gender: user.gender,
+        addresses: user.addresses,
+      },
+    });
+
+  } catch (error) {
+    console.error("Update profile error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to update profile.",
+    });
+  }
+};
+

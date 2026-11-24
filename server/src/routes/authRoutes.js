@@ -7,6 +7,7 @@ import {
     testEmail,
     verifyEmailOTP,
     resendVerificationOTP,
+    updateProfile,
 } from "../controllers/authController.js";
 
 import { protect, optionalProtect } from "../middleware/authMiddleware.js";
@@ -39,5 +40,5 @@ router.get("/me", optionalProtect, (req, res) => {
 
 // Temporary email testing route
 router.post("/test-email", testEmail);
-
+router.put("/update-profile", protect, updateProfile);
 export default router;
