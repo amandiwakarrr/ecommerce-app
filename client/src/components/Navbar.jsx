@@ -190,14 +190,27 @@ function Navbar() {
                 searchResults.map((product) => (
                   <Link
                     key={product._id || product.id}
-                    to={`/product/${product._id || product.id}`}
+                    to={`/product/${product.slug}`}
                     onClick={handleProductClick}
-                    className="block px-4 py-3 text-primary-text hover:bg-secondary-bg"
+                    className="flex items-center gap-3 px-4 py-3 hover:bg-secondary-bg"
                   >
-                    <p className="truncate">{product.name || product.title}</p>
-                    <p className="text-xs text-secondary-text">
-                      {getCategoryName(product.category)}
-                    </p>
+                    {/* Product Image */}
+                    <img
+                      src={product.images?.[0]?.url}
+                      alt={product.title || product.name}
+                      className="w-14 h-14 rounded-md object-cover"
+                    />
+
+                    {/* Product Details */}
+                    <div className="flex flex-col">
+                      <span className="font-medium text-primary-text">
+                        {product.title || product.name}
+                      </span>
+
+                      <span className="text-sm text-secondary-text">
+                        ₹{product.discountPrice || product.price}
+                      </span>
+                    </div>
                   </Link>
                 ))
               ) : (

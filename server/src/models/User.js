@@ -87,6 +87,22 @@ const userSchema = new mongoose.Schema(
             type: [addressSchema],
             default: [],
         },
+        preferences: {
+            topSize: {
+                type: String,
+                default: "S",
+            },
+            waistSize: {
+                type: Number,
+                default: 28,
+            },
+            notifications: {
+                orderUpdates: { type: Boolean, default: true },
+                newArrivals: { type: Boolean, default: true },
+                salesOffers: { type: Boolean, default: false },
+                backInStock: { type: Boolean, default: true },
+            },
+        },
         role: {
             type: String,
             enum: ["user", "admin"],

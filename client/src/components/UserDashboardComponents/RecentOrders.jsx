@@ -43,8 +43,8 @@ function RecentOrders() {
   }
 
   return (
-    <div className="w-full flex flex-col px-5 sm:px-5 py-2">
-      <CurrentOrder/>
+    <div className="w-full flex flex-col px-3 sm:px-5 py-2">
+      <CurrentOrder />
       <div className="w-full flex flex-col border border-primary-border p-2 rounded">
 
         {/* Heading */}
@@ -93,9 +93,11 @@ function RecentOrders() {
                 key={order._id}
                 className="w-full even:bg-dark odd:bg-secondary-bg grid grid-cols-4 md:grid-cols-5 lg:grid-cols-6 py-4"
               >
-                <p className="w-full text-primary-text col-span-2 sm:col-span-1">
+                <Link
+                  to={`/account/view-order//${order._id}`}
+                  className="w-full hover:text-tertiary-text sm:hover:text-primary-text cursor-pointer text-primary-text col-span-2 sm:col-span-1">
                   #{order._id.slice(-8).toUpperCase()}
-                </p>
+                </Link>
 
                 <p className="w-full text-primary-text">
                   {new Date(order.createdAt).toLocaleDateString("en-IN", {

@@ -1,7 +1,7 @@
 function TrustBar() {
   return (
     <div>
-      <section className="w-full h-auto py-8 px-5 sm:px-20 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
+      <section className="w-full h-auto sm:py-8 px-5 sm:px-20 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
         <div className="flex flex-col ">
           <span className="text-primary-text text-[20px]">Free Shipping</span>
           <span className="text-secondary-text text-[14px] max-[425px]:text-[12px]">

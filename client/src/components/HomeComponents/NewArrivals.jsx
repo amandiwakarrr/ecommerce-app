@@ -14,18 +14,18 @@ function NewArrivals() {
   }
   return (
     <div className="w-full h-auto grid py-5">
-      <div className="w-full pb-5 flex justify-between items-center px-5 sm:px-19 gap-1 max-[425px]:py-2">
-        <h1 className="text-[clamp(1.5rem,3vw,2.25rem)] text-primary-text font-extrabold font-syne">
+      <div className="w-full pb-5 flex justify-around items-center px-5 sm:px-19 gap-1 max-[425px]:py-2">
+        <h1 className="text-[clamp(1.3rem,3vw,2.25rem)] text-primary-text font-extrabold font-syne">
           New arrivals
         </h1>
         <Link
           to={"/shop"}
-          className="cursor-pointer hover:underline text-tertiary-text"
+          className="cursor-pointer text-[12px] hover:underline text-tertiary-text"
         >
           Shop All
         </Link>
       </div>
-      <div className="cards w-full h-auto px-5 sm:px-16 grid grid-cols-2 sm:grid-cols-5 place-items-center gap-5">
+      <div className="cards w-full h-auto px-5 sm:px-16 grid grid-cols-2 sm:grid-cols-5  place-items-start gap-5">
         {products
           .filter((product) => product.badge?.toLowerCase() === "new")
           .slice(0, 5)

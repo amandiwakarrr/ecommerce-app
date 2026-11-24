@@ -28,11 +28,11 @@ function CurrentOrder() {
   return (
     <div className="grid py-2 mt-5">
       <div className="w-full px-2 flex flex-col items-center justify-around bg-secondary-bg rounded border border-primary-border">
-        <div className="w-full flex items-center justify-between py-3">
-          <h1 className="text-[clamp(1.5rem,3vw,2.25rem)] text-primary-text font-bold font-syne">
+        <div className="w-full flex flex-row items-center justify-between py-3">
+          <h1 className="text-[clamp(1.3rem,3vw,2.25rem)] text-primary-text font-bold font-syne">
             Order in progress
           </h1>
-          <Link to={`/account/view-order//${currentOrder._id}`} className=" text-tertiary-text ">View order</Link>
+          <Link to={`/account/view-order//${currentOrder._id}`} className=" text-tertiary-text text-[12px]">View order</Link>
         </div>
         <div className="w-full flex flex-col gap-4">
           {currentOrder.items.map((item, index) => (
@@ -41,16 +41,16 @@ function CurrentOrder() {
               className="w-full flex  gap-4"
             >
               <img
-                className="w-24 h-24 object-cover border rounded"
+                className="w-20 h-20 object-cover border rounded"
                 src={item.image}
                 alt={item.title}
               />
 
               <div className="flex flex-col gap-2">
-                <h2 className="text-primary-text font-semibold text-2xl">
+                <h2 className="text-primary-text font-semibold text-[clamp(1rem,3vw,2.25rem)]">
                   {item.title}
                 </h2>
-                <div className="w-full flex flex-col sm:flex-row    gap-2">
+                <div className="w-full flex flex-col sm:flex-row sm:gap-2">
                   <p className="text-secondary-text text-sm">
                     Price: ₹{item.price}
                   </p>
