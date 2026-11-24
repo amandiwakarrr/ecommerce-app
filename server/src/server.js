@@ -12,6 +12,7 @@ import wishlistRoutes from "./routes/wishlistRoutes.js";
 import addressRoutes from "./routes/addressRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
 
 // load environment variables
 dotenv.config();
@@ -41,9 +42,11 @@ app.use("/api/products", productRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/wishlist", wishlistRoutes)
-app.use("/api/addresses",addressRoutes);
+app.use("/api/addresses", addressRoutes);
 app.use("/api/orders", orderRoutes)
 app.use("/api/payments", paymentRoutes);
+app.use("/api/contact", contactRoutes);
+
 
 // app.get() defines a GET endpoint.
 // req represents the incoming request.
