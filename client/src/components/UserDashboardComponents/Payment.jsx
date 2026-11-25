@@ -1,9 +1,8 @@
-
 import { useState } from "react";
 import CreditCardSim from "../../assets/creditcardsim.webp";
 import NFClogo from "../../assets/NFC.svg";
 
-function PaymentMethods() {
+function Payment() {
   const [cards, setCards] = useState([
     {
       id: 1,
@@ -53,7 +52,8 @@ function PaymentMethods() {
           </p>
         </div>
 
-        <button className="bg-btn text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:opacity-90 transition">
+        <button
+          className="bg-btn cursor-pointer text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:opacity-90 transition">
           + Add New Card
         </button>
       </div>
@@ -178,4 +178,4 @@ function PaymentMethods() {
   );
 }
 
-export default PaymentMethods;
+export default Payment;

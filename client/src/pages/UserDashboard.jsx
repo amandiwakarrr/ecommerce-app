@@ -39,7 +39,7 @@ function UserDashboard() {
       path: "/account/profile",
     },
     {
-      title: "Payment methods",
+      title: "Payment History",
       icon: "pi pi-credit-card",
       path: "/account/payment-methods",
     },
