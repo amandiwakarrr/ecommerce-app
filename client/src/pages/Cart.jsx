@@ -12,6 +12,9 @@ function Cart() {
     cartTotal,
   } = useCart();
 
+  const shippingPrice = cartTotal < 200 ? 49 : 0;
+  const finalTotal = cartTotal + shippingPrice;
+
   const formatPrice = (price) =>
     Number(price || 0).toLocaleString("en-IN", {
       minimumFractionDigits: 2,
@@ -147,14 +150,20 @@ function Cart() {
 
                 <div className="w-full flex items-center justify-between text-secondary-text">
                   <span>Shipping</span>
-                  <span>Free</span>
+                  <span>
+                     {shippingPrice === 0 ? (
+                  <span className="text-green-500">Free</span>
+                ) : (
+                  `₹${shippingPrice}`
+                )}
+                  </span>
                 </div>
               </div>
 
               <div className="w-full flex items-center justify-between mt-2">
                 <span className="text-tertiary-text font-bold">Total</span>
                 <span className="text-tertiary-text font-bold">
-                  ₹{formatPrice(cartTotal)}
+                  ₹{formatPrice(finalTotal)}
                 </span>
               </div>
             </div>

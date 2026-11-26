@@ -1,6 +1,5 @@
 
 import mongoose from "mongoose";
-
 // Order item schema
 const OrderItemSchema = new mongoose.Schema(
   {
